@@ -8,3 +8,12 @@
 :root {
   font-family: 'Lexend Deca';
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent horizontal scrolling */
+body, html {
+  overflow-x: hidden; /* Disable horizontal scrolling */
+}
