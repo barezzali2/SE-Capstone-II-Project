@@ -58,7 +58,7 @@
   transform: translateX(100%); 
   opacity: 0; /* Initially hidden */
   visibility: hidden; /* Ensure it's not interactive when hidden */
-  transition: transform 0.30s, opacity 0.35s, visibility 0.35s;
+  transition: transform 0.32s, opacity 0.37s, visibility 0.37s;
 }
 
 

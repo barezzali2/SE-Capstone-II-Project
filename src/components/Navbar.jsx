@@ -21,31 +21,29 @@ function Navbar() {
 
       <ul className={`${styles.ulMob} ${menuOpen ? styles.open : ""}`}>
           <li>
-            <NavLink to="/home">
+            <NavLink to="/home" onClick={handleMenuOpen}>
               HOME
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/productlist">
+            <NavLink to="/productlist" onClick={handleMenuOpen}>
               PRODUCT LIST
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/search">
+            <NavLink to="/search" onClick={handleMenuOpen}>
               SEARCH
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/scanner">
+            <NavLink to="/scanner" onClick={handleMenuOpen}> 
               SCANNER
             </NavLink>
           </li>
-
       </ul>
-
     </div>
   )
 }
