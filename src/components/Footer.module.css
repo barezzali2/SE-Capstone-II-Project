@@ -6,7 +6,7 @@
     background-color: #DD5837;
     padding: 15px 0;
     text-align: center;
-    color: black;
+    color: white;
 }
 
 .footer h3 {
@@ -27,18 +27,24 @@
 
 .footer .info a {
     display: flex;
-    gap: 6px;
+    gap: 9px;
     text-decoration: none;
-    color: black;
+    color: white;
 }
 .footer .info h4 {
     font-size: 13px;
-    margin-top: 6px;
+    margin-top: 9px;
 }
-.footer .info img {
+.footer .info .tel {
     width: 28px;
     height: 28px;
 }
+
+.footer .info .email {
+    width: 33px;
+    height: 33px;
+}
+
 
 
 .socials {
@@ -50,7 +56,7 @@
 
 .socials a {
     text-decoration: none;
-    color: black;
+    color: rgb(255, 255, 255);
     font-weight: 500;
 }
 
@@ -58,9 +64,9 @@
     font-size: 16px;
 }
 
-.socials img {
-    width: 34px;
-    height: 34px;
+.socials .social {
+    width: 35px;
+    height: 35px;
 }
 
 .footer p {
