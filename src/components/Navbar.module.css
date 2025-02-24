@@ -10,6 +10,16 @@
   top: 0;
 }
 
+.navbar .shopping a {
+  text-decoration: none;
+  color: #000000dc;
+}
+.navbar .shopping .shoppingCard {
+  width: 30px;
+  height: 30px;
+  margin-top: 2px;
+}
+
 .navbar .hamburger {
     display: flex;
     flex-direction: column;

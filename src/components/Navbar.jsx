@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import styles from "./Navbar.module.css";
 import { useState } from "react";
+import { FaShoppingCart } from "react-icons/fa";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,12 +13,17 @@ function Navbar() {
   return (
     <div className={styles.navbar}>
         <Logo />
+        
+        <div className={styles.shopping}>
+          <Link to="/shopping"><FaShoppingCart className={styles.shoppingCard}/></Link>
+        </div>
 
         <div className={`${styles.hamburger} ${menuOpen ? styles.open : ""}`} onClick={handleMenuOpen}>
         <span></span>
         <span></span>
         <span></span>
       </div>
+
 
       <ul className={`${styles.ulMob} ${menuOpen ? styles.open : ""}`}>
           <li>
