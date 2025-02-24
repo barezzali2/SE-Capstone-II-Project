@@ -10,11 +10,11 @@
   top: 0;
 }
 
-.navbar .shopping a {
+.navbar .shoppingBtn a {
   text-decoration: none;
   color: #000000dc;
 }
-.navbar .shopping .shoppingCard {
+.navbar .shoppingBtn .shoppingCard {
   width: 30px;
   height: 30px;
   margin-top: 2px;
@@ -59,11 +59,12 @@
   padding: 0;
   flex-direction: column;
   position: absolute;
-  top: 65px;
+  top: 72px;
   right: 0;
   background-color: #ffffff;
   width: 430px;
-  box-shadow: 0px 1px 4px 2px black;
+  height: 460px;
+  box-shadow: 0px 0px 1px 1.5px black;
   z-index: 10;
   transform: translateX(100%); 
   opacity: 0; /* Initially hidden */
@@ -81,15 +82,16 @@
 
 
 .ulMob li {
-  padding: 18px;
+  padding: 10%;
   text-align: center;
+  font-size: 20px;
 }
 
 .ulMob li a {
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 650;
   color: black;
-  padding: 20px;
+  padding: 30px; /* For having more space to click, facilitaing */
 }
 
 

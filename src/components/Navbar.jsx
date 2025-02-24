@@ -14,7 +14,7 @@ function Navbar() {
     <div className={styles.navbar}>
         <Logo />
         
-        <div className={styles.shopping}>
+        <div className={styles.shoppingBtn}>
           <Link to="/shopping"><FaShoppingCart className={styles.shoppingCard}/></Link>
         </div>
 
