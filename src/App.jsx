@@ -3,6 +3,8 @@ import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
 import Search from "./pages/Search";
 import Scanner from "./pages/Scanner";
+import ShoppingCard from "./pages/ShoppingCard";
+import Map3D from "./pages/Map3D";
 
 
 function App() {
@@ -11,10 +13,12 @@ function App() {
       <BrowserRouter>
           <Routes>
               <Route path="/" element={<Navigate to="/home" replace />}/>
-              <Route path="/home" element={<Home />}/>
+              <Route path="home" element={<Home />}/>
               <Route path="productlist" element={<ProductList />}/>
               <Route path="search" element={<Search />}/>
               <Route path="scanner" element={<Scanner />}/>
+              <Route path="shopping" element={<ShoppingCard />}/>
+              <Route path="map" element={<Map3D />}/>
           </Routes>
       </BrowserRouter>
   )
