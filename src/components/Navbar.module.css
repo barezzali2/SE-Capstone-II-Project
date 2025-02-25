@@ -159,11 +159,12 @@
   .navbar .shoppingBtn .shoppingCard {
     width: 40px;
     height: 40px;
+    transition: ease-in-out 0.10s;
   }
 
   .navbar .shoppingBtn .shoppingCard:hover {
     color: #DD5837;
-    transition: color 0.25s ease;
+    /* transition: color 0.25s ease; */
   }
     
 }
