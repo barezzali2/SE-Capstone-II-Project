@@ -5,12 +5,12 @@
     position: relative;
     justify-content: center;
     text-align: center;
+    margin: 35% auto;
 }
 
 .map .map3D {
     max-width: 100%;
     height: auto;
-    margin: 35% auto;
     opacity: 0.72;
 }
 
@@ -38,13 +38,13 @@
 @media(min-width: 1000px) {
 
     .map {
+        margin: 15% auto;
        
     }
 
     .map .map3D {
         width: 850px;
         opacity: 0.62;
-        margin: 15% auto;
     }
 
     .map .touch {
