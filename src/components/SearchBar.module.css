@@ -1,3 +1,5 @@
+/* Mobile screen styles */
+
 .search-container {
   width: 100%;
   max-width: 800px;
@@ -46,7 +48,7 @@
   fill: #666;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .search-container {
     padding: 0.5rem;
   }
