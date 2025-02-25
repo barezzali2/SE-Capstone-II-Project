@@ -12,7 +12,6 @@
 .footer h3 {
     text-align: center;
     font-size: 23px;
-    /* margin-bottom: 15px; */
 }
 
 .footer .info {
@@ -80,5 +79,55 @@
 
 /* Larger screen styles */
 @media(min-width: 1000px) {
+
+    .footer h3 {
+        font-size: 26px;
+    }
+
+    .footer .info {
+        flex-direction: row;
+        gap: 258px;
+    }
+
+    .footer .info a {
+       
+    }
+    .footer .info h4 {
+        font-size: 13.5px;
+        margin-top: 8.5px;
+    }
+    .footer .info .tel {
+        width: 25px;
+        height: 30px;
+    }
+    
+    .footer .info .email {
+        width: 31px;
+        height: 31px;
+    }
+
+
+    .socials {
+        gap: 55px;
+        margin: 22px 0;
+    }
+
+    .socials a h5 {
+        font-size: 15px;
+    }
+
+    .socials .social {
+        width: 32px;
+        height: 32px;
+    }
+
+    .socials a {
+        transition: ease-in-out 0.3s;
+    }
+
+    .socials a:hover {
+        transform: scale(1.10);
+
+    }
     
 }
