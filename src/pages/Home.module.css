@@ -11,5 +11,7 @@
 
 /* Larger screen styles */
 @media(min-width: 1000px) {
-    
+    .home {
+        margin: 0 auto;
+    }   
 }
