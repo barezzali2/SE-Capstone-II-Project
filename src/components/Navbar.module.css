@@ -143,11 +143,12 @@
     border: 1.8px solid black;
     padding: 15px;
     border-radius: 20px;
+    transition: ease-in-out 0.25s;
   }
 
   .navbar .ulDefault li a:hover {
     background-color: #DD5837;
-    transition: color 0.30s ease;
+    /* transition: color 0.30s ease; */
     color: white;
   }
 
