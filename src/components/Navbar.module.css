@@ -8,6 +8,13 @@
   position: fixed;
   z-index: 1000;
   top: 0;
+  backdrop-filter: blur(10px);
+}
+
+.navbar .shoppingBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .navbar .shoppingBtn a {
@@ -95,10 +102,67 @@
 }
 
 
+/* Disabling default nav in mobile screen */
+.navbar .ulDefault {
+  display: none;
+}
+
+
 
 
 
 /* Larger screen styles */
 @media(min-width: 1000px) {
+
+  .navbar {
+    padding: 2.2% 3%;
+  }
+
+  .navbar .hamburger {
+    display: none;
+  }
+
+  .navbar .ulMob {
+    display: none;
+  }
+
+  .navbar .ulDefault {
+    display: flex;
+    list-style-type: none;
+    align-items: center;
+    gap: 6rem;
+    margin: 0 10%;
+  }
+
+  
+  .navbar .ulDefault li a {
+    text-decoration: none;
+    color: #0A1226;
+    font-weight: 600;
+    font-size: 17px;
+    border: 1.8px solid black;
+    padding: 15px;
+    border-radius: 20px;
+  }
+
+  .navbar .ulDefault li a:hover {
+    background-color: #DD5837;
+    transition: color 0.30s ease;
+    color: white;
+  }
+
+  .navbar .shoppingBtn {
+    margin-right: 6%;
+   
+  }
+  .navbar .shoppingBtn .shoppingCard {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar .shoppingBtn .shoppingCard:hover {
+    color: #DD5837;
+    transition: color 0.25s ease;
+  }
     
 }

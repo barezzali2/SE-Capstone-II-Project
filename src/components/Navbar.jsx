@@ -13,10 +13,39 @@ function Navbar() {
   return (
     <div className={styles.navbar}>
         <Logo />
+
+
+        <ul className={`${styles.ulDefault} ${menuOpen ? styles.open : ""}`}>
+          <li>
+            <NavLink to="/home" onClick={handleMenuOpen}>
+              HOME
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/productlist" onClick={handleMenuOpen}>
+              PRODUCT LIST
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/search" onClick={handleMenuOpen}>
+              SEARCH
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/scanner" onClick={handleMenuOpen}> 
+              SCANNER
+            </NavLink>
+          </li>
+      </ul>
+
         
         <div className={styles.shoppingBtn}>
           <Link to="/shopping"><FaShoppingCart className={styles.shoppingCard}/></Link>
         </div>
+
 
         <div className={`${styles.hamburger} ${menuOpen ? styles.open : ""}`} onClick={handleMenuOpen}>
         <span></span>
