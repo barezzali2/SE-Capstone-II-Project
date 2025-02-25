@@ -1,30 +1,33 @@
 /* Mobile screen styles */
 
 .map {
+    /* display: flex; */
+    position: relative;
     justify-content: center;
     text-align: center;
 }
 
 .map .map3D {
-    width: 100%;
-    height: 370px;
+    max-width: 100%;
+    height: auto;
     margin: 35% auto;
     opacity: 0.72;
 }
 
-.map img {
+/* .map img {
     position: relative;
     display: inline-block;
-}
+} */
 
 
 .map .touch {
     position: absolute;
     width: 66px;
     height: 66px;
-    top: 33%;
-    left: 45%;
     opacity: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 
@@ -33,5 +36,24 @@
 
 /* Larger screen styles */
 @media(min-width: 1000px) {
+
+    .map {
+       
+    }
+
+    .map .map3D {
+        width: 850px;
+        opacity: 0.62;
+        margin: 15% auto;
+    }
+
+    .map .touch {
+        /* position: absolute; */
+        width: 75px;
+        height: 75px;
+        /* top: 68%;
+        left: 48%; */
+        /* opacity: 1; */
+    }
     
 }
