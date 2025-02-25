@@ -17,3 +17,7 @@ html {
 body, html {
   overflow-x: hidden; /* Disable horizontal scrolling */
 }
+
+html {
+  overflow-y: scroll;
+}
