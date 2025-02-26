@@ -38,12 +38,12 @@
 @media(min-width: 1000px) {
 
     .map {
-        margin: 15% auto;
+        margin: 11% auto;
        
     }
 
     .map .map3D {
-        width: 850px;
+        width: 720px;
         opacity: 0.62;
     }
 
