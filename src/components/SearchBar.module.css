@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 
 
-.search-container {
+.searchContainer {
   width: 100%;
   max-width: 800px;
   margin: 24% auto;
@@ -12,13 +12,13 @@
   /* min-height: 60vh; */
 }
 
-.search-wrapper {
+.searchWrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.search-input {
+.searchInput {
   width: 100%;
   min-width: 300px;
   padding: 15px 42px 15px 13px;
@@ -31,21 +31,21 @@
   font-family: 'Lexend Deca';
 }
 
-.search-input::-webkit-search-cancel-button {
+.searchInput::-webkit-search-cancel-button {
   filter: invert(27%) sepia(85%) saturate(6000%) hue-rotate(340deg) brightness(92%) contrast(100%);
   cursor: pointer;
 }
 
 
 
-.search-input:focus {
+.searchInput:focus {
   outline: none;
   border-color: #DD5837;
   box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
   background-color: white;
 }
 
-.search-button {
+.searchButton {
   position: absolute;
   right: 8px;
   background: none;
@@ -54,26 +54,28 @@
   cursor: pointer;
 }
 
-.search-icon {
+.searchIcon {
   width: 20px;
   height: 20px;
   fill: #666;
 }
 
 @media (min-width: 1000px) {
-  .search-container {
+  .searchContainer {
     /* padding: 0.5rem; */
-    margin: 12% auto;
+    /* margin: 12% auto; */
+    margin-top: 12%;
+    margin-bottom: 11.71%;
   }
 
-  .search-input {
+  .searchInput {
     padding: 16px 48px 16px 13px;
     font-size: 14px;
     min-width: 700px;
     font-size: 19px;
   }
 
-  .search-icon {
+  .searchIcon {
     width: 25px;
     height: 25px;
   }
