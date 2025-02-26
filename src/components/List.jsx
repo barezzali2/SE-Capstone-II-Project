@@ -63,6 +63,7 @@ function List() {
       category: "Tops",
     },
   ]);
+  
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   const handleSort = (sortType) => {

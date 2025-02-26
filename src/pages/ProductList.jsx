@@ -1,5 +1,5 @@
-import Navbar from "../components/Navbar";
 import styles from "./ProductList.module.css";
+import Navbar from "../components/Navbar";
 import List from "../components/List";
 import Footer from "../components/Footer";
 
