@@ -1,0 +1,149 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow: auto;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: all 0.25s ease;
+  z-index: 1;
+}
+
+.closeButton:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+.modalContent {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+}
+
+.modalImage {
+  flex: 1;
+  max-width: 50%;
+}
+
+.modalImage img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.modalInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalInfo h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.8rem;
+  color: #0a1226;
+}
+
+.modalCategory {
+  color: #666;
+  font-size: 1rem;
+  margin: 0 0 10px 0;
+}
+
+.modalPrice {
+  color: #dd5837;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+}
+
+.modalDescription {
+  color: #444;
+  line-height: 1.6;
+  margin: 0 0 30px 0;
+}
+
+.modalActions {
+  margin-top: auto;
+}
+
+.viewDetailsButton {
+  width: 100%;
+  padding: 15px 30px;
+  background: #dd5837;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.viewDetailsButton:hover {
+  background: #c94e31;
+}
+
+@media (max-width: 768px) {
+  .modalContent {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .modalImage {
+    max-width: 100%;
+  }
+
+  .modalInfo h2 {
+    font-size: 1.5rem;
+  }
+
+  .modalPrice {
+    font-size: 1.2rem;
+  }
+}
