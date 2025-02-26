@@ -1,0 +1,56 @@
+.optionButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  border: none;
+  background: white;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  width: 100%;
+}
+
+.optionButton:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(221, 88, 55, 0.15);
+}
+
+.optionIcon {
+  font-size: 2.5rem;
+  color: #dd5837;
+  margin-bottom: 16px;
+  transition: transform 0.3s ease;
+}
+
+.optionButton:hover .optionIcon {
+  transform: scale(1.1);
+}
+
+.optionButton h3 {
+  color: #0a1226;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.optionButton p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.fileInput {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .optionButton {
+    padding: 20px 15px;
+  }
+
+  .optionIcon {
+    font-size: 2rem;
+  }
+}
