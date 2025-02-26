@@ -21,3 +21,8 @@ body, html {
 html {
   overflow-y: scroll;
 }
+
+/* full screen */
+html, body { 
+  height: 100%
+}
