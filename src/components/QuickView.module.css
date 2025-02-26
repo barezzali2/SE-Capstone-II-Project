@@ -128,7 +128,7 @@
   background: #c94e31;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1000px) {
   .modalContent {
     flex-direction: column;
     padding: 20px;
