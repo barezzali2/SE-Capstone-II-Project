@@ -165,7 +165,7 @@
   background: #e5e5e5;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1000px) {
   .filterSection {
     position: sticky;
     top: 120px;

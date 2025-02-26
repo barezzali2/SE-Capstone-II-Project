@@ -18,7 +18,7 @@
   flex: 1;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1000px) {
   .listContainer {
     padding: 10px;
   }
