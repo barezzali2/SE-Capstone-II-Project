@@ -7,6 +7,10 @@
     padding: 15px 0;
     text-align: center;
     color: white;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .footer h3 {

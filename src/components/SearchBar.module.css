@@ -63,9 +63,9 @@
 @media (min-width: 1000px) {
   .searchContainer {
     /* padding: 0.5rem; */
-    /* margin: 12% auto; */
-    margin-top: 12%;
-    margin-bottom: 11.71%;
+    margin: 12% auto;
+    /* margin-top: 12%;
+    margin-bottom: 11.71%; */
   }
 
   .searchInput {
