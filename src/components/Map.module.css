@@ -5,7 +5,7 @@
     position: relative;
     justify-content: center;
     text-align: center;
-    margin: 25% auto;
+    margin: 22% auto;
 }
 
 .map .map3D {
@@ -43,7 +43,7 @@
     }
 
     .map .map3D {
-        width: 720px;
+        width: 700px;
         opacity: 0.62;
     }
 
