@@ -2,7 +2,9 @@ import styles from "./Home.module.css";
 import Map from "../components/Map";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import RecentList from "../components/RecentList";
+import FeaturedList from "../components/FeaturedList";
+import { ProductProvider } from "../contexts/ProductContext";
+
 
 function Home() {
   return (
@@ -13,7 +15,9 @@ function Home() {
           <h4>Explore and make your shopping easier with us!</h4>
         </div>
         <Map />
-        <RecentList />
+        <ProductProvider>
+            <FeaturedList />
+        </ProductProvider>
         <Footer />
     </div>
   )
