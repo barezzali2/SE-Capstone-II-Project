@@ -36,14 +36,15 @@
 
 .closeButton {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 11px;
+  right: 8px;
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: 36px;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  /* width: 40px; */
+  /* height: 40px; */
+  padding: 0 12px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -59,14 +60,15 @@
 }
 
 .modalContent {
-  display: flex;
+  /* display: flex; */
   gap: 30px;
-  padding: 30px;
+  padding: 20px;
 }
 
 .modalImage {
   flex: 1;
   max-width: 50%;
+  margin-bottom: 10px;
 }
 
 .modalImage img {
@@ -131,12 +133,20 @@
 @media (min-width: 1000px) {
   .modalContent {
     flex-direction: column;
-    padding: 20px;
+    padding: 25px;
     gap: 20px;
+    text-align: center;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: 800px;
+    max-height: 94vh;
   }
 
   .modalImage {
-    max-width: 100%;
+    margin: 0 auto;
+    max-width: 60%;
   }
 
   .modalInfo h2 {
