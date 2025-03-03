@@ -152,6 +152,11 @@
     color: white;
   }
 
+  .ulDefault li a.active {
+    background-color: #DD5837;
+    color: white;
+  }
+
   .navbar .shoppingBtn {
     margin-right: 7%;
    

@@ -10,32 +10,33 @@ function Navbar() {
   function handleMenuOpen() {
     setMenuOpen((prev) => !prev);
   }
+
   return (
     <div className={styles.navbar}>
         <Logo />
 
 
-        <ul className={`${styles.ulDefault} ${menuOpen ? styles.open : ""}`}>
+        <ul className={styles.ulDefault}>
           <li>
-            <NavLink to="/home" onClick={handleMenuOpen}>
+            <NavLink to="/home" className={({isActive}) => (isActive ? styles.active : "")}>
               HOME
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/productlist" onClick={handleMenuOpen}>
+            <NavLink to="/productlist" className={({isActive}) => (isActive ? styles.active : "")}>
               PRODUCT LIST
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/search" onClick={handleMenuOpen}>
+            <NavLink to="/search" className={({isActive}) => (isActive ? styles.active : "")}>
               SEARCH
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/scanner" onClick={handleMenuOpen}> 
+            <NavLink to="/scanner" className={({isActive}) => (isActive ? styles.active : "")}> 
               SCANNER
             </NavLink>
           </li>
