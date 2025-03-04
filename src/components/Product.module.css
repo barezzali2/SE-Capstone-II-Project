@@ -14,6 +14,7 @@
   position: relative;
   padding-top: 100%;
   overflow: hidden;
+  height: 20px;
 }
 
 .imageContainer img {
@@ -64,14 +65,16 @@
 }
 
 .productInfo {
-  padding: 15px;
+  padding-top: 10px;
+  text-align: center;
 }
 
 .productInfo h3 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.0rem;
   color: #0a1226;
 }
+
 
 .category {
   color: #666;

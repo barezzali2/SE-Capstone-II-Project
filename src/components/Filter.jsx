@@ -1,7 +1,7 @@
+import styles from "./Filter.module.css";
 import { useState, useEffect } from "react";
 import { FaFilter, FaCheck } from "react-icons/fa";
 import PropTypes from "prop-types";
-import styles from "./Filter.module.css";
 
 function Filter({ onSort, onFilterChange }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);

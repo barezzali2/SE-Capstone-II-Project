@@ -115,7 +115,7 @@
 @media(min-width: 1000px) {
 
   .navbar {
-    padding: 2.2% 3%;
+    padding: 1.6% 3%;
   }
 
   .navbar .hamburger {
@@ -149,6 +149,11 @@
   .navbar .ulDefault li a:hover {
     background-color: #DD5837;
     /* transition: color 0.30s ease; */
+    color: white;
+  }
+
+  .ulDefault li a.active {
+    background-color: #DD5837;
     color: white;
   }
 

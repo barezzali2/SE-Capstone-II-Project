@@ -168,7 +168,8 @@
 @media (min-width: 1000px) {
   .filterSection {
     position: sticky;
-    top: 120px;
+    /* top: 180px; */
+    margin: 5% auto;
     padding: 15px;
     width: 100%;
     display: flex;
