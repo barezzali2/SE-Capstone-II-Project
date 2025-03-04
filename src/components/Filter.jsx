@@ -32,6 +32,8 @@ function Filter({ onSort, onFilterChange }) {
 
   const handleApplyFilters = () => {
     onFilterChange({ categories: selectedCategories, priceRange });
+    onSort(sortBy);
+    setIsFilterOpen(false);
   };
 
   const handleClearFilters = () => {
@@ -40,6 +42,7 @@ function Filter({ onSort, onFilterChange }) {
     setPriceRange({ min: 0, max: 200 });
     onFilterChange({ categories: [], priceRange: { min: 0, max: 200 } });
     onSort("featured");
+    setIsFilterOpen(false);
   };
 
   useEffect(() => {
