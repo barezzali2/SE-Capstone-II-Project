@@ -15,6 +15,7 @@ function Cart({ product }) {
             <p className={styles.price}>{product.price}</p>
         </div>
         <button className={styles.removeCart}>×</button>
+        
     </div>
   )
 }

@@ -60,6 +60,8 @@
     /* margin-top: auto; Align price to the bottom */
 }
 
+
+
 .removeCart {
     position: absolute;
     right: 16px;
@@ -84,6 +86,7 @@
         margin-top: 40px;
         gap: 20px;
         padding: 1.8%;
+        position: relative;
     }
 
     .imageContainer img {
@@ -119,8 +122,7 @@
         font-weight: 500;
     }
 
-    .removeCart {
-        right: 240px;
+    .cart .removeCart {
         margin-top: 45px;
     }
 
