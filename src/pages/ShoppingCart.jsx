@@ -1,7 +1,7 @@
 import styles from "./ShoppingCart.module.css";
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer";
-import CardWishlist from "../components/CardWishlist";
+import CartWishlist from "../components/CartWishlist";
 import { ProductProvider } from "../contexts/ProductContext";
 
 function ShoppingCart() {
@@ -9,7 +9,7 @@ function ShoppingCart() {
     <div className={styles.shopping}>
         <Navbar />
         <ProductProvider>
-            <CardWishlist />
+            <CartWishlist />
         </ProductProvider>
         <Footer />
     </div>
