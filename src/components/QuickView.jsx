@@ -21,8 +21,8 @@ function QuickView({ product, onClose }) {
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <div className={styles.modalActions}>
-              <button className={styles.viewDetailsButton}>
-                View Full Details
+              <button className={styles.addToCard}>
+                Add to Cart
               </button>
             </div>
           </div>
