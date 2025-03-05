@@ -1,0 +1,506 @@
+{
+    "fruits": [
+        {
+            "image": "../public/images/",
+            "name": "Apple",
+            "category": "fruits",
+            "rating": "4/5",
+            "price": "2000 IQD",
+            "description": "There is only green available",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Banana",
+            "category": "fruits",
+            "rating": "4.5/5",
+            "price": "1500 IQD",
+            "description": "Fresh yellow bananas available",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Orange",
+            "category": "fruits",
+            "rating": "4.2/5",
+            "price": "1800 IQD",
+            "description": "Juicy and sweet oranges",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Grapes",
+            "category": "fruits",
+            "rating": "4.3/5",
+            "price": "2500 IQD",
+            "description": "Available in both green and red",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Strawberry",
+            "category": "fruits",
+            "rating": "4.7/5",
+            "price": "3000 IQD",
+            "description": "Fresh and sweet strawberries",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Watermelon",
+            "category": "fruits",
+            "rating": "4.6/5",
+            "price": "3000 IQD",
+            "description": "Big and juicy watermelons",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Pineapple",
+            "category": "fruits",
+            "rating": "4.4/5",
+            "price": "4000 IQD",
+            "description": "Sweet and tropical taste",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Mango",
+            "category": "fruits",
+            "rating": "4.8/5",
+            "price": "4000 IQD",
+            "description": "Ripe and delicious mangoes",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Pomegranate",
+            "category": "fruits",
+            "rating": "4.5/5",
+            "price": "2250 IQD",
+            "description": "Rich in antioxidants and vitamins",
+            "isDiscounted": false
+        }
+    ],
+
+
+    "drinks": [
+        {
+            "image": "../public/images/",
+            "name": "DEW",
+            "category": "drinks",
+            "rating": "4.5/5",
+            "price": "500 IQD",
+            "description": "The most sold one",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Coca-Cola",
+            "category": "drinks",
+            "rating": "4.8/5",
+            "price": "500 IQD",
+            "description": "The classic cola taste",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Pepsi",
+            "category": "drinks",
+            "rating": "4.7/5",
+            "price": "500 IQD",
+            "description": "Refreshing and fizzy",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Fanta",
+            "category": "drinks",
+            "rating": "4.4/5",
+            "price": "500 IQD",
+            "description": "Orange-flavored soft drink",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Sprite",
+            "category": "drinks",
+            "rating": "4.6/5",
+            "price": "500 IQD",
+            "description": "High-energy citrus soda",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Red Bull",
+            "category": "drinks",
+            "rating": "4.9/5",
+            "price": "2500 IQD",
+            "description": "Gives you wings!",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Lipton Iced Tea",
+            "category": "drinks",
+            "rating": "4.3/5",
+            "price": "1000 IQD",
+            "description": "Lemon-flavored iced tea",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Mirinda",
+            "category": "drinks",
+            "rating": "4.2/5",
+            "price": "250 IQD",
+            "description": "Sweet and fruity flavor",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "7UP",
+            "category": "drinks",
+            "rating": "4.5/5",
+            "price": "500 IQD",
+            "description": "Lemon-lime refreshing drink",
+            "isDiscounted": true
+        }
+    ],
+
+    "grains": [
+        {
+            "image": "../public/images/",
+            "name": "Rice",
+            "category": "grains",
+            "rating": "4.8/5",
+            "price": "2500 IQD/kg",
+            "description": "High-quality basmati rice",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Wheat Flour",
+            "category": "grains",
+            "rating": "4.5/5",
+            "price": "1500 IQD/kg",
+            "description": "Fine-milled for soft bread",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Barley",
+            "category": "grains",
+            "rating": "4.3/5",
+            "price": "1200 IQD/kg",
+            "description": "Used for soups and animal feed",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Corn",
+            "category": "grains",
+            "rating": "4.6/5",
+            "price": "1800 IQD/kg",
+            "description": "Fresh yellow corn kernels",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Oats",
+            "category": "grains",
+            "rating": "4.7/5",
+            "price": "2000 IQD/kg",
+            "description": "Perfect for a healthy breakfast",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Quinoa",
+            "category": "grains",
+            "rating": "4.9/5",
+            "price": "5000 IQD/kg",
+            "description": "A protein-rich superfood",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Millet",
+            "category": "grains",
+            "rating": "4.2/5",
+            "price": "1300 IQD/kg",
+            "description": "Gluten-free and rich in fiber",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Lentils",
+            "category": "grains",
+            "rating": "4.8/5",
+            "price": "2200 IQD/kg",
+            "description": "Rich in protein and iron",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Chickpeas",
+            "category": "grains",
+            "rating": "4.6/5",
+            "price": "2100 IQD/kg",
+            "description": "Used in hummus and salads",
+            "isDiscounted": true
+        }
+    ],
+
+    "dairy": [
+        {
+            "image": "../public/images/",
+            "name": "Milk",
+            "category": "dairy",
+            "rating": "3.8/5",
+            "price": "2500 IQD",
+            "description": "A good one",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Cheese",
+            "category": "dairy",
+            "rating": "4.5/5",
+            "price": "5000 IQD/kg",
+            "description": "Fresh and creamy cheese",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Butter",
+            "category": "dairy",
+            "rating": "4.7/5",
+            "price": "4000 IQD",
+            "description": "Made from pure cow's milk",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Yogurt",
+            "category": "dairy",
+            "rating": "4.6/5",
+            "price": "2000 IQD",
+            "description": "Natural probiotic yogurt",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Cream",
+            "category": "dairy",
+            "rating": "4.2/5",
+            "price": "3500 IQD",
+            "description": "Thick and fresh cream",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Kefir",
+            "category": "dairy",
+            "rating": "4.3/5",
+            "price": "3000 IQD",
+            "description": "Fermented milk drink for gut health",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Mozzarella",
+            "category": "dairy",
+            "rating": "4.8/5",
+            "price": "6000 IQD/kg",
+            "description": "Perfect for pizzas and pastas",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Ghee",
+            "category": "dairy",
+            "rating": "4.4/5",
+            "price": "4500 IQD",
+            "description": "Clarified butter, rich in flavor",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Ricotta",
+            "category": "dairy",
+            "rating": "4.6/5",
+            "price": "5500 IQD/kg",
+            "description": "Soft and mild-flavored cheese",
+            "isDiscounted": true
+        }
+    ],
+
+    "snacks": [
+        {
+            "image": "../public/images/",
+            "name": "Kinder",
+            "category": "snacks",
+            "rating": "4.7/5",
+            "price": "2250 IQD",
+            "description": "Sweet and optimal taste!",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Oreo",
+            "category": "snacks",
+            "rating": "4.5/5",
+            "price": "2000 IQD",
+            "description": "Crunchy chocolate cookies with creamy filling",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Lays Chips",
+            "category": "snacks",
+            "rating": "4.3/5",
+            "price": "1500 IQD",
+            "description": "Crispy and flavorful potato chips",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Pringles",
+            "category": "snacks",
+            "rating": "4.6/5",
+            "price": "3000 IQD",
+            "description": "Stackable potato chips with a unique crunch",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Snickers",
+            "category": "snacks",
+            "rating": "4.8/5",
+            "price": "2500 IQD",
+            "description": "Chocolate bar filled with caramel, peanuts, and nougat",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Twix",
+            "category": "snacks",
+            "rating": "4.7/5",
+            "price": "2200 IQD",
+            "description": "Crunchy biscuit, caramel, and chocolate layers",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Doritos",
+            "category": "snacks",
+            "rating": "4.4/5",
+            "price": "1800 IQD",
+            "description": "Bold and cheesy flavored tortilla chips",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "KitKat",
+            "category": "snacks",
+            "rating": "4.9/5",
+            "price": "2700 IQD",
+            "description": "Crispy wafer covered in smooth chocolate",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "M&M's",
+            "category": "snacks",
+            "rating": "4.6/5",
+            "price": "3200 IQD",
+            "description": "Colorful chocolate candies with a crunchy shell",
+            "isDiscounted": false
+        }
+    ],
+
+    "bakery": [
+        {
+            "image": "../public/images/",
+            "name": "Baguette",
+            "category": "bakery",
+            "rating": "4.5/5",
+            "price": "1500 IQD",
+            "description": "Crispy French bread with a soft interior.",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Croissant",
+            "category": "bakery",
+            "rating": "4.7/5",
+            "price": "2000 IQD",
+            "description": "Flaky and buttery French pastry.",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Muffin",
+            "category": "bakery",
+            "rating": "4.4/5",
+            "price": "1800 IQD",
+            "description": "Soft and moist with various flavors.",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Donut",
+            "category": "bakery",
+            "rating": "4.6/5",
+            "price": "2500 IQD",
+            "description": "Sweet, deep-fried treat with icing.",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Sourdough Bread",
+            "category": "bakery",
+            "rating": "4.8/5",
+            "price": "3000 IQD",
+            "description": "Tangy, chewy, and perfect for sandwiches.",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Brownie",
+            "category": "bakery",
+            "rating": "4.9/5",
+            "price": "2200 IQD",
+            "description": "Rich and fudgy chocolate dessert.",
+            "isDiscounted": true
+        },
+        {
+            "image": "../public/images/",
+            "name": "Bagel",
+            "category": "bakery",
+            "rating": "4.3/5",
+            "price": "1700 IQD",
+            "description": "Chewy and versatile, great with spreads.",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Cake Slice",
+            "category": "bakery",
+            "rating": "4.7/5",
+            "price": "3500 IQD",
+            "description": "Soft, layered, and deliciously sweet.",
+            "isDiscounted": false
+        },
+        {
+            "image": "../public/images/",
+            "name": "Puff Pastry",
+            "category": "bakery",
+            "rating": "4.5/5",
+            "price": "2800 IQD",
+            "description": "Crispy, flaky layers of delicious pastry.",
+            "isDiscounted": true
+        }
+    ]
+}
