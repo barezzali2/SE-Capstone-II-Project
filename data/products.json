@@ -1,7 +1,7 @@
 {
     "fruits": [
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/apple.jpg",
             "name": "Apple",
             "category": "fruits",
             "rating": "4/5",
@@ -10,7 +10,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/banana.jpg",
             "name": "Banana",
             "category": "fruits",
             "rating": "4.5/5",
@@ -19,7 +19,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/orange.jpg",
             "name": "Orange",
             "category": "fruits",
             "rating": "4.2/5",
@@ -28,7 +28,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/grapes.jpg",
             "name": "Grapes",
             "category": "fruits",
             "rating": "4.3/5",
@@ -37,7 +37,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/strawberry.jpg",
             "name": "Strawberry",
             "category": "fruits",
             "rating": "4.7/5",
@@ -46,7 +46,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/watermelon.jpg",
             "name": "Watermelon",
             "category": "fruits",
             "rating": "4.6/5",
@@ -55,7 +55,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/pineapple.jpg",
             "name": "Pineapple",
             "category": "fruits",
             "rating": "4.4/5",
@@ -64,7 +64,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/mango.jpg",
             "name": "Mango",
             "category": "fruits",
             "rating": "4.8/5",
@@ -73,7 +73,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/fruits/pomegranate.jpg",
             "name": "Pomegranate",
             "category": "fruits",
             "rating": "4.5/5",
@@ -86,7 +86,7 @@
 
     "drinks": [
         {
-            "image": "../public/images/",
+            "image": "../public/images/drinks/dew.jpg",
             "name": "DEW",
             "category": "drinks",
             "rating": "4.5/5",
@@ -95,7 +95,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/drinks/colla.jpg",
             "name": "Coca-Cola",
             "category": "drinks",
             "rating": "4.8/5",
@@ -104,7 +104,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/drinks/pepsi.jpg",
             "name": "Pepsi",
             "category": "drinks",
             "rating": "4.7/5",
@@ -113,7 +113,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/drinks/fanta.jpg",
             "name": "Fanta",
             "category": "drinks",
             "rating": "4.4/5",
@@ -122,7 +122,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/drinks/sprite.jpg",
             "name": "Sprite",
             "category": "drinks",
             "rating": "4.6/5",
@@ -131,7 +131,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/drinks/redbull.jpg",
             "name": "Red Bull",
             "category": "drinks",
             "rating": "4.9/5",
@@ -140,7 +140,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/drinks/lipton.jpg",
             "name": "Lipton Iced Tea",
             "category": "drinks",
             "rating": "4.3/5",
@@ -149,16 +149,16 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
-            "name": "Mirinda",
+            "image": "../public/images/drinks/rani.jpg",
+            "name": "Rani",
             "category": "drinks",
             "rating": "4.2/5",
-            "price": "250 IQD",
+            "price": "500 IQD",
             "description": "Sweet and fruity flavor",
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/drinks/7up.jpg",
             "name": "7UP",
             "category": "drinks",
             "rating": "4.5/5",
@@ -170,7 +170,7 @@
 
     "grains": [
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/rice.png",
             "name": "Rice",
             "category": "grains",
             "rating": "4.8/5",
@@ -179,7 +179,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/wheatflour.jpg",
             "name": "Wheat Flour",
             "category": "grains",
             "rating": "4.5/5",
@@ -188,7 +188,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/barley.jpg",
             "name": "Barley",
             "category": "grains",
             "rating": "4.3/5",
@@ -197,7 +197,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/corn.jpeg",
             "name": "Corn",
             "category": "grains",
             "rating": "4.6/5",
@@ -206,7 +206,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/oats.jpg",
             "name": "Oats",
             "category": "grains",
             "rating": "4.7/5",
@@ -215,7 +215,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/quinoa.jpg",
             "name": "Quinoa",
             "category": "grains",
             "rating": "4.9/5",
@@ -224,7 +224,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/millet.jpg",
             "name": "Millet",
             "category": "grains",
             "rating": "4.2/5",
@@ -233,7 +233,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/lentils.jpg",
             "name": "Lentils",
             "category": "grains",
             "rating": "4.8/5",
@@ -242,7 +242,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/grains/chickpeas.jpg",
             "name": "Chickpeas",
             "category": "grains",
             "rating": "4.6/5",
@@ -254,7 +254,7 @@
 
     "dairy": [
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/milk.jpeg",
             "name": "Milk",
             "category": "dairy",
             "rating": "3.8/5",
@@ -263,7 +263,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/kiri.jpg",
             "name": "Cheese",
             "category": "dairy",
             "rating": "4.5/5",
@@ -272,7 +272,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/butter.png",
             "name": "Butter",
             "category": "dairy",
             "rating": "4.7/5",
@@ -281,7 +281,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/yogurt.jpg",
             "name": "Yogurt",
             "category": "dairy",
             "rating": "4.6/5",
@@ -290,7 +290,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/cream.png",
             "name": "Cream",
             "category": "dairy",
             "rating": "4.2/5",
@@ -299,7 +299,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/kefir.png",
             "name": "Kefir",
             "category": "dairy",
             "rating": "4.3/5",
@@ -308,7 +308,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/mozzarella.jpg",
             "name": "Mozzarella",
             "category": "dairy",
             "rating": "4.8/5",
@@ -317,7 +317,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/ghee.jpg",
             "name": "Ghee",
             "category": "dairy",
             "rating": "4.4/5",
@@ -326,7 +326,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/dairy/ricotta.jpg",
             "name": "Ricotta",
             "category": "dairy",
             "rating": "4.6/5",
@@ -338,7 +338,7 @@
 
     "snacks": [
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/kinder.jpg",
             "name": "Kinder",
             "category": "snacks",
             "rating": "4.7/5",
@@ -347,7 +347,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/oreo.jpg",
             "name": "Oreo",
             "category": "snacks",
             "rating": "4.5/5",
@@ -356,7 +356,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/lays.jpg",
             "name": "Lays Chips",
             "category": "snacks",
             "rating": "4.3/5",
@@ -365,7 +365,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/pringles.jpg",
             "name": "Pringles",
             "category": "snacks",
             "rating": "4.6/5",
@@ -374,7 +374,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/snickers.jpg",
             "name": "Snickers",
             "category": "snacks",
             "rating": "4.8/5",
@@ -383,7 +383,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/twix.jpg",
             "name": "Twix",
             "category": "snacks",
             "rating": "4.7/5",
@@ -392,7 +392,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/doritos.jpg",
             "name": "Doritos",
             "category": "snacks",
             "rating": "4.4/5",
@@ -401,7 +401,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/kitkat.jpg",
             "name": "KitKat",
             "category": "snacks",
             "rating": "4.9/5",
@@ -410,7 +410,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/snacks/m&ms.jpg",
             "name": "M&M's",
             "category": "snacks",
             "rating": "4.6/5",
@@ -422,17 +422,17 @@
 
     "bakery": [
         {
-            "image": "../public/images/",
-            "name": "Baguette",
+            "image": "../public/images/bakery/lebanese-bread.jpg",
+            "name": "Lebanese Bread",
             "category": "bakery",
             "rating": "4.5/5",
             "price": "1500 IQD",
-            "description": "Crispy French bread with a soft interior.",
+            "description": "A good and healthy bread",
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
-            "name": "Croissant",
+            "image": "../public/images/bakery/cake.jpg",
+            "name": "Cake",
             "category": "bakery",
             "rating": "4.7/5",
             "price": "2000 IQD",
@@ -440,16 +440,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
-            "name": "Muffin",
-            "category": "bakery",
-            "rating": "4.4/5",
-            "price": "1800 IQD",
-            "description": "Soft and moist with various flavors.",
-            "isDiscounted": false
-        },
-        {
-            "image": "../public/images/",
+            "image": "../public/images/bakery/donut.png",
             "name": "Donut",
             "category": "bakery",
             "rating": "4.6/5",
@@ -458,7 +449,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/bakery/sourdough.jpg",
             "name": "Sourdough Bread",
             "category": "bakery",
             "rating": "4.8/5",
@@ -467,7 +458,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/bakery/Brownies.jpg",
             "name": "Brownie",
             "category": "bakery",
             "rating": "4.9/5",
@@ -476,16 +467,7 @@
             "isDiscounted": true
         },
         {
-            "image": "../public/images/",
-            "name": "Bagel",
-            "category": "bakery",
-            "rating": "4.3/5",
-            "price": "1700 IQD",
-            "description": "Chewy and versatile, great with spreads.",
-            "isDiscounted": false
-        },
-        {
-            "image": "../public/images/",
+            "image": "../public/images/bakery/slice.jpg",
             "name": "Cake Slice",
             "category": "bakery",
             "rating": "4.7/5",
@@ -494,7 +476,7 @@
             "isDiscounted": false
         },
         {
-            "image": "../public/images/",
+            "image": "../public/images/bakery/Puff-Pastry.jpg",
             "name": "Puff Pastry",
             "category": "bakery",
             "rating": "4.5/5",
