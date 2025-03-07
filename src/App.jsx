@@ -6,7 +6,6 @@ import Scanner from "./pages/Scanner";
 import ShoppingCart from "./pages/ShoppingCart";
 import Map3D from "./pages/Map3D";
 
-
 function App() {
 
   return (
