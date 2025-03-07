@@ -2,7 +2,7 @@ import styles from "./CartWishlist.module.css";
 import { useProduct } from "../contexts/ProductContext";
 import Cart from "./Cart";
 
-function CardWishlist() {
+function CartWishlist() {
   const { products } = useProduct();
   const addedProducts = products.slice(0, 2);
 
@@ -24,4 +24,4 @@ function CardWishlist() {
   );
 }
 
-export default CardWishlist;
+export default CartWishlist;
