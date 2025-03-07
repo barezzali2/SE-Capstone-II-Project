@@ -1,9 +1,10 @@
 .recent {
-    padding: 15px;
+    padding: 22px;
 }
 
 .recent h3 {
     font-size: 22px;
+    margin-bottom: 24px;
 }
 
 .productsGrid {
