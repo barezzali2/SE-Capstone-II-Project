@@ -114,19 +114,58 @@
 }
 
 .priceRange {
-  padding: 0 8px;
-}
-
-.priceRange input[type="range"] {
-  width: 100%;
-  margin: 10px 0;
-}
-
-.priceInputs {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.priceInput {
+  position: relative;
+  flex: 1;
+  max-width: 120px;
+}
+
+.priceInput span {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #666;
+  font-size: 0.85rem;
+}
+
+.priceInput input {
+  width: 100%;
+  padding: 8px 8px 8px 22px;
+  border: 1px solid #e1e1e1;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #f8f9fa;
+}
+
+.priceInput input:focus {
+  border-color: #dd5837;
+  box-shadow: 0 0 0 2px rgba(221, 88, 55, 0.1);
+  background: white;
+}
+
+.priceInput input::-webkit-outer-spin-button,
+.priceInput input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.priceInput input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.priceSeparator {
+  color: #666;
+  font-size: 0.9rem;
+  padding: 0 2px;
 }
 
 .filterActions {
@@ -238,5 +277,21 @@
   .clearButton {
     padding: 15px 20px;
     font-size: 16px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .priceInput {
+    max-width: 100px;
+  }
+
+  .priceInput input {
+    padding: 6px 6px 6px 20px;
+    font-size: 0.8rem;
+  }
+
+  .priceInput span {
+    left: 8px;
+    font-size: 0.8rem;
   }
 }
