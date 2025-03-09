@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FeaturedList from "../components/FeaturedList";
 import { ProductProvider } from "../contexts/ProductContext";
+import Discount from "../components/Discount";
 
 
 function Home() {
@@ -17,6 +18,7 @@ function Home() {
         <Map />
         <ProductProvider>
             <FeaturedList />
+            <Discount />
         </ProductProvider>
         <Footer />
     </div>

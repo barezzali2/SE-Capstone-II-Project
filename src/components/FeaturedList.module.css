@@ -1,16 +1,17 @@
 .recent {
-    padding: 15px;
+    padding: 22px;
 }
 
 .recent h3 {
-    font-size: 21px;
+    font-size: 22px;
+    margin-bottom: 24px;
 }
 
 .productsGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
-    padding: 20px 0;
+    margin: 20px 0;
     margin-top: 20px;
     flex: 1;
   }
@@ -20,18 +21,19 @@
 
     .recent {
         margin: 3% auto;  /* Center the container */
-        max-width: 950px;  /* Adjust width to prevent stretching */
+        max-width: 1050px;  /* Adjust width to prevent stretching */
         flex-direction: row;
         align-items: center;
     }
 
     .recent h3 {
-        font-size: 23px;
+        font-size: 30px;
     }
 
     .productsGrid {
         grid-template-columns: repeat(auto-fill, repeat(200px, 1fr));
         gap: 22px;
         justify-content: center;
+        margin: 30px 0;
       }
 }

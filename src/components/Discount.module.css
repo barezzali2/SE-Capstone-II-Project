@@ -1,0 +1,80 @@
+.discount {
+    margin-top: 30px;
+    padding: 30px 22px;
+    /* background-color: #f9f9f9; */
+    /* text-align: center; */
+  }
+  
+  .discount h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    /* color: #333; */
+  }
+  
+  .slide {
+    position: relative;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .discountBadge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #dd5837;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .slide h3 {
+    margin-top: 10px;
+    font-size: 18px;
+    /* color: #333; */
+  }
+
+
+  
+  
+
+  
+  @media (min-width: 1000px) {
+    .discount {
+      margin: 5% 12%;
+    }
+  
+    .discount h2 {
+      font-size: 30px;
+      margin-bottom: 24px;
+    }
+
+    .slide {
+        position: relative;
+        padding: 10px;
+        text-align: center;
+      }
+      
+      .slide img {
+      }
+      
+      .discountBadge {
+        top: 22px;
+        right: 22px;
+        margin: 6px 11px;
+        font-size: 1.15rem;
+        padding: 9px;
+      }
+  
+    .slide h3 {
+      font-size: 21px;
+    }
+  }

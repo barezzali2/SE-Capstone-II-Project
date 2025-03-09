@@ -20,7 +20,7 @@
 
 @media (min-width: 1000px) {
   .listContainer {
-    margin: 100px auto;
+    margin: 6.5% auto;
     max-width: 1100px;  /* Adjust width to prevent stretching */
   }
 
