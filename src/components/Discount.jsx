@@ -1,13 +1,14 @@
 import styles from "./Discount.module.css";
 import { useProduct } from "../contexts/ProductContext";
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function Discount() {
-
   const { products } = useProduct();
-  const specialProducts = products.slice(0, 4);
+  const specialProducts = products
+    .filter((product) => product.isDiscounted)
+    .slice(0, 4);
 
   const settings = {
     dots: true,
@@ -41,19 +42,20 @@ function Discount() {
   return (
     <div className={styles.discount}>
       <h2>Special Offers & Discounts</h2>
-
       <Slider {...settings}>
         {specialProducts.map((product) => (
           <div key={product.id} className={styles.slide}>
-            <img src={product.image} alt={product.name} />
+            <img
+              src={`http://localhost:3003${product.image}`}
+              alt={product.name}
+            />
             <div className={styles.discountBadge}>{product.price}</div>
             <h3>{product.name}</h3>
           </div>
         ))}
       </Slider>
-        
     </div>
-  )
+  );
 }
 
 export default Discount;

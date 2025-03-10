@@ -10,7 +10,7 @@ function CartWishlist() {
     <>
       <div className={styles.wishlist}>
         <h3>Shopping Cart Wishlist</h3>
-        <p>X items in the Cart</p>
+        <p>{addedProducts.length} items in the Cart</p>
 
         <div className={styles.carts}>
           {addedProducts.map((product) => (
