@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import styles from "./QuickView.module.css";
 
 function QuickView({ product, onClose }) {
+  const imageUrl = `http://localhost:3003${product.image}`;
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -10,7 +12,7 @@ function QuickView({ product, onClose }) {
         </button>
         <div className={styles.modalContent}>
           <div className={styles.modalImage}>
-            <img src={product.image} alt={product.name} />
+            <img src={imageUrl} alt={product.name} />
           </div>
           <div className={styles.modalInfo}>
             <h2>{product.name}</h2>
@@ -21,9 +23,7 @@ function QuickView({ product, onClose }) {
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <div className={styles.modalActions}>
-              <button className={styles.addToCard}>
-                Add to Cart
-              </button>
+              <button className={styles.addToCard}>Add to Cart</button>
             </div>
           </div>
         </div>
