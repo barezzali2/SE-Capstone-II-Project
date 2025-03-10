@@ -5,12 +5,13 @@ import QuickView from "./QuickView";
 
 function Product({ product }) {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+  const imageUrl = `http://localhost:3003${product.image}`;
 
   return (
     <>
       <div className={styles.productCard}>
         <div className={styles.imageContainer}>
-          <img src={product.image} alt={product.name} />
+          <img src={imageUrl} alt={product.name} />
           <div className={styles.overlay}>
             <button
               className={styles.quickView}
