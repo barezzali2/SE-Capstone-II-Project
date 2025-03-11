@@ -16,8 +16,8 @@ function Home() {
         <h4>Explore and make your shopping easier with us!</h4>
       </div>
       <Map />
-      <FeaturedList />
       <Discount />
+      <FeaturedList />
       <Footer />
     </div>
   );

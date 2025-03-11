@@ -1,10 +1,10 @@
 import styles from "./Filter.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { FaFilter, FaCheck } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useProduct } from "../contexts/ProductContext";
 
-function Filter({ onSort, onFilterChange }) {
+const Filter = memo(function Filter({ onSort, onFilterChange }) {
   const { products } = useProduct();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState("featured");
@@ -195,6 +195,7 @@ function Filter({ onSort, onFilterChange }) {
     </div>
   );
 }
+)
 
 Filter.propTypes = {
   onSort: PropTypes.func.isRequired,

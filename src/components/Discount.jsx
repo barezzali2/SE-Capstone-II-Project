@@ -3,12 +3,18 @@ import { useProduct } from "../contexts/ProductContext";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useMemo } from "react";
 
 function Discount() {
   const { products } = useProduct();
-  const specialProducts = products
-    .filter((product) => product.isDiscounted)
-    .slice(0, 4);
+  // const specialProducts = products
+  //   .filter((product) => product.isDiscounted)
+  //   .slice(0, 4);
+
+  // Using memo for memoization
+  const specialProducts = useMemo(() => {
+    return products.filter((product) => product.isDiscounted).slice(0, 4);
+  }, [products]);
 
   const settings = {
     dots: true,
@@ -56,6 +62,6 @@ function Discount() {
       </Slider>
     </div>
   );
-}
+};
 
 export default Discount;
