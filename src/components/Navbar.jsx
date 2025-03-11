@@ -1,10 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import styles from "./Navbar.module.css";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 
-function Navbar() {
+// Memo
+const Navbar = memo(function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   function handleMenuOpen() {
@@ -82,6 +83,6 @@ function Navbar() {
       </ul>
     </div>
   )
-}
+});
 
 export default Navbar;

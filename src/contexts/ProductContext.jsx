@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 
@@ -48,8 +48,14 @@ const ProductProvider = ({ children }) => {
     };
   }, []);
 
+  // ✅ Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(
+    () => ({ products, loading, error, baseUrl }),
+    [products, loading, error]
+  );
+
   return (
-    <ProductContext.Provider value={{ products, loading, error, baseUrl }}>
+    <ProductContext.Provider value={contextValue}>
       {children}
     </ProductContext.Provider>
   );

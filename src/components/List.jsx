@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import styles from "./List.module.css";
 import Filter from "./Filter";
 import Product from "./Product";
@@ -9,8 +9,8 @@ function List() {
   const {products} = useProduct();
   const [filteredProducts, setFilteredProducts] = useState(products);
 
-
-  const handleSort = (sortType) => {
+  // Memo
+  const handleSort = useCallback((sortType) => {
     let sorted = [...filteredProducts];
     switch (sortType) {
       case "price-asc":
@@ -30,9 +30,11 @@ function List() {
         sorted = [...products];
     }
     setFilteredProducts(sorted);
-  };
+  }, [filteredProducts, products]);
 
-  const handleFilterChange = ({ categories, priceRange }) => {
+
+  // Memo
+  const handleFilterChange = useCallback(({ categories, priceRange }) => {
     let filtered = [...products];
 
     if (categories.length > 0) {
@@ -47,7 +49,7 @@ function List() {
     });
 
     setFilteredProducts(filtered);
-  };
+  }, [products]);
 
 
   return (
