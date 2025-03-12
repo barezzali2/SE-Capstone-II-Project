@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useMemo } from "react";
 
 function Discount() {
-  const { products } = useProduct();
+  const { products, baseUrl } = useProduct();
   // const specialProducts = products
   //   .filter((product) => product.isDiscounted)
   //   .slice(0, 4);
@@ -51,10 +51,7 @@ function Discount() {
       <Slider {...settings}>
         {specialProducts.map((product) => (
           <div key={product.id} className={styles.slide}>
-            <img
-              src={`http://localhost:3003${product.image}`}
-              alt={product.name}
-            />
+            <img src={`${baseUrl}${product.image}`} alt={product.name} />
             <div className={styles.discountBadge}>{product.price}</div>
             <h3>{product.name}</h3>
           </div>
@@ -62,6 +59,6 @@ function Discount() {
       </Slider>
     </div>
   );
-};
+}
 
 export default Discount;

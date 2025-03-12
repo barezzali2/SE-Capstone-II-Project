@@ -1,8 +1,16 @@
 import styles from "./Cart.module.css";
 import PropTypes from "prop-types";
+import { useProduct } from "../contexts/ProductContext";
+import { useCart } from "../contexts/CartContext";
 
 function Cart({ product }) {
-  const imageUrl = `http://localhost:3003${product.image}`;
+  const { baseUrl } = useProduct();
+  const { removeFromCart } = useCart();
+  const imageUrl = `${baseUrl}${product.image}`;
+
+  const handleRemove = () => {
+    removeFromCart(product.id);
+  };
 
   return (
     <div className={styles.cart}>
@@ -13,10 +21,11 @@ function Cart({ product }) {
       <div className={styles.productInfo}>
         <h4>{product.name}</h4>
         <p className={styles.category}>{product.category}</p>
-        <p className={styles.quantity}>Quantity: X</p>
         <p className={styles.price}>{product.price}</p>
       </div>
-      <button className={styles.removeCart}>×</button>
+      <button className={styles.removeCart} onClick={handleRemove}>
+        ×
+      </button>
     </div>
   );
 }

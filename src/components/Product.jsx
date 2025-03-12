@@ -2,10 +2,12 @@ import { memo, useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./Product.module.css";
 import QuickView from "./QuickView";
+import { useProduct } from "../contexts/ProductContext";
 
 function Product({ product }) {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
-  const imageUrl = `http://localhost:3003${product.image}`;
+  const { baseUrl } = useProduct();
+  const imageUrl = `${baseUrl}${product.image}`;
 
   return (
     <>
