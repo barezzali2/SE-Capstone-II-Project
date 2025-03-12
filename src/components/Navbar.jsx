@@ -5,7 +5,7 @@ import { memo, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 
 // Memo
-const Navbar = memo(function Navbar() {
+function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   function handleMenuOpen() {
@@ -83,6 +83,6 @@ const Navbar = memo(function Navbar() {
       </ul>
     </div>
   )
-});
+};
 
-export default Navbar;
+export default memo(Navbar);
