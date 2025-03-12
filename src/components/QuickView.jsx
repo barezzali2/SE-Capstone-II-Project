@@ -10,7 +10,9 @@ function QuickView({ product, onClose }) {
 
   const handleAddToCart = () => {
     addToCart(product.id);
-    onClose();
+    if(window.confirm("Are you sure to add this item to your cart?")) {
+      onClose();
+    }
   };
 
   return (
@@ -28,8 +30,7 @@ function QuickView({ product, onClose }) {
             <p className={styles.modalCategory}>{product.category}</p>
             <p className={styles.modalPrice}>{product.price}</p>
             <p className={styles.modalDescription}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {product.description}
             </p>
             <div className={styles.modalActions}>
               <button className={styles.addToCard} onClick={handleAddToCart}>
@@ -50,6 +51,7 @@ QuickView.propTypes = {
     image: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };

@@ -6,7 +6,7 @@ import { useProduct } from "../contexts/ProductContext";
 
 function List() {
 
-  const {products, categories} = useProduct();
+  const {products} = useProduct();
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   // Memo
@@ -60,7 +60,6 @@ function List() {
   return (
     <div className={styles.listContainer}>
       <Filter 
-        categories={categories}
         onSort={handleSort} 
         onFilterChange={handleFilterChange}
         />

@@ -4,20 +4,20 @@ import { FaFilter, FaCheck } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useProduct } from "../contexts/ProductContext";
 
-function Filter({ categories, onSort, onFilterChange }) {
+function Filter({ onSort, onFilterChange }) {
   const { products } = useProduct();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState("featured");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 200 });
 
-  // const categories = [
-  //   "Fruits",
-  //   "Dairy",
-  //   "Drinks",
-  //   "Bakery",
-  //   "Grains",
-  // ];
+  const categories = [
+    "Fruits",
+    "Dairy",
+    "Drinks",
+    "Bakery",
+    "Grains",
+  ];
 
   // const handleSort = (value) => {
   //   setSortBy(value);
