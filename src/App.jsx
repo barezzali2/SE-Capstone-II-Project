@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ProductProvider } from "./contexts/ProductContext";
+import { CartProvider } from "./contexts/CartContext";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
 import Search from "./pages/Search";
@@ -10,17 +11,19 @@ import Map3D from "./pages/Map3D";
 function App() {
   return (
     <ProductProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="home" element={<Home />} />
-          <Route path="productlist" element={<ProductList />} />
-          <Route path="search" element={<Search />} />
-          <Route path="scanner" element={<Scanner />} />
-          <Route path="shopping" element={<ShoppingCart />} />
-          <Route path="map" element={<Map3D />} />
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="home" element={<Home />} />
+            <Route path="productlist" element={<ProductList />} />
+            <Route path="search" element={<Search />} />
+            <Route path="scanner" element={<Scanner />} />
+            <Route path="shopping" element={<ShoppingCart />} />
+            <Route path="map" element={<Map3D />} />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </ProductProvider>
   );
 }

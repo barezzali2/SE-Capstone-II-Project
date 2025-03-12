@@ -30,7 +30,13 @@ const ProductProvider = ({ children }) => {
       try {
         const response = await axios.get(`${baseUrl}/productlist`);
         if (isMounted) {
-          setProducts(response.data.products || []);
+          const productsWithIds = (response.data.products || []).map(
+            (product) => ({
+              ...product,
+              _id: product._id || product.id.toString(),
+            })
+          );
+          setProducts(productsWithIds);
           setLoading(false);
         }
       } catch (err) {
@@ -50,7 +56,12 @@ const ProductProvider = ({ children }) => {
 
   // ✅ Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(
-    () => ({ products, loading, error, baseUrl }),
+    () => ({
+      products,
+      loading,
+      error,
+      baseUrl,
+    }),
     [products, loading, error]
   );
 

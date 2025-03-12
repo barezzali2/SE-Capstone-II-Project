@@ -1,8 +1,17 @@
 import PropTypes from "prop-types";
 import styles from "./QuickView.module.css";
+import { useProduct } from "../contexts/ProductContext";
+import { useCart } from "../contexts/CartContext";
 
 function QuickView({ product, onClose }) {
-  const imageUrl = `http://localhost:3003${product.image}`;
+  const { baseUrl } = useProduct();
+  const { addToCart } = useCart();
+  const imageUrl = `${baseUrl}${product.image}`;
+
+  const handleAddToCart = () => {
+    addToCart(product.id);
+    onClose();
+  };
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -23,7 +32,9 @@ function QuickView({ product, onClose }) {
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <div className={styles.modalActions}>
-              <button className={styles.addToCard}>Add to Cart</button>
+              <button className={styles.addToCard} onClick={handleAddToCart}>
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>
