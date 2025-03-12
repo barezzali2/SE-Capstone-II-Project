@@ -1,10 +1,12 @@
+import { memo, useMemo } from "react";
 import { useProduct } from "../contexts/ProductContext";
 import styles from "./FeaturedList.module.css";
 import Product from "./Product";
 
 function FeaturedList() {
   const { products } = useProduct();
-  const recentProducts = products.slice(0, 4);
+  // const recentProducts = products.slice(0, 4);
+  const recentProducts = useMemo(() =>  products.slice(0, 4), [products]);
 
   return (
     <div className={styles.recent}>
@@ -18,4 +20,4 @@ function FeaturedList() {
   )
 }
 
-export default FeaturedList
+export default memo(FeaturedList);

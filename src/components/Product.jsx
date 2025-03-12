@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./Product.module.css";
 import QuickView from "./QuickView";
@@ -48,4 +48,4 @@ Product.propTypes = {
   }).isRequired,
 };
 
-export default Product;
+export default memo(Product);

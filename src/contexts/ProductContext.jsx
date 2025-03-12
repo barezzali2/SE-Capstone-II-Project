@@ -49,8 +49,10 @@ const ProductProvider = ({ children }) => {
   }, []);
 
   // ✅ Memoize the context value to prevent unnecessary re-renders
-  const contextValue = useMemo(
-    () => ({ products, loading, error, baseUrl }),
+  const contextValue = useMemo(() => {
+    const categories = [...new Set(products.map((p) => p.category))]
+    return { products, loading, error, baseUrl, categories };
+  },
     [products, loading, error]
   );
 
