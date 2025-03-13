@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import styles from "./List.module.css";
 import Filter from "./Filter";
 import Product from "./Product";
@@ -11,6 +11,7 @@ function List() {
 
   // Memo
   const handleSort = useCallback((sortType) => {
+    
     let sorted = [...filteredProducts];
     switch (sortType) {
       case "price-asc":
@@ -35,8 +36,9 @@ function List() {
 
   // Memo
   const handleFilterChange = useCallback(({ categories, priceRange }) => {
-    let filtered = [...products];
 
+    let filtered = [...products];
+ 
     if (categories.length > 0) {
       filtered = filtered.filter((product) =>
         categories.includes(product.category)
@@ -52,12 +54,18 @@ function List() {
   }, [products]);
 
 
+  // Memoize filteredProducts
+  const memoizedFilteredProducts = useMemo(() => filteredProducts, [filteredProducts]);
+
   return (
     <div className={styles.listContainer}>
-      <Filter onSort={handleSort} onFilterChange={handleFilterChange} />
+      <Filter 
+        onSort={handleSort} 
+        onFilterChange={handleFilterChange}
+        />
 
       <div className={styles.productsGrid}>
-        {filteredProducts.map((product) => (
+        {memoizedFilteredProducts.map((product) => (
           <Product key={product.id} product={product} />
         ))}
       </div>

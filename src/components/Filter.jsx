@@ -1,10 +1,10 @@
 import styles from "./Filter.module.css";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { FaFilter, FaCheck } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useProduct } from "../contexts/ProductContext";
 
-const Filter = memo(function Filter({ onSort, onFilterChange }) {
+function Filter({ onSort, onFilterChange }) {
   const { products } = useProduct();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState("featured");
@@ -12,35 +12,79 @@ const Filter = memo(function Filter({ onSort, onFilterChange }) {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 200 });
 
   const categories = [
-    "Footwear",
-    "Accessories",
-    "Outerwear",
-    "Tops",
-    "Bottoms",
+    "Fruits",
+    "Dairy",
+    "Drinks",
+    "Bakery",
+    "Grains",
   ];
 
-  const handleSort = (value) => {
+  // const handleSort = (value) => {
+  //   setSortBy(value);
+  //   onSort(value);
+  // };
+
+  const handleSort = useCallback((value) => {
     setSortBy(value);
     onSort(value);
-  };
+  }, [onSort]);
 
-  const handlePriceChange = (e) => {
+  // const handlePriceChange = (e) => {
+  //   const value = e.target.value === "" ? 0 : parseFloat(e.target.value);
+  //   if (e.target.name === "min") {
+  //     setPriceRange((prev) => ({ ...prev, min: value }));
+  //   } else {
+  //     setPriceRange((prev) => ({ ...prev, max: value }));
+  //   }
+  // };
+
+  const handlePriceChange = useCallback((e) => {
     const value = e.target.value === "" ? 0 : parseFloat(e.target.value);
     if (e.target.name === "min") {
       setPriceRange((prev) => ({ ...prev, min: value }));
     } else {
       setPriceRange((prev) => ({ ...prev, max: value }));
     }
-  };
+  }, []);
 
-  const handleCategoryToggle = (category) => {
-    const newCategories = selectedCategories.includes(category)
-      ? selectedCategories.filter((c) => c !== category)
-      : [...selectedCategories, category];
-    setSelectedCategories(newCategories);
-  };
 
-  const handleApplyFilters = () => {
+
+  // const handleCategoryToggle = (category) => {
+  //   const newCategories = selectedCategories.includes(category)
+  //     ? selectedCategories.filter((c) => c !== category)
+  //     : [...selectedCategories, category];
+  //   setSelectedCategories(newCategories);
+  // };
+
+  const handleCategoryToggle = useCallback((category) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  }, []);
+  
+
+  // const handleApplyFilters = () => {
+  //   const filteredProducts = products.filter((product) => {
+  //     const price = parseFloat(product.price.replace("$", ""));
+  //     const matchesPrice = price >= priceRange.min && price <= priceRange.max;
+  //     const matchesCategory =
+  //       selectedCategories.length === 0 ||
+  //       selectedCategories.includes(product.category);
+  //     return matchesPrice && matchesCategory;
+  //   });
+
+  //   onFilterChange({
+  //     categories: selectedCategories,
+  //     priceRange,
+  //     products: filteredProducts,
+  //   });
+  //   setIsFilterOpen(false);
+  // };
+
+
+  const handleApplyFilters = useCallback(() => {
     const filteredProducts = products.filter((product) => {
       const price = parseFloat(product.price.replace("$", ""));
       const matchesPrice = price >= priceRange.min && price <= priceRange.max;
@@ -56,9 +100,25 @@ const Filter = memo(function Filter({ onSort, onFilterChange }) {
       products: filteredProducts,
     });
     setIsFilterOpen(false);
-  };
+  }, [products, priceRange, selectedCategories, onFilterChange]);
 
-  const handleClearFilters = () => {
+
+
+  // const handleClearFilters = () => {
+  //   setSortBy("featured");
+  //   setSelectedCategories([]);
+  //   setPriceRange({ min: 0, max: 200 });
+  //   onFilterChange({
+  //     categories: [],
+  //     priceRange: { min: 0, max: 200 },
+  //     products,
+  //   });
+  //   onSort("featured");
+  //   setIsFilterOpen(false);
+  // };
+
+
+  const handleClearFilters = useCallback(() => {
     setSortBy("featured");
     setSelectedCategories([]);
     setPriceRange({ min: 0, max: 200 });
@@ -69,7 +129,9 @@ const Filter = memo(function Filter({ onSort, onFilterChange }) {
     });
     onSort("featured");
     setIsFilterOpen(false);
-  };
+  }, [onFilterChange, onSort, products]);
+
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -195,11 +257,11 @@ const Filter = memo(function Filter({ onSort, onFilterChange }) {
     </div>
   );
 }
-)
 
 Filter.propTypes = {
   onSort: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default Filter;
+export default memo(Filter);

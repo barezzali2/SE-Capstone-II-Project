@@ -47,7 +47,7 @@ function CartWishlist() {
             />
           ))
         ) : (
-          <p className={styles.emptyCart}>Your cart is empty</p>
+          <p className={styles.emptyCart}>Your cart is empty! Add items to your cart😊</p>
         )}
       </div>
 
