@@ -28,37 +28,33 @@
 }
 
 .navbar .hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 25px;
-    margin-right: 3%;
-    cursor: pointer;
-    transition: transform 0.25s ease-in-out; /* Smooth transition for rotation */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  margin-right: 3%;
+  cursor: pointer;
+  transition: transform 0.25s ease-in-out; /* Smooth transition for rotation */
 }
 
 .navbar .hamburger span {
-    display: block;
-    height: 4.6px;
-    background-color: #000000dc;
-    border-radius: 3px;
-    transition: all 0.3s;
+  display: block;
+  height: 4.6px;
+  background-color: #000000dc;
+  border-radius: 3px;
+  transition: all 0.3s;
 }
 
- /* When menu is open, rotate the hamburger button */
- .hamburger.open {
-    transform: rotate(90deg); 
-  }
-  
-  /* Optionally, change color when the hamburger is open */
-  .hamburger.open span {
-    background-color: #DD5837;
-  }
+/* When menu is open, rotate the hamburger button */
+.hamburger.open {
+  transform: rotate(90deg);
+}
 
-
-
-
+/* Optionally, change color when the hamburger is open */
+.hamburger.open span {
+  background-color: #dd5837;
+}
 
 .navbar .ulMob {
   list-style-type: none;
@@ -73,20 +69,18 @@
   height: 460px;
   box-shadow: 0px 0px 1px 1.5px black;
   z-index: 10;
-  transform: translateX(100%); 
+  transform: translateX(100%);
   opacity: 0; /* Initially hidden */
   visibility: hidden; /* Ensure it's not interactive when hidden */
   transition: transform 0.32s, opacity 0.37s, visibility 0.37s;
 }
 
-
 /* Display the menu when open */
 .navbar .ulMob.open {
-    transform: translateX(0); 
-    opacity: 1; 
-    visibility: visible; 
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
 }
-
 
 .ulMob li {
   padding: 10%;
@@ -101,19 +95,13 @@
   padding: 30px; /* For having more space to click, facilitaing */
 }
 
-
 /* Disabling default nav in mobile screen */
 .navbar .ulDefault {
   display: none;
 }
 
-
-
-
-
 /* Larger screen styles */
-@media(min-width: 1000px) {
-
+@media (min-width: 1000px) {
   .navbar {
     padding: 1.6% 3%;
   }
@@ -134,10 +122,9 @@
     margin: 0 10%;
   }
 
-  
   .navbar .ulDefault li a {
     text-decoration: none;
-    color: #0A1226;
+    color: #0a1226;
     font-weight: 600;
     font-size: 17px;
     border: 1.8px solid black;
@@ -147,29 +134,47 @@
   }
 
   .navbar .ulDefault li a:hover {
-    background-color: #DD5837;
+    background-color: #dd5837;
     /* transition: color 0.30s ease; */
     color: white;
   }
 
   .ulDefault li a.active {
-    background-color: #DD5837;
+    background-color: #dd5837;
     color: white;
   }
 
   .navbar .shoppingBtn {
     margin-right: 7%;
-   
   }
   .navbar .shoppingBtn .shoppingCard {
     width: 40px;
     height: 40px;
-    transition: ease-in-out 0.10s;
+    transition: ease-in-out 0.1s;
   }
 
   .navbar .shoppingBtn .shoppingCard:hover {
-    color: #DD5837;
+    color: #dd5837;
     /* transition: color 0.25s ease; */
   }
-    
+}
+
+.cartIconContainer {
+  position: relative;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #dd5837;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
 }
