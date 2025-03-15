@@ -54,9 +54,6 @@ function List() {
   }, [products]);
 
 
-  // Memoize filteredProducts
-  // const memoizedFilteredProducts = useMemo(() => filteredProducts, [filteredProducts]);
-
 
   const groupedProducts = useMemo(() => {
     return filteredProducts.reduce((acc, product) => {
@@ -66,7 +63,8 @@ function List() {
       acc[product.category].push(product);
       return acc;
     }, {});
-  }, [filteredProducts])
+  }, [filteredProducts]);
+
 
   return (
     <div className={styles.listContainer}>
@@ -74,13 +72,6 @@ function List() {
         onSort={handleSort} 
         onFilterChange={handleFilterChange}
         />
-
-      {/* <div className={styles.productsGrid}>
-        {memoizedFilteredProducts.map((product) => (
-          <Product key={product.id} product={product} />
-        ))}
-      </div> */}
-
 
       <div className={styles.productsContainer}>
               {Object.keys(groupedProducts).map((category) => (
