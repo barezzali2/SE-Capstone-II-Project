@@ -116,56 +116,43 @@
 .priceRange {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .priceInput {
   position: relative;
-  flex: 1;
-  max-width: 120px;
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 8px 12px;
 }
 
 .priceInput span {
   position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 12px;
   color: #666;
-  font-size: 0.85rem;
+  font-size: 14px;
 }
 
 .priceInput input {
-  width: 100%;
-  padding: 8px 8px 8px 22px;
-  border: 1px solid #e1e1e1;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  outline: none;
-  transition: all 0.2s ease;
-  background: #f8f9fa;
-}
-
-.priceInput input:focus {
-  border-color: #dd5837;
-  box-shadow: 0 0 0 2px rgba(221, 88, 55, 0.1);
-  background: white;
-}
-
-.priceInput input::-webkit-outer-spin-button,
-.priceInput input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.priceInput input[type="number"] {
-  -moz-appearance: textfield;
+  width: 100px;
+  padding-left: 45px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
 }
 
 .priceSeparator {
   color: #666;
-  font-size: 0.9rem;
-  padding: 0 2px;
+  margin: 0 5px;
+}
+
+.priceInput input:focus {
+  outline: none;
+  background: #fff;
+  box-shadow: 0 0 0 2px #dd5837;
 }
 
 .filterActions {

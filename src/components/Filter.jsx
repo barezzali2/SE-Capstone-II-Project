@@ -9,25 +9,22 @@ function Filter({ onSort, onFilterChange }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState("featured");
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 200 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
 
-  const categories = [
-    "Fruits",
-    "Dairy",
-    "Drinks",
-    "Bakery",
-    "Grains",
-  ];
+  const categories = ["fruits", "dairy", "drinks", "bakery", "grains"];
 
   // const handleSort = (value) => {
   //   setSortBy(value);
   //   onSort(value);
   // };
 
-  const handleSort = useCallback((value) => {
-    setSortBy(value);
-    onSort(value);
-  }, [onSort]);
+  const handleSort = useCallback(
+    (value) => {
+      setSortBy(value);
+      onSort(value);
+    },
+    [onSort]
+  );
 
   // const handlePriceChange = (e) => {
   //   const value = e.target.value === "" ? 0 : parseFloat(e.target.value);
@@ -47,8 +44,6 @@ function Filter({ onSort, onFilterChange }) {
     }
   }, []);
 
-
-
   // const handleCategoryToggle = (category) => {
   //   const newCategories = selectedCategories.includes(category)
   //     ? selectedCategories.filter((c) => c !== category)
@@ -63,7 +58,6 @@ function Filter({ onSort, onFilterChange }) {
         : [...prev, category]
     );
   }, []);
-  
 
   // const handleApplyFilters = () => {
   //   const filteredProducts = products.filter((product) => {
@@ -83,14 +77,19 @@ function Filter({ onSort, onFilterChange }) {
   //   setIsFilterOpen(false);
   // };
 
-
   const handleApplyFilters = useCallback(() => {
     const filteredProducts = products.filter((product) => {
-      const price = parseFloat(product.price.replace("$", ""));
+      const price = parseFloat(product.price.replace(/[^0-9.]/g, ""));
       const matchesPrice = price >= priceRange.min && price <= priceRange.max;
+
+      // this is for the category filter to be case insensitive
       const matchesCategory =
         selectedCategories.length === 0 ||
-        selectedCategories.includes(product.category);
+        selectedCategories.some(
+          (category) =>
+            category.toLowerCase() === product.category.toLowerCase()
+        );
+
       return matchesPrice && matchesCategory;
     });
 
@@ -101,8 +100,6 @@ function Filter({ onSort, onFilterChange }) {
     });
     setIsFilterOpen(false);
   }, [products, priceRange, selectedCategories, onFilterChange]);
-
-
 
   // const handleClearFilters = () => {
   //   setSortBy("featured");
@@ -117,21 +114,18 @@ function Filter({ onSort, onFilterChange }) {
   //   setIsFilterOpen(false);
   // };
 
-
   const handleClearFilters = useCallback(() => {
     setSortBy("featured");
     setSelectedCategories([]);
-    setPriceRange({ min: 0, max: 200 });
+    setPriceRange({ min: 0, max: 10000 });
     onFilterChange({
       categories: [],
-      priceRange: { min: 0, max: 200 },
+      priceRange: { min: 0, max: 10000 },
       products,
     });
     onSort("featured");
     setIsFilterOpen(false);
   }, [onFilterChange, onSort, products]);
-
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -218,7 +212,7 @@ function Filter({ onSort, onFilterChange }) {
             <h4>Price Range</h4>
             <div className={styles.priceRange}>
               <div className={styles.priceInput}>
-                <span>$</span>
+                <span>IQD</span>
                 <input
                   type="number"
                   name="min"
@@ -231,13 +225,14 @@ function Filter({ onSort, onFilterChange }) {
               </div>
               <div className={styles.priceSeparator}>-</div>
               <div className={styles.priceInput}>
-                <span>$</span>
+                <span>IQD</span>
                 <input
                   type="number"
                   name="max"
                   value={priceRange.max}
                   onChange={handlePriceChange}
                   min={priceRange.min}
+                  max="10000"
                   placeholder="Max"
                 />
               </div>
