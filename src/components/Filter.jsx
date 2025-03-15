@@ -11,7 +11,7 @@ function Filter({ onSort, onFilterChange }) {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
 
-  const categories = ["fruits", "dairy", "drinks", "bakery", "grains"];
+  const categories = ["fruits", "dairy", "drinks", "bakery", "grains", "snacks"];
 
   // const handleSort = (value) => {
   //   setSortBy(value);
