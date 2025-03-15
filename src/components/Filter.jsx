@@ -1,17 +1,20 @@
 import styles from "./Filter.module.css";
-import { useState, useEffect, useCallback, memo } from "react";
+import { useEffect, memo } from "react";
 import { FaFilter, FaCheck } from "react-icons/fa";
 import PropTypes from "prop-types";
-import { useProduct } from "../contexts/ProductContext";
 
-function Filter({ onSort, onFilterChange }) {
-  const { products } = useProduct();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [sortBy, setSortBy] = useState("featured");
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
+function Filter({
+  filterState,
+  toggleCategory,
+  setPriceRange,
+  setSortType,
+  toggleFilterMenu,
+  closeFilterMenu,
+  resetFilters,
+}) {
+  const { categories, priceRange, sortType, isFilterOpen } = filterState;
 
-  const categories = [
+  const categoryOptions = [
     "fruits",
     "dairy",
     "drinks",
@@ -20,142 +23,25 @@ function Filter({ onSort, onFilterChange }) {
     "snacks",
   ];
 
-  // const handleSort = (value) => {
-  //   setSortBy(value);
-  //   onSort(value);
-  // };
-
-  const handleSort = useCallback(
-    (value) => {
-      setSortBy(value);
-      onSort(value);
-    },
-    [onSort]
-  );
-
-  // const handlePriceChange = (e) => {
-  //   const value = e.target.value === "" ? 0 : parseFloat(e.target.value);
-  //   if (e.target.name === "min") {
-  //     setPriceRange((prev) => ({ ...prev, min: value }));
-  //   } else {
-  //     setPriceRange((prev) => ({ ...prev, max: value }));
-  //   }
-  // };
-
-  const handlePriceChange = useCallback((e) => {
+  const handlePriceChange = (e) => {
     const value = e.target.value === "" ? 0 : parseFloat(e.target.value);
     if (e.target.name === "min") {
-      setPriceRange((prev) => ({ ...prev, min: value }));
+      setPriceRange({ ...priceRange, min: value });
     } else {
-      setPriceRange((prev) => ({ ...prev, max: value }));
+      setPriceRange({ ...priceRange, max: value });
     }
-  }, []);
-
-  // const handleCategoryToggle = (category) => {
-  //   const newCategories = selectedCategories.includes(category)
-  //     ? selectedCategories.filter((c) => c !== category)
-  //     : [...selectedCategories, category];
-  //   setSelectedCategories(newCategories);
-  // };
-
-  const handleCategoryToggle = useCallback(
-    (category) => {
-      setSelectedCategories((prev) => {
-        const updatedCategories = prev.includes(category)
-          ? prev.filter((c) => c !== category)
-          : [...prev, category];
-
-        onFilterChange({
-          categories: updatedCategories,
-          priceRange,
-          sortType: sortBy,
-        });
-
-        return updatedCategories;
-      });
-    },
-    [onFilterChange, priceRange, sortBy]
-  );
-
-  // const handleApplyFilters = () => {
-  //   const filteredProducts = products.filter((product) => {
-  //     const price = parseFloat(product.price.replace("$", ""));
-  //     const matchesPrice = price >= priceRange.min && price <= priceRange.max;
-  //     const matchesCategory =
-  //       selectedCategories.length === 0 ||
-  //       selectedCategories.includes(product.category);
-  //     return matchesPrice && matchesCategory;
-  //   });
-
-  //   onFilterChange({
-  //     categories: selectedCategories,
-  //     priceRange,
-  //     products: filteredProducts,
-  //   });
-  //   setIsFilterOpen(false);
-  // };
-
-  const handleApplyFilters = useCallback(() => {
-    const filteredProducts = products.filter((product) => {
-      const price = parseFloat(product.price.replace(/[^0-9.]/g, ""));
-      const matchesPrice = price >= priceRange.min && price <= priceRange.max;
-
-      // this is for the category filter to be case insensitive
-      const matchesCategory =
-        selectedCategories.length === 0 ||
-        selectedCategories.some(
-          (category) =>
-            category.toLowerCase() === product.category.toLowerCase()
-        );
-
-      return matchesPrice && matchesCategory;
-    });
-
-    onFilterChange({
-      categories: selectedCategories,
-      priceRange,
-      sortType: sortBy,
-      products: filteredProducts,
-    });
-    setIsFilterOpen(false);
-  }, [products, priceRange, selectedCategories, onFilterChange, sortBy]);
-
-  // const handleClearFilters = () => {
-  //   setSortBy("featured");
-  //   setSelectedCategories([]);
-  //   setPriceRange({ min: 0, max: 200 });
-  //   onFilterChange({
-  //     categories: [],
-  //     priceRange: { min: 0, max: 200 },
-  //     products,
-  //   });
-  //   onSort("featured");
-  //   setIsFilterOpen(false);
-  // };
-
-  const handleClearFilters = useCallback(() => {
-    setSortBy("featured");
-    setSelectedCategories([]);
-    setPriceRange({ min: 0, max: 10000 });
-    onFilterChange({
-      categories: [],
-      priceRange: { min: 0, max: 10000 },
-      sortType: "featured",
-      products: products,
-    });
-    setIsFilterOpen(false);
-  }, [onFilterChange, products]);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isFilterOpen && !event.target.closest(`.${styles.filterSection}`)) {
-        setIsFilterOpen(false);
+        closeFilterMenu();
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isFilterOpen]);
+  }, [isFilterOpen, closeFilterMenu]);
 
   return (
     <div className={styles.filterSection}>
@@ -163,7 +49,7 @@ function Filter({ onSort, onFilterChange }) {
         className={`${styles.filterButton} ${
           isFilterOpen ? styles.active : ""
         }`}
-        onClick={() => setIsFilterOpen(!isFilterOpen)}
+        onClick={toggleFilterMenu}
       >
         <FaFilter /> Filter & Sort
       </button>
@@ -173,53 +59,37 @@ function Filter({ onSort, onFilterChange }) {
           <div className={styles.filterGroup}>
             <h4>Sort By</h4>
             <div className={styles.sortOptions}>
-              <button
-                className={`${styles.sortButton} ${
-                  sortBy === "featured" ? styles.active : ""
-                }`}
-                onClick={() => handleSort("featured")}
-              >
-                Featured
-              </button>
-              <button
-                className={`${styles.sortButton} ${
-                  sortBy === "price-asc" ? styles.active : ""
-                }`}
-                onClick={() => handleSort("price-asc")}
-              >
-                Price: Low to High
-              </button>
-              <button
-                className={`${styles.sortButton} ${
-                  sortBy === "price-desc" ? styles.active : ""
-                }`}
-                onClick={() => handleSort("price-desc")}
-              >
-                Price: High to Low
-              </button>
-              <button
-                className={`${styles.sortButton} ${
-                  sortBy === "name-asc" ? styles.active : ""
-                }`}
-                onClick={() => handleSort("name-asc")}
-              >
-                Name: A to Z
-              </button>
+              {[
+                { id: "featured", label: "Featured" },
+                { id: "price-asc", label: "Price: Low to High" },
+                { id: "price-desc", label: "Price: High to Low" },
+                { id: "name-asc", label: "Name: A to Z" },
+              ].map((option) => (
+                <button
+                  key={option.id}
+                  className={`${styles.sortButton} ${
+                    sortType === option.id ? styles.active : ""
+                  }`}
+                  onClick={() => setSortType(option.id)}
+                >
+                  {option.label}
+                </button>
+              ))}
             </div>
           </div>
 
           <div className={styles.filterGroup}>
             <h4>Categories</h4>
             <div className={styles.categoryOptions}>
-              {categories.map((category) => (
+              {categoryOptions.map((category) => (
                 <label key={category} className={styles.categoryLabel}>
                   <input
                     type="checkbox"
-                    checked={selectedCategories.includes(category)}
-                    onChange={() => handleCategoryToggle(category)}
+                    checked={categories.includes(category)}
+                    onChange={() => toggleCategory(category)}
                   />
                   <span className={styles.checkmark}>
-                    {selectedCategories.includes(category) && <FaCheck />}
+                    {categories.includes(category) && <FaCheck />}
                   </span>
                   {category}
                 </label>
@@ -259,10 +129,10 @@ function Filter({ onSort, onFilterChange }) {
           </div>
 
           <div className={styles.filterActions}>
-            <button className={styles.applyButton} onClick={handleApplyFilters}>
+            <button className={styles.applyButton} onClick={closeFilterMenu}>
               Apply Filters
             </button>
-            <button className={styles.clearButton} onClick={handleClearFilters}>
+            <button className={styles.clearButton} onClick={resetFilters}>
               Clear All
             </button>
           </div>
@@ -273,9 +143,13 @@ function Filter({ onSort, onFilterChange }) {
 }
 
 Filter.propTypes = {
-  onSort: PropTypes.func.isRequired,
-  onFilterChange: PropTypes.func.isRequired,
-  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filterState: PropTypes.object.isRequired,
+  toggleCategory: PropTypes.func.isRequired,
+  setPriceRange: PropTypes.func.isRequired,
+  setSortType: PropTypes.func.isRequired,
+  toggleFilterMenu: PropTypes.func.isRequired,
+  closeFilterMenu: PropTypes.func.isRequired,
+  resetFilters: PropTypes.func.isRequired,
 };
 
 export default memo(Filter);
