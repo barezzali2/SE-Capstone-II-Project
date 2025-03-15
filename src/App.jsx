@@ -14,7 +14,6 @@ import Loading from "./components/Loading";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
-
   useEffect(() => {
     // Check if it's the first load in this session
     const isFirstLoad = sessionStorage.getItem("isFirstLoad") === null;
@@ -39,6 +38,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={isLoading ? <Loading /> : <Home />} />
             <Route path="home" element={<Home />} />
             <Route path="productlist" element={<ProductList />} />
             <Route path="search" element={<Search />} />
@@ -48,18 +48,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </CartProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={isLoading ? <Loading /> : <Home />} />
-          <Route path="home" element={<Home />} />
-          <Route path="productlist" element={<ProductList />} />
-          <Route path="search" element={<Search />} />
-          <Route path="scanner" element={<Scanner />} />
-          <Route path="shopping" element={<ShoppingCart />} />
-          <Route path="map" element={<Map3D />} />
-        </Routes>
-      </BrowserRouter>
     </ProductProvider>
   );
 }
