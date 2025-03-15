@@ -11,7 +11,14 @@ function Filter({ onSort, onFilterChange }) {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
 
-  const categories = ["fruits", "dairy", "drinks", "bakery", "grains", "snacks"];
+  const categories = [
+    "fruits",
+    "dairy",
+    "drinks",
+    "bakery",
+    "grains",
+    "snacks",
+  ];
 
   // const handleSort = (value) => {
   //   setSortBy(value);
@@ -51,13 +58,24 @@ function Filter({ onSort, onFilterChange }) {
   //   setSelectedCategories(newCategories);
   // };
 
-  const handleCategoryToggle = useCallback((category) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
-  }, []);
+  const handleCategoryToggle = useCallback(
+    (category) => {
+      setSelectedCategories((prev) => {
+        const updatedCategories = prev.includes(category)
+          ? prev.filter((c) => c !== category)
+          : [...prev, category];
+
+        onFilterChange({
+          categories: updatedCategories,
+          priceRange,
+          sortType: sortBy,
+        });
+
+        return updatedCategories;
+      });
+    },
+    [onFilterChange, priceRange, sortBy]
+  );
 
   // const handleApplyFilters = () => {
   //   const filteredProducts = products.filter((product) => {
@@ -96,10 +114,11 @@ function Filter({ onSort, onFilterChange }) {
     onFilterChange({
       categories: selectedCategories,
       priceRange,
+      sortType: sortBy,
       products: filteredProducts,
     });
     setIsFilterOpen(false);
-  }, [products, priceRange, selectedCategories, onFilterChange]);
+  }, [products, priceRange, selectedCategories, onFilterChange, sortBy]);
 
   // const handleClearFilters = () => {
   //   setSortBy("featured");
@@ -121,11 +140,11 @@ function Filter({ onSort, onFilterChange }) {
     onFilterChange({
       categories: [],
       priceRange: { min: 0, max: 10000 },
-      products,
+      sortType: "featured",
+      products: products,
     });
-    onSort("featured");
     setIsFilterOpen(false);
-  }, [onFilterChange, onSort, products]);
+  }, [onFilterChange, products]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
