@@ -9,7 +9,9 @@ function Cart({ product }) {
   const imageUrl = `${baseUrl}${product.image}`;
 
   const handleRemove = () => {
-    removeFromCart(product.id);
+    if(window.confirm('Are you sure to delete this item in your cart?')) {
+      removeFromCart(product.id);
+    }
   };
 
   return (

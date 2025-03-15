@@ -55,7 +55,18 @@ function List() {
 
 
   // Memoize filteredProducts
-  const memoizedFilteredProducts = useMemo(() => filteredProducts, [filteredProducts]);
+  // const memoizedFilteredProducts = useMemo(() => filteredProducts, [filteredProducts]);
+
+
+  const groupedProducts = useMemo(() => {
+    return filteredProducts.reduce((acc, product) => {
+      if(!acc[product.category]) {
+        acc[product.category] = [];
+      }
+      acc[product.category].push(product);
+      return acc;
+    }, {});
+  }, [filteredProducts])
 
   return (
     <div className={styles.listContainer}>
@@ -64,11 +75,26 @@ function List() {
         onFilterChange={handleFilterChange}
         />
 
-      <div className={styles.productsGrid}>
+      {/* <div className={styles.productsGrid}>
         {memoizedFilteredProducts.map((product) => (
           <Product key={product.id} product={product} />
         ))}
+      </div> */}
+
+
+      <div className={styles.productsContainer}>
+              {Object.keys(groupedProducts).map((category) => (
+                <div key={category} className={styles.categorySection}>
+                  <h2 className={styles.categoryTitle}>{category}</h2>
+                  <div className={styles.productsGrid}>
+                    {groupedProducts[category].map((product) => (
+                      <Product key={product.id} product={product} />
+                    ))}
+                  </div>
+                </div>
+              ))}
       </div>
+
     </div>
   );
 }
