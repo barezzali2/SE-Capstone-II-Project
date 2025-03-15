@@ -39,6 +39,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={isLoading ? <Loading /> : <Home />} />
             <Route path="home" element={<Home />} />
             <Route path="productlist" element={<ProductList />} />
             <Route path="search" element={<Search />} />
@@ -48,18 +49,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </CartProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={isLoading ? <Loading /> : <Home />} />
-          <Route path="home" element={<Home />} />
-          <Route path="productlist" element={<ProductList />} />
-          <Route path="search" element={<Search />} />
-          <Route path="scanner" element={<Scanner />} />
-          <Route path="shopping" element={<ShoppingCart />} />
-          <Route path="map" element={<Map3D />} />
-        </Routes>
-      </BrowserRouter>
     </ProductProvider>
   );
 }
