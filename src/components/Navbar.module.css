@@ -130,7 +130,7 @@
     border: 1.8px solid black;
     padding: 15px;
     border-radius: 20px;
-    transition: ease-in-out 0.25s;
+    transition: ease-in-out 0.19s;
   }
 
   .navbar .ulDefault li a:hover {
