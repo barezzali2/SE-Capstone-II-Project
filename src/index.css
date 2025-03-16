@@ -27,12 +27,7 @@ html, body {
   /* height: 100% */
 }
 
-.slick-track {
-  display: flex !important;
-  gap: 25px; /* Adjust spacing */
-}
-
-.slick-slide {
-  min-width: 315px !important; /* Prevents shrinking */
+.slick-slider {
+  margin-left: 10px; /* Adjust as needed */
 }
 
