@@ -20,10 +20,10 @@ function Discount() {
     dots: true,
     infinite: true,
     speed: 440,
-    slidesToShow: 4,
+    slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2300,
+    autoplaySpeed: 2200,
     responsive: [
       {
         breakpoint: 1024,
@@ -58,6 +58,7 @@ function Discount() {
                {product.newPrice}
             </div>
             <h3>{product.name}</h3>
+            <p className={styles.category}>{product.category}</p>
           </div>
         ))}
       </Slider> 
