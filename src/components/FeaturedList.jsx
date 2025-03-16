@@ -6,7 +6,7 @@ import Product from "./Product";
 function FeaturedList() {
   const { products } = useProduct();
   // const recentProducts = products.slice(0, 4);
-  const recentProducts = useMemo(() =>  products.slice(0, 4), [products]);
+  const recentProducts = useMemo(() =>  products.sort(() => Math.random() - 0.5).slice(0, 4), [products]);
 
   return (
     <div className={styles.recent}>
