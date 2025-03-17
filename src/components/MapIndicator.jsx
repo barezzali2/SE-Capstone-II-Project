@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import styles from "./Map.module.css";
+import styles from "./MapIndicator.module.css";
 import { useProduct } from "../contexts/ProductContext";
 
-function Map() {
+function MapIndicator() {
   const { baseUrl } = useProduct();
 
   return (
@@ -23,4 +23,4 @@ function Map() {
   );
 }
 
-export default Map;
+export default MapIndicator;
