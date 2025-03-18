@@ -1,15 +1,13 @@
 /* Mobile screen styles */
-
 .search {
- 
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-
-
-
-
-
 /* Larger screen styles */
-@media(min-width: 1000px) {
-    
+@media (min-width: 1000px) {
+  .search {
+    min-height: 100vh;
+  }
 }
