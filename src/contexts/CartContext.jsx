@@ -19,7 +19,7 @@ const useCart = () => {
 };
 
 const CartProvider = ({ children }) => {
-  const { products, baseUrl } = useProduct();
+  const { products, baseUrl, searchResults } = useProduct();
   const [cart, setCart] = useState({ items: [], totalItems: 0, totalPrice: 0 });
   const [cartId, setCartId] = useState(() => {
     return localStorage.getItem("cartId") || null;
@@ -65,17 +65,22 @@ const CartProvider = ({ children }) => {
         console.error("No cart ID available");
         return;
       }
-
-      const productToAdd = products.find((p) => p.id === productId);
+      let productToAdd = products.find((p) => p.id === productId);
       if (!productToAdd) {
-        console.error("Product not found:", productId);
-        return;
+        productToAdd = searchResults.find((p) => p.id === productId);
+        if (!productToAdd) {
+          try {
+            const response = await axios.get(`${baseUrl}/product/${productId}`);
+            productToAdd = response.data.product;
+          } catch (err) {
+            console.error("Failed to fetch product details:", err);
+            return;
+          }
+        }
       }
 
-      const mongoId = productToAdd._id;
-
-      if (!mongoId) {
-        console.error("Product has no MongoDB ID:", productId);
+      if (!productToAdd) {
+        console.error("Product not found:", productId);
         return;
       }
 
@@ -84,7 +89,7 @@ const CartProvider = ({ children }) => {
         items: [
           ...cart.items,
           {
-            productId: mongoId,
+            productId: productId,
             product: {
               id: productId,
               name: productToAdd.name,
@@ -105,12 +110,13 @@ const CartProvider = ({ children }) => {
       try {
         const response = await axios.post(`${baseUrl}/cart/add`, {
           cartId,
-          productId: mongoId,
+          productId: productId,
         });
 
         setCart(response.data.cart);
       } catch (apiErr) {
         console.error("API error adding to cart:", apiErr);
+        setCart(cart);
       }
     } catch (err) {
       console.error("Error adding to cart:", err);
@@ -125,7 +131,7 @@ const CartProvider = ({ children }) => {
       }
 
       const itemToRemove = cart.items.find(
-        (item) => item.product.id === productId
+        (item) => item.productId === productId || item.product.id === productId
       );
 
       if (!itemToRemove) {
@@ -133,11 +139,12 @@ const CartProvider = ({ children }) => {
         return;
       }
 
-      const mongoId = itemToRemove.productId;
-
       const updatedCart = {
         ...cart,
-        items: cart.items.filter((item) => item.product.id !== productId),
+        items: cart.items.filter(
+          (item) =>
+            item.productId !== productId && item.product.id !== productId
+        ),
         totalItems: cart.totalItems - 1,
         totalPrice:
           cart.totalPrice -
@@ -146,12 +153,17 @@ const CartProvider = ({ children }) => {
 
       setCart(updatedCart);
 
-      const response = await axios.post(`${baseUrl}/cart/remove`, {
-        cartId,
-        productId: mongoId,
-      });
+      try {
+        const response = await axios.post(`${baseUrl}/cart/remove`, {
+          cartId,
+          productId: itemToRemove.productId,
+        });
 
-      setCart(response.data.cart);
+        setCart(response.data.cart);
+      } catch (apiErr) {
+        console.error("API error removing from cart:", apiErr);
+        setCart(cart); // Rollback on error
+      }
     } catch (err) {
       console.error("Error removing from cart:", err);
     }
