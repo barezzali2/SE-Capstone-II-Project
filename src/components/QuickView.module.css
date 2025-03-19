@@ -156,4 +156,30 @@
   .modalPrice {
     font-size: 1.2rem;
   }
+
+  .modalDescription {
+    margin: 0;
+  }
+
+  .star {
+    /* margin: 10px 35%; */
+    max-width: 30%;
+    margin: 5% auto;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+  }
+
+  .feedback {
+    width: 100%;
+    padding: 15px 30px;
+    background: #dd5837;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease;
+    margin-bottom: 15px;
+  }
 }

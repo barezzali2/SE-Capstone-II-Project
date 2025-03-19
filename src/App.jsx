@@ -18,6 +18,7 @@ const Search = lazy(() => import("./pages/Search"));
 const Scanner = lazy(() => import("./pages/Scanner"));
 const ShoppingCart = lazy(() => import("./pages/ShoppingCart"));
 const Map3D = lazy(() => import("./pages/Map3D"));
+const Review = lazy(() => import("./pages/Review"));
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
               <Route path="scanner" element={<Scanner />} />
               <Route path="shopping" element={<ShoppingCart />} />
               <Route path="map" element={<Map3D />} />
+              <Route path="review" element={<Review />} />
             </Routes>
           </Suspense>
         </BrowserRouter>

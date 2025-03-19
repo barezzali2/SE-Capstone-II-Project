@@ -2,11 +2,26 @@ import PropTypes from "prop-types";
 import styles from "./QuickView.module.css";
 import { useProduct } from "../contexts/ProductContext";
 import { useCart } from "../contexts/CartContext";
+import StarRating from "./StarRating";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function QuickView({ product, onClose }) {
   const { baseUrl } = useProduct();
   const { addToCart } = useCart();
   const imageUrl = `${baseUrl}${product.image}`;
+  const [rating, setRating] = useState(product.rating || 0);
+
+  const navigate = useNavigate();
+  const handleFeedbackClick = () => {
+    navigate("/review");
+  }
+
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+    // You can send this new rating to your backend
+    // Example: fetch('/api/update-rating', { method: 'POST', body: JSON.stringify({ id: product.id, rating: newRating }) })
+  };
 
   const handleAddToCart = () => {
     addToCart(product.id);
@@ -31,6 +46,15 @@ function QuickView({ product, onClose }) {
             <p className={styles.modalPrice}>{product.price}</p>
             <p className={styles.modalDescription}>{product.description}</p>
             <div className={styles.modalActions}>
+              <div className={styles.star}>
+              <StarRating
+              defaultRating={rating} 
+              onSetRating={handleRatingChange}  
+              />
+              </div>
+              <button className={styles.feedback} onClick={handleFeedbackClick}>
+                Feedback
+              </button>
               <button className={styles.addToCard} onClick={handleAddToCart}>
                 Add to Cart
               </button>
@@ -50,6 +74,7 @@ QuickView.propTypes = {
     price: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    rating: PropTypes.number
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };
