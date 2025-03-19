@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 function SearchResults() {
   const { searchResults, searchLoading, searchError } = useProduct();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!searchLoading && !searchError && searchResults.length === 0) {
       sessionStorage.removeItem("searchAttempted");
@@ -49,9 +50,7 @@ function SearchResults() {
           </h2>
           <div className={styles.resultsGrid}>
             {searchResults.map((product) => (
-              <div key={product.id}>
-                <Product product={product} />
-              </div>
+              <Product key={product.id} product={product} />
             ))}
           </div>
         </div>

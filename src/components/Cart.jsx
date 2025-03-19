@@ -9,7 +9,7 @@ function Cart({ product }) {
   const imageUrl = `${baseUrl}${product.image}`;
 
   const handleRemove = () => {
-    if(window.confirm('Are you sure to delete this item in your cart?')) {
+    if (window.confirm("Are you sure to delete this item in your cart?")) {
       removeFromCart(product.id);
     }
   };
@@ -34,7 +34,7 @@ function Cart({ product }) {
 
 Cart.propTypes = {
   product: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
