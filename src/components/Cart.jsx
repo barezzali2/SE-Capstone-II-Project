@@ -24,6 +24,7 @@ function Cart({ product }) {
         <h4>{product.name}</h4>
         <p className={styles.category}>{product.category}</p>
         <p className={styles.price}>{product.price}</p>
+        <p className={styles.desc}>{product.description}</p>
       </div>
       <button className={styles.removeCart} onClick={handleRemove}>
         ×
@@ -39,6 +40,7 @@ Cart.propTypes = {
     image: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
   }).isRequired,
 };
 
