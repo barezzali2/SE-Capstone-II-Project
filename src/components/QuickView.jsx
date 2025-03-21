@@ -14,7 +14,7 @@ function QuickView({ product, onClose }) {
 
   const navigate = useNavigate();
   const handleFeedbackClick = () => {
-    navigate("/review");
+    navigate("/review", {state: { product }});
   }
 
   const handleRatingChange = (newRating) => {
@@ -24,8 +24,8 @@ function QuickView({ product, onClose }) {
   };
 
   const handleAddToCart = () => {
-    addToCart(product.id);
     if (window.confirm("Are you sure to add this item to your cart?")) {
+      addToCart(product.id);
       onClose();
     }
   };
@@ -49,7 +49,8 @@ function QuickView({ product, onClose }) {
               <div className={styles.star}>
               <StarRating
               defaultRating={rating} 
-              onSetRating={handleRatingChange}  
+              readOnly={true}
+              // onSetRating={handleRatingChange}
               />
               </div>
               <button className={styles.feedback} onClick={handleFeedbackClick}>

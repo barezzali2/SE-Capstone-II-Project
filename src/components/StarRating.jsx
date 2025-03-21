@@ -20,12 +20,15 @@ function StarRating({
   className = '', 
   messages=[],
   defaultRating = 0,
-  onSetRating = () => {}}) {
+  onSetRating = () => {},
+  readOnly = false
+}) {
 
   const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempR] = useState(0);
 
   function handleRating(rating) {
+    if(readOnly) return;
       setRating(rating);
       onSetRating(rating);
   }
@@ -49,8 +52,8 @@ function StarRating({
               onRate={() => handleRating(i + 1)}
               full={i < fullStars}
               half={hasHalfStar}
-              onHoverIn={() => setTempR(i + 1)}
-              onHoverOut={() => setTempR(0)}
+              onHoverIn={() => !readOnly && setTempR(i + 1)}
+              onHoverOut={() => !readOnly && setTempR(0)}
               color={color}
               size={size}
             />
@@ -76,6 +79,7 @@ StarRating.propTypes = { // It helps us what kind of data we are expecting.
     color: PropTypes.string,
     messages: PropTypes.array,
     className: PropTypes.string,
-    onSetRating: PropTypes.func
+    onSetRating: PropTypes.func,
+    readOnly: PropTypes.bool
   }
 
