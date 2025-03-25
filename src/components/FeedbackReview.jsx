@@ -22,6 +22,8 @@ function FeedbackReview({ product }) {
 
 // Problem with displaying 0 review rating - - check it later
 const handleSubmitReview = () => {
+  console.log("Submitting rating:", rating); // Debugging step
+
   const newReview = { productId: product.id, rating, comment };
 
   fetch(`${baseUrl}/api/reviews/add`, {
@@ -30,14 +32,17 @@ const handleSubmitReview = () => {
     body: JSON.stringify(newReview),
   })
   .then(response => response.json())
-  .then(() => {
-    setReviews(prevReviews => [...prevReviews, newReview]); // Correctly update reviews based on the previous state
-    setRating(0);
-    setComment("");
+  .then((data) => {
+    console.log("Review submitted successfully:", data);
+
+    // Ensure the rating is correctly included in the new review list
+    setReviews(prevReviews => [...prevReviews, { ...newReview, id: data.id }]); 
+
+    setRating(0); // Reset rating input for the next review
+    setComment(""); // Reset comment input
   })
   .catch(error => console.error("Error submitting review:", error));
 };
-
 
 
 
@@ -78,13 +83,14 @@ const handleSubmitReview = () => {
         <h3>Review</h3>
         <p className={styles.stars}>
             <StarRating
+                key={rating}
                 defaultRating={rating} 
                 onSetRating={handleRatingChange}
             />
         </p>
       </div>
 
-      <div className={styles.comment}>
+      <div className={styles.commentArea}>
             <textarea 
               value={comment} 
               onChange={(e) => setComment(e.target.value)} 
@@ -98,14 +104,15 @@ const handleSubmitReview = () => {
       <button className={styles.submit} onClick={handleSubmitReview}>Submit your Feedback</button>
 
 
+      <h2 className={styles.cusReview}>Customer Reviews</h2>
       <div className={styles.reviewList}>
-        <h3>Customer Reviews</h3>
+        {/* <br /> */}
         {reviews.length > 0 ? (
             reviews.map((rev) => (
                 <div key={rev.id} className={styles.singleReview}>
-                    <p className={styles.anonymous}>Anonymous User</p>
+                    <p className={styles.anonymous}>Customer Feedback:</p>
                     <StarRating value={rev.rating} readOnly={true} />
-                    <p>{rev.comment}</p>
+                    <p className={styles.comment}>{`"${rev.comment}"`}</p>
                 </div>
             ))
         ) : (
