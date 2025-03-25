@@ -3,6 +3,7 @@ import styles from "./FeedbackReview.module.css";
 import PropTypes from "prop-types";
 import StarRating from "./StarRating";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function FeedbackReview({ product }) {
   const { baseUrl } = useProduct();
@@ -13,11 +14,17 @@ function FeedbackReview({ product }) {
 
 
   useEffect(() => {
-    fetch(`${baseUrl}/api/reviews?productId=${product.id}`)
-        .then(response => response.json())
-        .then(data => setReviews(data.reviews))
-        .catch(error => console.error("Error fetching reviews:", error));
+    axios.get(`${baseUrl}/api/reviews?productId=${product.id}`)
+    .then(response => setReviews(response.data.reviews))
+    .catch(error => console.error("Error fetching reviews:", error));
 }, [baseUrl, product.id]);
+
+//   useEffect(() => {
+//     fetch(`${baseUrl}/api/reviews?productId=${product.id}`)
+//         .then(response => response.json())
+//         .then(data => setReviews(data.reviews))
+//         .catch(error => console.error("Error fetching reviews:", error));
+// }, [baseUrl, product.id]);
 
 
 // Problem with displaying 0 review rating - - check it later
