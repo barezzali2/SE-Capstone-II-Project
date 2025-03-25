@@ -2,12 +2,45 @@ import { useProduct } from "../contexts/ProductContext";
 import styles from "./FeedbackReview.module.css";
 import PropTypes from "prop-types";
 import StarRating from "./StarRating";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function FeedbackReview({ product }) {
   const { baseUrl } = useProduct();
   const imageUrl = `${baseUrl}${product.image}`;
-    const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(0);
+  const [reviews, setReviews] = useState([]);
+  const [comment, setComment] = useState("");
+
+
+  useEffect(() => {
+    fetch(`${baseUrl}/api/reviews?productId=${product.id}`)
+        .then(response => response.json())
+        .then(data => setReviews(data.reviews))
+        .catch(error => console.error("Error fetching reviews:", error));
+}, [baseUrl, product.id]);
+
+
+// Problem with displaying 0 review rating - - check it later
+const handleSubmitReview = () => {
+  const newReview = { productId: product.id, rating, comment };
+
+  fetch(`${baseUrl}/api/reviews/add`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newReview),
+  })
+  .then(response => response.json())
+  .then(() => {
+    setReviews(prevReviews => [...prevReviews, newReview]); // Correctly update reviews based on the previous state
+    setRating(0);
+    setComment("");
+  })
+  .catch(error => console.error("Error submitting review:", error));
+};
+
+
+
+
 
     const handleRatingChange = (newRating) => {
         setRating(newRating);
@@ -52,11 +85,37 @@ function FeedbackReview({ product }) {
       </div>
 
       <div className={styles.comment}>
-            <textarea name="commments" id="" placeholder="Write your comments" rows={6} cols={75.5}></textarea>
+            <textarea 
+              value={comment} 
+              onChange={(e) => setComment(e.target.value)} 
+              name="commments" 
+              id="" 
+              placeholder="Write your comments" 
+              rows={6} 
+              cols={75.5} />
       </div>
 
-      <button className={styles.submit}>Submit your Feedback</button>
+      <button className={styles.submit} onClick={handleSubmitReview}>Submit your Feedback</button>
+
+
+      <div className={styles.reviewList}>
+        <h3>Customer Reviews</h3>
+        {reviews.length > 0 ? (
+            reviews.map((rev) => (
+                <div key={rev.id} className={styles.singleReview}>
+                    <p className={styles.anonymous}>Anonymous User</p>
+                    <StarRating value={rev.rating} readOnly={true} />
+                    <p>{rev.comment}</p>
+                </div>
+            ))
+        ) : (
+            <p>No reviews yet. Be the first to review!</p>
+        )}
     </div>
+
+    </div>
+
+    
   );
 }
 
