@@ -20,6 +20,7 @@ function StarRating({
   className = '', 
   messages=[],
   defaultRating = 0,
+  value,
   onSetRating = () => {},
   readOnly = false
 }) {
@@ -43,8 +44,8 @@ function StarRating({
         <div style={containerStyle} className={className}>
             <div style={starContainerStyle}>
             {Array.from({ length: maxNum }, (_, i) => {
-          const fullStars = Math.floor(tempRating || rating);
-          const hasHalfStar = (tempRating || rating) % 1 !== 0 && i === fullStars;
+          const fullStars = Math.floor(tempRating || value || rating);
+          const hasHalfStar = (tempRating || value || rating) % 1 !== 0 && i === fullStars;
           
           return (
             <Star
@@ -61,8 +62,8 @@ function StarRating({
         })}
             </div>
             <p style={textStyle}>{messages.length === maxNum
-             ? messages[ tempRating ? tempRating - 1 : rating - 1]
-              : tempRating || rating || ""}</p>
+             ? messages[ tempRating ? tempRating - 1 : (value || rating) - 1]
+              : tempRating || value || rating || ""}</p>
         </div>
     )
 
