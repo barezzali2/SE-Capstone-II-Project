@@ -118,7 +118,9 @@ const handleSubmitReview = () => {
             reviews.map((rev) => (
                 <div key={rev.id} className={styles.singleReview}>
                     <p className={styles.anonymous}>Customer Feedback:</p>
-                    <StarRating value={rev.rating} readOnly={true} />
+                    <StarRating 
+                    value={rev.rating} 
+                    readOnly={true} />
                     <p className={styles.comment}>{`"${rev.comment}"`}</p>
                 </div>
             ))

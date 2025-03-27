@@ -54,7 +54,7 @@ function QuickView({ product, onClose }) {
               />
               </div>
               <button className={styles.feedback} onClick={handleFeedbackClick}>
-                Feedback
+                Review
               </button>
               <button className={styles.addToCard} onClick={handleAddToCart}>
                 Add to Cart

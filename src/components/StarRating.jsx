@@ -76,6 +76,7 @@ export default StarRating;
 StarRating.propTypes = { // It helps us what kind of data we are expecting.
     maxNum: PropTypes.number,
     defaultRating: PropTypes.number,
+    value: PropTypes.number,
     size: PropTypes.number,
     color: PropTypes.string,
     messages: PropTypes.array,
