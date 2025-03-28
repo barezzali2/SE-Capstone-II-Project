@@ -1,0 +1,79 @@
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  background: #f8f9fa;
+}
+
+.adminHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.adminHeader h1 {
+  color: #333;
+  margin: 0;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userInfo span {
+  color: #666;
+}
+
+.logoutButton {
+  padding: 0.5rem 1rem;
+  background: #dd5837;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: #c74a2d;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.statCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.statCard h3 {
+  color: #666;
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+}
+
+.statCard p {
+  color: #333;
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 600;
+  font-family: "Lexend Deca", sans-serif;
+}

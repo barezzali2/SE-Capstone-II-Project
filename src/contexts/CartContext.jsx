@@ -162,7 +162,7 @@ const CartProvider = ({ children }) => {
         setCart(response.data.cart);
       } catch (apiErr) {
         console.error("API error removing from cart:", apiErr);
-        setCart(cart); // Rollback on error
+        setCart(cart);
       }
     } catch (err) {
       console.error("Error removing from cart:", err);
