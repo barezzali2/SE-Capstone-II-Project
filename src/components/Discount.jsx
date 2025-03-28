@@ -13,7 +13,7 @@ function Discount() {
 
   // Using memo for memoization
   const specialProducts = useMemo(() => {
-    return products.filter((product) => product.isDiscounted).slice(0, 4);
+    return products.filter((product) => product.isDiscounted).sort(() => Math.random() - 0.5).slice(0, 4);
   }, [products]);
 
   const settings = {
@@ -23,7 +23,7 @@ function Discount() {
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2300,
+    autoplaySpeed: 2200,
     responsive: [
       {
         breakpoint: 1024,
@@ -52,13 +52,19 @@ function Discount() {
         {specialProducts.map((product) => (
           <div key={product.id} className={styles.slide}>
             <img src={`${baseUrl}${product.image}`} alt={product.name} />
-            <div className={styles.discountBadge}>{product.price}</div>
+            <div className={styles.discountBadge}>
+              {`${product.discountRate}% Off`} <span className={styles.oldPrice}>{product.price}</span>
+              <br />
+               {product.newPrice}
+            </div>
             <h3>{product.name}</h3>
+            <p className={styles.category}>{product.category}</p>
           </div>
         ))}
-      </Slider>
+      </Slider> 
     </div>
   );
+
 }
 
 export default Discount;

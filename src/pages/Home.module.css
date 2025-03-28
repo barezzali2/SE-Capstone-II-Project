@@ -34,10 +34,32 @@
 
     .greetingBanner{
         margin-top: 13%;
+        text-align: center;
     }
 
     .greetingBanner h2 {
         font-size: 35px;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 2px solid black;
+        display: inline-block;
+        width: 0;
+        animation: typing 2.0s steps(22, end) forwards, blink 0.5s infinite;
+    }
+
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 33.5%;
+        }
+    }
+    
+    @keyframes blink {
+        50% {
+            border-color: transparent;
+        }
     }
 
     .greetingBanner h4 {

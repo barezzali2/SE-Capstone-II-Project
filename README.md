@@ -1,8 +1,19 @@
-# React + Vite
+## Project Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RetailXplore is a web application that allows customers to search for products, navigate the store, and take advantage of promotions and discounts.
 
-Currently, two official plugins are available:
+## Technologies Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- Vite
+- React Router
+
+## Features
+
+- Search for products
+- Navigate the store
+- Take advantage of promotions and discounts
+- Add products to cart
+- 3D Map of the store
+- Bar code scanner
+- Product list with filters

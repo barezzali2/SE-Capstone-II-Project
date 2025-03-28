@@ -9,7 +9,9 @@ function Cart({ product }) {
   const imageUrl = `${baseUrl}${product.image}`;
 
   const handleRemove = () => {
-    removeFromCart(product.id);
+    if (window.confirm("Are you sure to delete this item in your cart?")) {
+      removeFromCart(product.id);
+    }
   };
 
   return (
@@ -22,6 +24,7 @@ function Cart({ product }) {
         <h4>{product.name}</h4>
         <p className={styles.category}>{product.category}</p>
         <p className={styles.price}>{product.price}</p>
+        <p className={styles.desc}>{product.description}</p>
       </div>
       <button className={styles.removeCart} onClick={handleRemove}>
         ×
@@ -32,11 +35,12 @@ function Cart({ product }) {
 
 Cart.propTypes = {
   product: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
   }).isRequired,
 };
 

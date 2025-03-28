@@ -7,6 +7,10 @@ const ProductContext = createContext({
   loading: true,
   error: null,
   baseUrl: "http://localhost:3003",
+  searchProducts: () => {},
+  searchResults: [],
+  searchLoading: false,
+  searchError: null,
 });
 
 const useProduct = () => {
@@ -22,6 +26,10 @@ const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -54,6 +62,35 @@ const ProductProvider = ({ children }) => {
     };
   }, []);
 
+  const searchProducts = async (query) => {
+    if (!query || query.trim() === "") {
+      setSearchResults([]);
+      sessionStorage.removeItem("searchAttempted");
+      return;
+    }
+
+    setSearchLoading(true);
+    setSearchError(null);
+    sessionStorage.setItem("searchAttempted", "true");
+
+    try {
+      const response = await axios.get(
+        `${baseUrl}/search?q=${encodeURIComponent(query)}`
+      );
+      const searchProductsWithIds = (response.data.products || []).map(
+        (product) => ({
+          ...product,
+          _id: product._id || product.id.toString(),
+        })
+      );
+      setSearchResults(searchProductsWithIds);
+      setSearchLoading(false);
+    } catch (err) {
+      setSearchError(err.message || "Failed to search products");
+      setSearchLoading(false);
+    }
+  };
+
   // ✅ Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
@@ -61,8 +98,12 @@ const ProductProvider = ({ children }) => {
       loading,
       error,
       baseUrl,
+      searchProducts,
+      searchResults,
+      searchLoading,
+      searchError,
     }),
-    [products, loading, error]
+    [products, loading, error, searchResults, searchLoading, searchError]
   );
 
   return (

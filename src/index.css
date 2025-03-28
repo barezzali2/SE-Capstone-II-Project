@@ -27,5 +27,7 @@ html, body {
   /* height: 100% */
 }
 
-
+.slick-slider {
+  margin-left: 10px; /* Adjust as needed */
+}
 

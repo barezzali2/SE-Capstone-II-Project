@@ -4,6 +4,7 @@ import { ProductProvider } from "./contexts/ProductContext";
 import { CartProvider } from "./contexts/CartContext";
 import Loading from "./components/Loading";
 
+
 // import Home from "./pages/Home";
 // import ProductList from "./pages/ProductList";
 // import Search from "./pages/Search";
@@ -19,12 +20,14 @@ const ShoppingCart = lazy(() => import("./pages/ShoppingCart"));
 const Map3D = lazy(() => import("./pages/Map3D"));
 const Review = lazy(() => import("./pages/Review"));
 
+
 function App() {
+
   return (
     <ProductProvider>
       <CartProvider>
         <BrowserRouter>
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Loading />} >
             <Routes>
               <Route path="/" element={<Navigate to="/home" replace />} />
               <Route path="home" element={<Home />} />

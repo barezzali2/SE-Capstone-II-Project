@@ -39,7 +39,7 @@ function CartWishlist() {
               product={
                 item.product
                   ? {
-                      id: item.productId,
+                      id: item.product.id,
                       ...item.product,
                     }
                   : null
@@ -47,7 +47,9 @@ function CartWishlist() {
             />
           ))
         ) : (
-          <p className={styles.emptyCart}>Your cart is empty! Add items to your cart😊</p>
+          <p className={styles.emptyCart}>
+            Your cart is empty! Add items to your cart😊
+          </p>
         )}
       </div>
 
