@@ -1,0 +1,143 @@
+.loginCard {
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.loginCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #dd5837, #ff7e5f);
+  border-radius: 16px 16px 0 0;
+}
+
+.loginHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.loginHeader h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.loginHeader span {
+  color: #dd5837;
+}
+
+.loginHeader p {
+  color: #666;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: stretch;
+  background: #f8f8f8;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.inputGroup:focus-within {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(221, 88, 55, 0.1);
+}
+
+.inputLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  color: #666;
+  font-size: 1.2rem;
+  background: #f0f0f0;
+  border-radius: 12px 0 0 12px;
+}
+
+.input {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  background: transparent;
+  color: #333;
+  font-size: 1rem;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.submitButton {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right, #dd5837, #ff7e5f);
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(221, 88, 55, 0.2);
+}
+
+.submitButton:disabled {
+  background: #ccc;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  background: #fff2f2;
+  color: #ff3b30;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  border: 1px solid #ffe6e6;
+}
+
+.loginFooter {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.credentials {
+  margin-top: 0.5rem;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.credentials span {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #f8f8f8;
+  border-radius: 6px;
+  color: #333;
+}

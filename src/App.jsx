@@ -2,8 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { ProductProvider } from "./contexts/ProductContext";
 import { CartProvider } from "./contexts/CartContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import Loading from "./components/Loading";
-
 
 // import Home from "./pages/Home";
 // import ProductList from "./pages/ProductList";
@@ -19,29 +19,45 @@ const Scanner = lazy(() => import("./pages/Scanner"));
 const ShoppingCart = lazy(() => import("./pages/ShoppingCart"));
 const Map3D = lazy(() => import("./pages/Map3D"));
 const Review = lazy(() => import("./pages/Review"));
+const AdminHome = lazy(() => import("./pages/admin/AdminHome"));
 
+// admin stuff
+import AdminLogin from "./pages/admin/Login";
+import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 function App() {
-
   return (
-    <ProductProvider>
-      <CartProvider>
-        <BrowserRouter>
-          <Suspense fallback={<Loading />} >
-            <Routes>
-              <Route path="/" element={<Navigate to="/home" replace />} />
-              <Route path="home" element={<Home />} />
-              <Route path="productlist" element={<ProductList />} />
-              <Route path="search" element={<Search />} />
-              <Route path="scanner" element={<Scanner />} />
-              <Route path="shopping" element={<ShoppingCart />} />
-              <Route path="map" element={<Map3D />} />
-              <Route path="review" element={<Review />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </CartProvider>
-    </ProductProvider>
+    <AuthProvider>
+      <ProductProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <Suspense fallback={<Loading />}>
+              <Routes>
+                <Route path="/" element={<Navigate to="/home" replace />} />
+                <Route path="home" element={<Home />} />
+                <Route path="productlist" element={<ProductList />} />
+                <Route path="search" element={<Search />} />
+                <Route path="scanner" element={<Scanner />} />
+                <Route path="shopping" element={<ShoppingCart />} />
+                <Route path="map" element={<Map3D />} />
+                <Route path="review" element={<Review />} />
+
+                {/* admin */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminHome />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </CartProvider>
+      </ProductProvider>
+    </AuthProvider>
   );
 }
 

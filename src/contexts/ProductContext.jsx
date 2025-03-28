@@ -31,12 +31,17 @@ const ProductProvider = ({ children }) => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState(null);
 
+  // Create a public axios instance for non-authenticated requests
+  const publicAxios = axios.create({
+    baseURL: baseUrl,
+  });
+
   useEffect(() => {
     let isMounted = true;
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/productlist`);
+        const response = await publicAxios.get("/productlist");
         if (isMounted) {
           const productsWithIds = (response.data.products || []).map(
             (product) => ({
@@ -49,7 +54,11 @@ const ProductProvider = ({ children }) => {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message || "Failed to fetch products");
+          setError(
+            err.response?.status === 429
+              ? "Too many requests. Please wait a moment."
+              : "Failed to fetch products"
+          );
           setLoading(false);
         }
       }
@@ -74,8 +83,8 @@ const ProductProvider = ({ children }) => {
     sessionStorage.setItem("searchAttempted", "true");
 
     try {
-      const response = await axios.get(
-        `${baseUrl}/search?q=${encodeURIComponent(query)}`
+      const response = await publicAxios.get(
+        `/search?q=${encodeURIComponent(query)}`
       );
       const searchProductsWithIds = (response.data.products || []).map(
         (product) => ({
@@ -84,10 +93,21 @@ const ProductProvider = ({ children }) => {
         })
       );
       setSearchResults(searchProductsWithIds);
-      setSearchLoading(false);
     } catch (err) {
       setSearchError(err.message || "Failed to search products");
+    } finally {
       setSearchLoading(false);
+    }
+  };
+
+  const getProductByBarcode = async (barcode) => {
+    try {
+      const response = await publicAxios.get(`/product/barcode/${barcode}`);
+      return response.data.product;
+    } catch (err) {
+      throw new Error(
+        err.response?.data?.message || "Failed to fetch product by barcode"
+      );
     }
   };
 
@@ -102,6 +122,7 @@ const ProductProvider = ({ children }) => {
       searchResults,
       searchLoading,
       searchError,
+      getProductByBarcode,
     }),
     [products, loading, error, searchResults, searchLoading, searchError]
   );

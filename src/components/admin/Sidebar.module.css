@@ -1,0 +1,63 @@
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background: white;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebarHeader :global(.logo) {
+  width: 150px;
+  height: auto;
+}
+
+.dashboardTitle {
+  color: #666;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1.5rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  color: #666;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  gap: 1rem;
+}
+
+.navLink:hover {
+  background: #f8f9fa;
+  color: #dd5837;
+}
+
+.active {
+  color: #dd5837;
+  background: #fff1ef;
+  border-right: 3px solid #dd5837;
+}
+
+.icon {
+  font-size: 1.2rem;
+}
