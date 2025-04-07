@@ -24,6 +24,9 @@ const AdminHome = lazy(() => import("./pages/admin/AdminHome"));
 // admin stuff
 import AdminLogin from "./pages/admin/Login";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
+import ProductManagement from "./components/admin/ProductManagement";
+import DiscountManagement from "./components/admin/DiscountManagement";
+import FeaturedManagement from "./components/admin/FeaturedManagement";
 
 function App() {
   return (
@@ -49,6 +52,30 @@ function App() {
                   element={
                     <ProtectedRoute adminOnly={true}>
                       <AdminHome />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <ProductManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/discounts"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <DiscountManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/featured"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <FeaturedManagement />
                     </ProtectedRoute>
                   }
                 />
