@@ -103,7 +103,7 @@
 /* Larger screen styles */
 @media (min-width: 1000px) {
   .navbar {
-    padding: 1.6% 3%;
+    padding: 1.35% 3%;
   }
 
   .navbar .hamburger {
@@ -126,7 +126,7 @@
     text-decoration: none;
     color: #0a1226;
     font-weight: 600;
-    font-size: 17px;
+    font-size: 16px;
     border: 1.8px solid black;
     padding: 15px;
     border-radius: 20px;

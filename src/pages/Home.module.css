@@ -30,10 +30,30 @@
 @media(min-width: 1000px) {
     .home {
         /* margin: 0 auto; */
+        width: 100%;
     }   
 
+    .greetingBannerContainer {
+        display: flex;
+        justify-content: baseline;
+        align-items: center;
+        /* padding: 3rem; */
+        margin-top: 10%;
+        gap: 70px;
+        flex-wrap: wrap;
+      }
+      
+      .leftQuote h1 {
+        text-align: left;
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: #000000;
+        line-height: 2;
+        margin-left: 45px;
+      }
+
     .greetingBanner{
-        margin-top: 13%;
+        margin: 0 5%;
         text-align: center;
     }
 
@@ -52,7 +72,7 @@
             width: 0;
         }
         to {
-            width: 33.5%;
+            width: 80.5%;
         }
     }
     
@@ -66,5 +86,85 @@
         margin-top: 30px;
         font-size: 25px; 
     }
+
+
+
+
+    .leftQuote h1 {
+        overflow: hidden;
+    }
+
+
+
+    .line {
+        display: block;
+        opacity: 0;
+        transform: translateX(50px); /* Start offscreen */
+        animation: slideInOut 6s ease-in-out infinite;
+    }
+
+    .line:nth-child(1) {
+        animation-delay: 0s; /* First element starts immediately */
+    }
+
+    .line:nth-child(2) {
+        animation-delay: 2s; /* Second element starts after 2 seconds */
+    }
+
+    .line:nth-child(3) {
+        animation-delay: 4s; /* Third element starts after 4 seconds */
+    }
+
+    .line .save, .smart, .stress {
+        color: #DD5837;
+    }
+
+    /* Combined keyframes for slideIn and slideOut animation */
+    @keyframes slideInOut {
+        0%, 100% {
+            opacity: 0;
+            transform: translateX(50px); /* Start offscreen */
+        }
+        25%, 75% {
+            opacity: 1;
+            transform: translateX(0); /* Appear in normal position */
+        }
+        50% {
+            opacity: 0;
+            transform: translateX(-50px); /* Move offscreen to the left */
+        }
+    }
+
+    
+    /* .line {
+        display: block;
+        opacity: 0;
+        transform: translateX(-50px);
+        animation: slideIn 1s forwards;
+        transition: all 0.5s ease-in-out;
+    }
+    
+    .line:nth-child(1) {
+        animation-delay: 2.5s;
+    }
+    
+    .line:nth-child(2) {
+        animation-delay: 3.5s;
+    }
+    
+    .line:nth-child(3) {
+        animation-delay: 4.5s;
+    }
+
+    .line .save, .smart, .stress {
+        color: #DD5837;
+    }
+    
+    @keyframes slideIn {
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    } */
 
 }
