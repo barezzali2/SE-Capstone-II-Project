@@ -111,6 +111,24 @@ const ProductProvider = ({ children }) => {
     }
   };
 
+
+
+  // Fetching data for statistics
+  const adminStatistics = async () => {
+    try{
+      const response = await axios.get(`${baseUrl}/admin/statistics`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      return response.data.statistics;
+    }catch(error) {
+      console.error("Error fetching statistics:", error);
+      throw error;
+    }
+  };
+
+
   // ✅ Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
@@ -123,6 +141,7 @@ const ProductProvider = ({ children }) => {
       searchLoading,
       searchError,
       getProductByBarcode,
+      adminStatistics
     }),
     [products, loading, error, searchResults, searchLoading, searchError]
   );
