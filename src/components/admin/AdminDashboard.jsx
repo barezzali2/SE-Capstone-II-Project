@@ -9,6 +9,7 @@ function AdminDashboard() {
   const { adminStatistics } = useProduct();
 
   const [totalProductsCount, setTotalProductsCount] = useState(null);
+  const [latestProductName, setLatestProductName] = useState(null);
   const [mostAddedProductName, setMostAddedProductName] = useState(null);
   const [loadingStats, setLoadingStats] = useState(true);
   const [statsError, setStatsError] = useState(null);
@@ -34,10 +35,17 @@ function AdminDashboard() {
         : "N/A";
 
         setMostAddedProductName(productName);
+
+
+        const latestProd = statistics.latestProduct; // Get the latest product object (or null)
+        const latestName = (latestProd && latestProd.name) ? latestProd.name : "N/A"; // Extract name or use N/A
+        setLatestProductName(latestName); // Set the state
+
       } catch (err) {
         console.error("Failed to fetch admin statistics:", err);
         setStatsError("Failed to load statistics."); // Set a user-friendly error message
         setTotalProductsCount(null); // Reset count on error
+        setLatestProductName(null);
       } finally {
         setLoadingStats(false); // Finish loading regardless of success or error
       }
@@ -93,7 +101,13 @@ function AdminDashboard() {
           </div>
           <div className={styles.statCard}>
             <h3>Recent Added Products</h3>
-            <p>X</p>
+            <p>
+              {loadingStats
+                ? "Loading..."
+                : latestProductName !== null // Use the new state variable
+                ? latestProductName
+                : "N/A"}
+            </p>
           </div>
           <div className={styles.statCard}>
             <h3>Most Added to Cart</h3>
