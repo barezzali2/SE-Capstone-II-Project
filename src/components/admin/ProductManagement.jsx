@@ -103,7 +103,6 @@ function ProductManagement() {
 
         {/* Action Header */}
          <div className={styles.actionHeader}>
-            <h2>Product List</h2>
             <button onClick={handleAddProduct} className={styles.addButton}>
                 + Add Product (Simulated)
             </button>
