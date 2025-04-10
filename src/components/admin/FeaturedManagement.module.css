@@ -49,3 +49,88 @@
   .logoutButton:hover {
     background: #c74a2d;
   }
+
+
+  .section {
+    background: white;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .section h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #333;
+     font-family: "Lexend Deca", sans-serif;
+     border-bottom: 1px solid #eee;
+     padding-bottom: 0.5rem;
+  }
+  
+  .productTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .productTable th,
+  .productTable td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+  }
+  
+  .productTable th {
+    background-color: #f8f9fa;
+    color: #666;
+    font-weight: 600;
+    font-family: "Lexend Deca", sans-serif;
+  }
+  
+  .productTable tbody tr:hover {
+    background-color: #f1f3f5;
+  }
+  
+  /* --- Action Button Styles (Consistent with DiscountManagement) --- */
+  .actionButton {
+    padding: 0.4rem 0.8rem;
+    margin-right: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    font-size: 0.9rem;
+    color: white;
+    white-space: nowrap; /* Prevent button text wrapping */
+  }
+  .actionButton:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+  }
+  
+  /* Specific button colors */
+  .addButton {
+    background-color: #dd5837; /* Green for Add */
+  }
+  .addButton:hover:not(:disabled) {
+    background-color: #b6492e;
+  }
+  
+  .removeButton {
+    background-color: #dc3545; /* Red for Remove */
+  }
+  .removeButton:hover:not(:disabled) {
+    background-color: #c82333;
+  }
+  
+  /* --- Error Text Styles (Consistent with DiscountManagement) --- */
+  .errorText {
+    color: #dc3545; /* Red */
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+  }
