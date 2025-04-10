@@ -31,7 +31,7 @@ const ProductProvider = ({ children }) => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState(null);
 
-  // Create a public axios instance for non-authenticated requests
+  // this is the axios instance for the public routes
   const publicAxios = axios.create({
     baseURL: baseUrl,
   });
@@ -111,23 +111,20 @@ const ProductProvider = ({ children }) => {
     }
   };
 
-
-
-  // Fetching data for statistics
+  // data for the admin dashboard
   const adminStatistics = async () => {
-    try{
+    try {
       const response = await axios.get(`${baseUrl}/admin/statistics`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       return response.data.statistics;
-    }catch(error) {
+    } catch (error) {
       console.error("Error fetching statistics:", error);
       throw error;
     }
   };
-
 
   // ✅ Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(
@@ -141,7 +138,7 @@ const ProductProvider = ({ children }) => {
       searchLoading,
       searchError,
       getProductByBarcode,
-      adminStatistics
+      adminStatistics,
     }),
     [products, loading, error, searchResults, searchLoading, searchError]
   );

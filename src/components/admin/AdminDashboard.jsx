@@ -3,71 +3,135 @@ import { useProduct } from "../../contexts/ProductContext";
 import Sidebar from "./Sidebar";
 import styles from "./AdminDashboard.module.css";
 import { useEffect, useState } from "react";
+import ProductDetailsModal from "./ProductDetailsModal";
+import {
+  FiPackage,
+  FiClock,
+  FiShoppingCart,
+  FiStar,
+  FiUsers,
+  FiRepeat,
+} from "react-icons/fi";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+} from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+import PropTypes from "prop-types";
+
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement
+);
 
 function AdminDashboard() {
   const { user, logout } = useAuth();
-  const { adminStatistics } = useProduct();
+  const { adminStatistics, baseUrl } = useProduct();
 
   const [totalProductsCount, setTotalProductsCount] = useState(null);
-  const [latestProductName, setLatestProductName] = useState(null);
-  const [mostAddedProductName, setMostAddedProductName] = useState(null);
+  const [latestProduct, setLatestProduct] = useState(null);
+  const [mostAddedProduct, setMostAddedProduct] = useState(null);
+  const [highestRatedProduct, setHighestRatedProduct] = useState(null);
+  const [categoryData, setCategoryData] = useState(null);
   const [loadingStats, setLoadingStats] = useState(true);
   const [statsError, setStatsError] = useState(null);
-
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [topProductStats, setTopProductStats] = useState(null);
 
   useEffect(() => {
     const fetchAdminStats = async () => {
-      setLoadingStats(true); // Start loading
-      setStatsError(null); // Reset error state
+      setLoadingStats(true);
+      setStatsError(null);
       try {
-        // Call the function from the context which handles the API request
         const statistics = await adminStatistics();
-
-        // Extract the totalProducts value from the response and update state
-        // Based on adminService.js, the structure is { statistics: { totalProducts: ... } }
         setTotalProductsCount(statistics.totalProducts);
+        setLatestProduct(statistics.latestProduct);
 
-        const topProductData = (statistics.topProducts && statistics.topProducts.length > 0)
-                      ? statistics.topProducts[0] // Get the first object { productId, count, product: { ... } }
-                      : null;
-        const productName = (topProductData && topProductData.product && topProductData.product.name)
-        ? topProductData.product.name // Access the name here
-        : "N/A";
+        const topProductData = statistics.topProducts?.[0] || null;
+        setMostAddedProduct(topProductData?.product || null);
+        setTopProductStats(topProductData || null);
 
-        setMostAddedProductName(productName);
-
-
-        const latestProd = statistics.latestProduct; // Get the latest product object (or null)
-        const latestName = (latestProd && latestProd.name) ? latestProd.name : "N/A"; // Extract name or use N/A
-        setLatestProductName(latestName); // Set the state
-
+        setHighestRatedProduct(statistics.highestRatedProducts?.[0] || null);
+        setCategoryData(statistics.productsByCategory || []);
       } catch (err) {
         console.error("Failed to fetch admin statistics:", err);
-        setStatsError("Failed to load statistics."); // Set a user-friendly error message
-        setTotalProductsCount(null); // Reset count on error
-        setLatestProductName(null);
+        setStatsError("Failed to load statistics.");
+        setTotalProductsCount(null);
+        setLatestProduct(null);
+        setMostAddedProduct(null);
+        setTopProductStats(null);
+        setHighestRatedProduct(null);
+        setCategoryData(null);
       } finally {
-        setLoadingStats(false); // Finish loading regardless of success or error
+        setLoadingStats(false);
       }
     };
 
     fetchAdminStats();
-    // The dependency array includes adminStatistics to ensure effect runs if the function instance changes (though unlikely here)
   }, [adminStatistics]);
 
-
-  const handleLogout = () => {
-    logout();
+  const categoryChartData = {
+    labels: categoryData?.map((cat) => cat.category) || [],
+    datasets: [
+      {
+        data: categoryData?.map((cat) => cat.count) || [],
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+        ],
+      },
+    ],
   };
 
-  // these will be handled by backend later
-  // const totalProducts = products.length;
-  // const mostAddedProduct = products[0]?.name || "N/A";
-  // const highestRatedProduct = "Product X";
+  const StatCard = ({
+    icon: Icon,
+    title,
+    value,
+    onClick,
+    isClickable,
+    image,
+  }) => (
+    <div
+      className={`${styles.statCard} ${isClickable ? styles.clickable : ""}`}
+      onClick={onClick}
+    >
+      <div className={styles.cardContent}>
+        <div className={styles.statIcon}>
+          <Icon size={24} />
+        </div>
+        <div className={styles.statContent}>
+          <h3>{title}</h3>
+          <p>{loadingStats ? "Loading..." : value}</p>
+        </div>
+      </div>
+      {image && (
+        <div className={styles.statImage}>
+          <img src={`${baseUrl}${image}`} alt={title} />
+        </div>
+      )}
+    </div>
+  );
 
-
-  // const mostAddedProduct = "N/A"; // Placeholder - could be statistics.topProducts[0]?.name || "N/A"
-  const highestRatedProduct = "Product X"; // Placeholder - Backend doesn't provide this yet
+  StatCard.propTypes = {
+    icon: PropTypes.elementType.isRequired,
+    title: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    isClickable: PropTypes.bool,
+    image: PropTypes.string,
+  };
 
   return (
     <div className={styles.adminLayout}>
@@ -77,49 +141,130 @@ function AdminDashboard() {
           <h1>Dashboard</h1>
           <div className={styles.userInfo}>
             <span>Welcome, {user?.name || "Admin"}</span>
-            <button onClick={handleLogout} className={styles.logoutButton}>
+            <button onClick={logout} className={styles.logoutButton}>
               Logout
             </button>
           </div>
         </div>
 
-        {/* Display error message if fetching stats failed */}
         {statsError && <p className={styles.error}>{statsError}</p>}
 
         <div className={styles.statsGrid}>
-          <div className={styles.statCard}>
-            <h3>Total Products</h3>
-            {/* Display the fetched total products count */}
-            {/* Show loading state or the count, or N/A if error/null */}
-            <p>
-              {loadingStats
-                ? "Loading..."
-                : totalProductsCount !== null
-                ? totalProductsCount
-                : "N/A"}
-            </p>
+          <StatCard
+            icon={FiPackage}
+            title="Total Products"
+            value={totalProductsCount || "N/A"}
+          />
+
+          <StatCard
+            icon={FiClock}
+            title="Recent Added"
+            value={latestProduct?.name || "N/A"}
+            onClick={() => latestProduct && setSelectedProduct(latestProduct)}
+            isClickable={!!latestProduct}
+            image={latestProduct?.image}
+          />
+
+          <div
+            className={`${styles.statCard} ${styles.expandedCard} ${
+              mostAddedProduct ? styles.clickable : ""
+            }`}
+            onClick={() =>
+              mostAddedProduct && setSelectedProduct(mostAddedProduct)
+            }
+          >
+            <div className={styles.cardContent}>
+              <div className={styles.statIcon}>
+                <FiShoppingCart size={24} />
+              </div>
+              <div className={styles.statContent}>
+                <h3>Most Added to Cart</h3>
+                {loadingStats ? (
+                  <p>Loading...</p>
+                ) : mostAddedProduct ? (
+                  <div className={styles.statDetails}>
+                    <p className={styles.productName}>
+                      {mostAddedProduct.name}
+                    </p>
+                    <div className={styles.statsRow}>
+                      <div className={styles.statItem}>
+                        <FiRepeat size={16} />
+                        <span>
+                          {topProductStats.totalAddedToCart} times added
+                        </span>
+                      </div>
+                      <div className={styles.statItem}>
+                        <FiUsers size={16} />
+                        <span>
+                          {topProductStats.uniqueCustomers} unique customers
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <p>N/A</p>
+                )}
+              </div>
+            </div>
+            {mostAddedProduct?.image && (
+              <div className={styles.statImage}>
+                <img
+                  src={`${baseUrl}${mostAddedProduct.image}`}
+                  alt={mostAddedProduct.name}
+                />
+              </div>
+            )}
           </div>
-          <div className={styles.statCard}>
-            <h3>Recent Added Products</h3>
-            <p>
-              {loadingStats
-                ? "Loading..."
-                : latestProductName !== null // Use the new state variable
-                ? latestProductName
-                : "N/A"}
-            </p>
-          </div>
-          <div className={styles.statCard}>
-            <h3>Most Added to Cart</h3>
-            <p>{mostAddedProductName}</p>
-          </div>
-          <div className={styles.statCard}>
-            <h3>Highest Rated</h3>
-            <p>{highestRatedProduct}</p>
+
+          <StatCard
+            icon={FiStar}
+            title="Highest Rated"
+            value={
+              highestRatedProduct
+                ? `${highestRatedProduct.name} (${highestRatedProduct.rating}★)`
+                : "N/A"
+            }
+            onClick={() =>
+              highestRatedProduct && setSelectedProduct(highestRatedProduct)
+            }
+            isClickable={!!highestRatedProduct}
+            image={highestRatedProduct?.image}
+          />
+        </div>
+
+        <div className={styles.chartsSection}>
+          <div className={styles.chartCard}>
+            <h3>Products by Category</h3>
+            <div className={styles.chartContainer}>
+              {categoryData && categoryData.length > 0 ? (
+                <Doughnut
+                  data={categoryChartData}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        position: "right",
+                      },
+                    },
+                  }}
+                />
+              ) : (
+                <p>No category data available</p>
+              )}
+            </div>
           </div>
         </div>
+
+        {selectedProduct && (
+          <ProductDetailsModal
+            product={selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+          />
+        )}
       </div>
     </div>
   );
 }
+
 export default AdminDashboard;
