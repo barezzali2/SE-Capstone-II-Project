@@ -54,7 +54,7 @@
 
   .addButton {
     padding: 0.6rem 1.2rem;
-    background-color: #dd5837; /* Blue for add */
+    background-color: #dd5837; 
     color: white;
     border: none;
     border-radius: 6px;
