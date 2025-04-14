@@ -186,9 +186,10 @@
   background: white;
   padding: 2rem;
   border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 90vh;
+  width: 100%;
+  /* width: 98%; */
+  max-width: 600px;
+  max-height: 89vh;
   overflow-y: auto;
 }
 
@@ -209,6 +210,10 @@
   color: #333;
 }
 
+.formGroup .productName {
+  margin-top: 30px;
+}
+
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
@@ -216,6 +221,11 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
+  font-family: "Lexend Deca";
+}
+
+.formGroup select {
+  cursor: pointer;
 }
 
 .priceInput {
@@ -244,10 +254,11 @@
   font-weight: 600;
   cursor: pointer;
   flex: 1;
+  font-size: 15px;
 }
 
 .submitButton {
-  background-color: #4caf50;
+  background-color: #dd5837;
   color: white;
 }
 

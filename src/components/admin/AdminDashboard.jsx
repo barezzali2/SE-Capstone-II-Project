@@ -86,6 +86,7 @@ function AdminDashboard() {
         data: categoryData?.map((cat) => cat.count) || [],
         backgroundColor: [
           "#FF6384",
+          "#F28C28",
           "#36A2EB",
           "#FFCE56",
           "#4BC0C0",

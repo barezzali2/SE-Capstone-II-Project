@@ -131,7 +131,7 @@ function ProductManagement() {
                 className={styles.addProductForm}
               >
                 <div className={styles.formGroup}>
-                  <label htmlFor="name">Product Name</label>
+                  <label htmlFor="name" className={styles.productName}>Product Name</label>
                   <input
                     id="name"
                     name="name"
@@ -242,7 +242,7 @@ function ProductManagement() {
                 <div className={styles.productInfo}>
                   <h3>{product.name}</h3>
                   <p>Category: {product.category}</p>
-                  <p>Price: {product.price} IQD</p>
+                  <p>Price: {product.price}</p>
                 </div>
                 <div className={styles.productActions}>
                   <button

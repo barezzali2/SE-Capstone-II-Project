@@ -7,10 +7,18 @@ import Sidebar from "./Sidebar";
 import styles from "./DiscountManagement.module.css";
 
 // Helper function for safe price formatting
+// const formatPrice = (price) => {
+//     const num = parseFloat(price); // Attempt to convert to number
+//     if (!isNaN(num)) { // Check if conversion was successful
+//         return num.toFixed(2); // Format if it's a valid number
+//     }
+//     return "N/A"; // Fallback for invalid/missing price
+// };
+
 const formatPrice = (price) => {
     const num = parseFloat(price); // Attempt to convert to number
-    if (!isNaN(num)) { // Check if conversion was successful
-        return num.toFixed(2); // Format if it's a valid number
+    if (!isNaN(num)) {
+        return `${num.toFixed(0)} IQD`; // Format with 2 decimal places and append "IQD"
     }
     return "N/A"; // Fallback for invalid/missing price
 };
@@ -106,6 +114,9 @@ function DiscountManagement() {
                  return prev.filter(p => p._id !== updatedProduct._id);
              }
         });
+
+        console.log("Updated Discounted Products:", discountedProducts);
+        console.log("Updated Available Products:", availableProducts);
       }
 
     // --- Add Discount Form Section Logic --- (no changes needed here)
@@ -138,7 +149,9 @@ function DiscountManagement() {
         setIsLoading(true); setAddFormError(null); setError(null);
         try {
           const response = await authAxios.post(`/admin/discounts/${productToAddDiscount._id}`, { discountRate: rate, newPrice: price });
-          updateLocalProductState(response.data.product);
+        //   updateLocalProductState(response.data.product);
+        const updatedProduct = response.data.product;
+        updateLocalProductState(updatedProduct);
           handleCancelAdd();
         } catch (err) {
           console.error("Error adding discount:", err);
@@ -229,7 +242,7 @@ function DiscountManagement() {
                         <h2>Add Discount for: {productToAddDiscount.name}</h2>
                         <p className={styles.originalPriceInfo}>
                             {/* ***** FIXED PRICE FORMATTING ***** */}
-                            Original Price: ${formatPrice(productToAddDiscount.price)}
+                            Original Price: {productToAddDiscount.price}
                         </p>
                         <form onSubmit={handleAddFormSubmit} className={styles.inlineForm}>
                             {/* Form inputs remain the same */}
@@ -238,7 +251,7 @@ function DiscountManagement() {
                                 <input type="number" id="addRate" value={addFormRate} onChange={(e) => setAddFormRate(e.target.value)} placeholder="e.g., 15" min="1" max="99" step="0.01" required disabled={isLoading}/>
                             </div>
                             <div className={styles.formGroupInline}>
-                                <label htmlFor="addPrice">New Price ($):</label>
+                                <label htmlFor="addPrice">New Price (IQD):</label>
                                 <input type="number" id="addPrice" value={addFormPrice} onChange={(e) => setAddFormPrice(e.target.value)} placeholder="e.g., 19.99" min="0.01" step="0.01" required disabled={isLoading} />
                             </div>
                             <div className={styles.formActionsInline}>
@@ -274,7 +287,7 @@ function DiscountManagement() {
                                             <>
                                                 <td>{product.name}</td>
                                                  {/* ***** FIXED PRICE FORMATTING ***** */}
-                                                <td>${formatPrice(product.price)}</td>
+                                                 <td>{formatPrice(product.price)}</td>
                                                 <td>
                                                     <input type="number" value={inlineEditRate} onChange={(e) => setInlineEditRate(e.target.value)} className={styles.inlineInput} min="1" max="99" step="0.01" required disabled={isLoading}/>
                                                 </td>
@@ -292,10 +305,10 @@ function DiscountManagement() {
                                             <>
                                                 <td>{product.name}</td>
                                                  {/* ***** FIXED PRICE FORMATTING ***** */}
-                                                <td>${formatPrice(product.price)}</td>
+                                                <td>{formatPrice(product.price)}</td>
                                                 <td>{product.discountRate}%</td>
                                                  {/* Also format newPrice safely, assuming it might also be a string */}
-                                                <td>${formatPrice(product.newPrice)}</td>
+                                                <td>{formatPrice(product.newPrice)}</td>
                                                 <td>
                                                     <button onClick={() => handleStartInlineEdit(product)} className={`${styles.actionButton} ${styles.updateButton}`} disabled={isLoading || !!editingProductId || !!productToAddDiscount} > Update </button>
                                                     <button onClick={() => handleRemoveDiscount(product._id)} className={`${styles.actionButton} ${styles.removeButton}`} disabled={isLoading || editingProductId === product._id} > Remove </button>
@@ -330,7 +343,7 @@ function DiscountManagement() {
                              <td>{product.name}</td>
                              <td>{product.category}</td>
                               {/* ***** FIXED PRICE FORMATTING ***** */}
-                             <td>${formatPrice(product.price)}</td>
+                             <td>{formatPrice(product.price)}</td>
                              <td>
                                <button onClick={() => handleSelectProductForAdd(product)} className={`${styles.actionButton} ${styles.addButton}`} disabled={isLoading || !!editingProductId || !!productToAddDiscount} > Add Discount </button>
                              </td>
