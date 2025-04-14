@@ -1,289 +1,262 @@
 .adminLayout {
-    display: flex;
-    min-height: 100vh;
-  }
-  
-  .mainContent {
-    flex: 1;
-    padding: 2rem;
-    background: #f8f9fa;
-  }
-  
-  .adminHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-  
-  .adminHeader h1 {
-    color: #333;
-    margin: 0;
-    font-family: "Lexend Deca", sans-serif;
-  }
+  display: flex;
+  min-height: 100vh;
+}
 
-  .userInfo {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .userInfo span {
-    color: #666;
-  }
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  background: #f8f9fa;
+}
 
-  .logoutButton {
-    padding: 0.5rem 1rem;
-    background: #dd5837;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .logoutButton:hover {
-    background: #c74a2d;
-  }
+.adminHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
 
+.adminHeader h1 {
+  color: #333;
+  margin: 0;
+  font-family: "Lexend Deca", sans-serif;
+}
 
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
-  .addButton {
-    padding: 0.6rem 1.2rem;
-    background-color: #dd5837; 
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin: 30px auto 15px auto;
-    font-family: 'Lexend Deca';
+.userInfo span {
+  color: #666;
+}
+
+.logoutButton {
+  padding: 0.5rem 1rem;
+  background: #dd5837;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: #c74a2d;
+}
+
+.addButton {
+  padding: 0.6rem 1.2rem;
+  background-color: #dd5837;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin: 30px auto 15px auto;
+  font-family: "Lexend Deca";
 }
 
 .addButton:hover {
-    background-color: #b6492e;
+  background-color: #b6492e;
 }
 
 /* Product List Grid (like dashboard stats grid) */
 .productListGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
-    gap: 1.5rem;
-    margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Responsive grid */
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 /* Product Card (like dashboard stat card) */
 .productCard {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    border: 1px solid #eee;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  border: 1px solid #eee;
 }
 
 .productImage {
-    width: 100%; /* Make image fill card width */
-    height: 150px; /* Fixed height */
-    object-fit: cover; /* Scale nicely */
-    border-radius: 4px;
-    margin-bottom: 1rem;
-    background-color: #f0f0f0; /* Placeholder bg */
+  width: 100%; /* Make image fill card width */
+  height: 150px; /* Fixed height */
+  object-fit: cover; /* Scale nicely */
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  background-color: #f0f0f0; /* Placeholder bg */
 }
 
 .productInfo h3 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-    color: #333;
-    font-family: "Lexend Deca", sans-serif;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #333;
+  font-family: "Lexend Deca", sans-serif;
 }
 
 .productInfo p {
-    margin: 0.3rem 0;
-    font-size: 0.9rem;
-    color: #666;
-    line-height: 1.4;
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
 }
 
 /* Product Actions Container */
 .productActions {
-    margin-top: auto; /* Push actions to the bottom */
-    padding-top: 1rem; /* Space above buttons */
-    border-top: 1px solid #f0f0f0; /* Separator */
-    display: flex;
-    gap: 0.5rem; /* Space between buttons */
-    justify-content: flex-end; /* Align buttons right */
+  margin-top: auto; /* Push actions to the bottom */
+  padding-top: 1rem; /* Space above buttons */
+  border-top: 1px solid #f0f0f0; /* Separator */
+  display: flex;
+  gap: 0.5rem; /* Space between buttons */
+  justify-content: flex-end; /* Align buttons right */
 }
 
 /* Action Buttons within Card */
 .actionButton {
-    padding: 0.5rem 0.8rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.2s ease;
-    color: white;
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  color: white;
 }
 
 .editButton {
-    background-color: #ffc107; /* Yellow */
-    color: #333;
-    font-family: 'Lexend Deca';
+  background-color: #ffc107; /* Yellow */
+  color: #333;
+  font-family: "Lexend Deca";
 }
 .editButton:hover {
-    background-color: #e0a800;
+  background-color: #e0a800;
 }
 
 .deleteButton {
-    background-color: #dc3545; /* Red */
-    font-family: 'Lexend Deca';
+  background-color: #dc3545; /* Red */
+  font-family: "Lexend Deca";
 }
 .deleteButton:hover {
-    background-color: #c82333;
+  background-color: #c82333;
 }
 
 /* Utility Styles */
 .errorText {
-    color: #dc3545;
-    margin: 1rem 0;
-    padding: 0.75rem 1rem;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    border-radius: 4px;
-    font-size: 0.9rem;
+  color: #dc3545;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  font-size: 0.9rem;
 }
 
 .loadingText {
-    color: #555;
-    font-style: italic;
-    padding: 1rem;
-    text-align: center;
+  color: #555;
+  font-style: italic;
+  padding: 1rem;
+  text-align: center;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
 
-
-
-/* --- Modal Form Styles --- */
-.modalForm {
+.addProductForm {
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* Spacing between rows/groups */
-  padding-top: 0.5rem; /* Add some space from modal header */
-}
-
-.formRow {
-  display: flex;
-  flex-direction: row; /* Align items in a row */
-  gap: 1rem; /* Space between groups in a row */
-}
-/* Responsive behavior for rows */
-@media (max-width: 600px) {
-  .formRow {
-      flex-direction: column; /* Stack groups vertically on smaller screens */
-      gap: 1rem; /* Keep gap consistent */
-  }
-}
-
-
-.formRow .formGroup {
-  flex: 1; /* Allow groups in a row to share space */
-  min-width: 0; /* Prevent flex overflow issues */
+  gap: 1rem;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem; /* Space between label and input */
+  gap: 0.5rem;
 }
 
 .formGroup label {
-  font-weight: 500;
-  color: #495057;
-  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
 }
 
-.formGroup input[type="text"],
-.formGroup input[type="number"],
-.formGroup input[type="url"],
+.formGroup input,
+.formGroup select,
 .formGroup textarea {
-  padding: 0.6rem 0.8rem; /* Adjusted padding */
-  border: 1px solid #ced4da;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 0.95rem; /* Adjust font size */
-  width: 100%; /* Ensure inputs fill their group */
-  box-sizing: border-box; /* Include padding in width calculation */
+  font-size: 1rem;
 }
 
-.formGroup input:focus,
-.formGroup textarea:focus {
-  outline: none;
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25); /* Slightly smaller shadow */
-}
-
-.formGroup textarea {
-  resize: vertical; /* Allow vertical resize only */
-  min-height: 60px; /* Set a minimum height */
-}
-
-/* --- Modal Actions (Buttons at the bottom) --- */
-.modalActions {
+.priceInput {
+  position: relative;
   display: flex;
-  justify-content: flex-end;
-  gap: 0.8rem;
-  margin-top: 1.5rem; /* Space above buttons */
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
+  align-items: center;
 }
 
-.modalActions button {
-  padding: 0.6rem 1.2rem;
-  border-radius: 5px;
+.currency {
+  position: absolute;
+  right: 1rem;
+  color: #666;
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.submitButton,
+.cancelButton {
+  padding: 0.75rem 1.5rem;
   border: none;
+  border-radius: 4px;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
+  flex: 1;
 }
 
-.modalActions button:disabled {
-  opacity: 0.6;
+.submitButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+.submitButton:disabled {
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
 .cancelButton {
-  background-color: #6c757d; /* Gray */
-  color: white;
+  background-color: #f5f5f5;
+  color: #333;
 }
-.cancelButton:hover:not(:disabled) {
-  background-color: #5a6268;
-}
-
-.submitButton {
-  /* Using the same blue as edit button for consistency */
-  background-color: #dd5837;
-  color: white;
-}
-.submitButton:hover:not(:disabled) {
-  background-color: #c74a2d;
-}
-
-/* Error text specifically within the modal */
-.errorTextModal {
-  color: #dc3545; /* Red */
-  font-size: 0.9rem;
-  margin-top: -0.5rem; /* Pull up slightly below the last input */
-  margin-bottom: 0.5rem;
-  text-align: left; /* Align error text left */
-  width: 100%; /* Ensure it takes width in flex container */
-}
-
-/* === End styles for ProductManagement.module.css === */

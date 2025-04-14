@@ -1,155 +1,265 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { useProduct } from "../../contexts/ProductContext"; // Use context to get initial products
+import { useAdmin } from "../../contexts/AdminContext";
 import Sidebar from "./Sidebar";
-import styles from "./ProductManagement.module.css"; // Using the same CSS module name
+import styles from "./ProductManagement.module.css";
 
 function ProductManagement() {
   const { user, logout } = useAuth();
-  // Get initial product list, loading, and error state from context
-  const { products: initialProducts, loading, error } = useProduct();
+  const navigate = useNavigate();
+  const {
+    loading,
+    error,
+    baseUrl,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    isAuthenticated,
+  } = useAdmin();
 
-  // Local state to hold and manage the product list for display/simulation
   const [productList, setProductList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [listError, setListError] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
 
-  const { baseUrl } = useProduct();
-  
-
-
-  // Effect to initialize local state from context
+  // Check authentication on component mount
   useEffect(() => {
-    setIsLoading(loading);
-    setListError(error);
-    if (!loading && !error && initialProducts) {
-      // Make a copy to allow local modifications without affecting context
-      setProductList([...initialProducts]);
+    if (!isAuthenticated()) {
+      navigate("/admin/login");
     }
-  }, [initialProducts, loading, error]);
+  }, [isAuthenticated, navigate]);
 
-  const handleLogout = () => {
-    logout();
-  };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/productlist`);
+        const data = await response.json();
+        setProductList(data.products || []);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    };
+    fetchProducts();
+  }, [baseUrl]);
 
-  // --- Simulated Actions (Frontend Only) ---
+  const handleAddProduct = async (formData) => {
+    setAddLoading(true);
+    try {
+      if (!isAuthenticated()) {
+        throw new Error("Please login to continue");
+      }
 
-  const handleAddProduct = () => {
-    const name = window.prompt("Enter product name:");
-    const category = window.prompt("Enter product category:");
-    const price = window.prompt("Enter product price:");
-
-    if (name && category && price && !isNaN(parseFloat(price))) {
-      const newProduct = {
-        // Use temporary ID for frontend-only simulation
-        _id: `temp_${Date.now()}`,
-        name: name,
-        category: category,
-        price: parseFloat(price),
-        // Add other basic fields if needed, e.g., image: '/placeholder-image.png'
-        image: "/placeholder-image.png"
-      };
-      setProductList(prevList => [...prevList, newProduct]);
-    } else if (name || category || price) {
-        alert("Invalid input. Please provide name, category, and a valid price.");
-    }
-  };
-
-  const handleEditProduct = (productId) => {
-    const product = productList.find(p => p._id === productId);
-    if (!product) return;
-
-    const newName = window.prompt(`Enter new name for ${product.name}:`, product.name);
-    const newPrice = window.prompt(`Enter new price for ${product.name}:`, product.price);
-
-    if (newName !== null && newPrice !== null && !isNaN(parseFloat(newPrice))) {
-        setProductList(prevList =>
-            prevList.map(p =>
-                p._id === productId
-                    ? { ...p, name: newName, price: parseFloat(newPrice) }
-                    : p
-            )
-        );
-    } else if (newName !== null || newPrice !== null){
-        alert("Invalid input. Please provide a name and a valid price.");
+      const result = await addProduct(formData);
+      setProductList((prev) => [...prev, result.product]);
+      setShowAddModal(false);
+    } catch (error) {
+      console.error("Error adding product:", error);
+      if (error.response?.status === 401) {
+        alert("Session expired. Please login again.");
+        logout();
+        navigate("/admin/login");
+      } else {
+        alert(error.message || "Failed to add product");
+      }
+    } finally {
+      setAddLoading(false);
     }
   };
 
-  const handleDeleteProduct = (productId) => {
-    const product = productList.find(p => p._id === productId);
-    if (!product) return;
-
-    if (window.confirm(`Are you sure you want to delete ${product.name}?`)) {
-      setProductList(prevList => prevList.filter(p => p._id !== productId));
+  const handleEditProduct = async (productId, formData) => {
+    try {
+      const result = await updateProduct(productId, formData);
+      setProductList((prev) =>
+        prev.map((p) => (p._id === productId ? result.product : p))
+      );
+    } catch (error) {
+      console.error("Error updating product:", error);
+      alert(error.message);
     }
   };
 
-  // --- Rendering ---
+  const handleDeleteProduct = async (productId) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) {
+      return;
+    }
+
+    try {
+      await deleteProduct(productId);
+      setProductList((prev) => prev.filter((p) => p._id !== productId));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert(error.message);
+    }
+  };
 
   return (
     <div className={styles.adminLayout}>
       <Sidebar />
       <div className={styles.mainContent}>
-        {/* Header */}
         <div className={styles.adminHeader}>
-          <h1>Product Management</h1> {/* Updated Title */}
+          <h1>Product Management</h1>
           <div className={styles.userInfo}>
             <span>Welcome, {user?.name || "Admin"}</span>
-            <button onClick={handleLogout} className={styles.logoutButton}>
+            <button onClick={logout} className={styles.logoutButton}>
               Logout
             </button>
           </div>
         </div>
 
-        {/* Action Header */}
-         <div className={styles.actionHeader}>
-            <button onClick={handleAddProduct} className={styles.addButton}>
-                + Add Product (Simulated)
-            </button>
+        <div className={styles.actionHeader}>
+          <button
+            onClick={() => setShowAddModal(true)}
+            className={styles.addButton}
+            disabled={addLoading}
+          >
+            {addLoading ? "Adding..." : "+ Add Product"}
+          </button>
         </div>
 
-        {/* Loading / Error Display */}
-        {isLoading ? (
-          <p className={styles.loadingText}>Loading products...</p>
-        ) : listError ? (
-          <p className={styles.errorText}>{`Error: ${listError}`}</p>
-        ) : (
-          // Product List Display (Similar structure to Dashboard cards)
-          <div className={styles.productListGrid}> {/* Changed class */}
-            {productList && productList.length > 0 ? (
-              productList.map((product) => (
-                <div key={product._id} className={styles.productCard}> {/* Changed class */}
-                  <img
-                 
-                    src={`${baseUrl}${product.image}`}
-                    alt={product.name}
-                    className={styles.productImage}
+        {showAddModal && (
+          <div className={styles.modal}>
+            <div className={styles.modalContent}>
+              <h2>Add New Product</h2>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.target);
+                  const price = formData.get("price");
+                  formData.set("price", `${price} IQD`);
+                  handleAddProduct(formData);
+                }}
+                className={styles.addProductForm}
+              >
+                <div className={styles.formGroup}>
+                  <label htmlFor="name">Product Name</label>
+                  <input
+                    id="name"
+                    name="name"
+                    placeholder="e.g., Mountain Dew"
+                    required
                   />
-                  <div className={styles.productInfo}>
-                     <h3>{product.name}</h3>
-                     <p>Category: {product.category}</p>
-                     <p>Price: {product.price}</p>
-                     {/* Add stock or description if available/needed */}
-                  </div>
-                   <div className={styles.productActions}>
-                        <button
-                            onClick={() => handleEditProduct(product._id)}
-                            className={`${styles.actionButton} ${styles.editButton}`}
-                         >
-                            Edit
-                        </button>
-                        <button
-                            onClick={() => handleDeleteProduct(product._id)}
-                            className={`${styles.actionButton} ${styles.deleteButton}`}
-                        >
-                            Delete
-                        </button>
-                    </div>
                 </div>
-              ))
-            ) : (
-              <p>No products found.</p>
-            )}
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="price">Price (IQD)</label>
+                  <div className={styles.priceInput}>
+                    <input
+                      id="price"
+                      name="price"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="500"
+                      required
+                    />
+                    <span className={styles.currency}>IQD</span>
+                  </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="category">Category</label>
+                  <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="dairy">Dairy</option>
+                    <option value="drinks">Drinks</option>
+                    <option value="bakery">Bakery</option>
+                    <option value="grains">Grains</option>
+                    <option value="snacks">Snacks</option>
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="description">Description</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Product description..."
+                    rows="3"
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="image">Product Image</label>
+                  <input
+                    id="image"
+                    name="image"
+                    type="file"
+                    accept="image/*"
+                    required
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="barcode">Barcode (Optional)</label>
+                  <input
+                    id="barcode"
+                    name="barcode"
+                    placeholder="e.g., 5901234123999"
+                    pattern="[0-9]{13}"
+                    title="13-digit barcode number"
+                  />
+                </div>
+
+                <div className={styles.formActions}>
+                  <button
+                    type="button"
+                    onClick={() => setShowAddModal(false)}
+                    className={styles.cancelButton}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className={styles.submitButton}
+                    disabled={addLoading}
+                  >
+                    {addLoading ? "Adding..." : "Add Product"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {loading ? (
+          <p className={styles.loadingText}>Loading products...</p>
+        ) : error ? (
+          <p className={styles.errorText}>{error}</p>
+        ) : (
+          <div className={styles.productListGrid}>
+            {productList.map((product) => (
+              <div key={product._id} className={styles.productCard}>
+                <img
+                  src={`${baseUrl}${product.image}`}
+                  alt={product.name}
+                  className={styles.productImage}
+                  onError={(e) => {
+                    e.target.src = "/placeholder-image.jpg";
+                    e.target.onerror = null;
+                  }}
+                />
+                <div className={styles.productInfo}>
+                  <h3>{product.name}</h3>
+                  <p>Category: {product.category}</p>
+                  <p>Price: {product.price} IQD</p>
+                </div>
+                <div className={styles.productActions}>
+                  <button
+                    onClick={() => handleEditProduct(product._id)}
+                    className={`${styles.actionButton} ${styles.editButton}`}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteProduct(product._id)}
+                    className={`${styles.actionButton} ${styles.deleteButton}`}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -158,3 +268,41 @@ function ProductManagement() {
 }
 
 export default ProductManagement;
+
+
+
+
+// import styles from "./ProductManagement.module.css";
+// import { useAuth } from "../../contexts/AuthContext";
+// import { useProduct } from "../../contexts/ProductContext";
+// import Sidebar from "./Sidebar";
+
+// function ProductManagement() {
+
+//   const { user, logout } = useAuth();
+//   const { products } = useProduct();
+
+//   const handleLogout = () => {
+//     logout();
+//   };
+
+//   return (
+    
+//     <div className={styles.adminLayout}>
+//       <Sidebar />
+//       <div className={styles.mainContent}>
+//         <div className={styles.adminHeader}>
+//           <h1>Dashboard</h1>
+//           <div className={styles.userInfo}>
+//             <span>Welcome, {user?.name || "Admin"}</span>
+//             <button onClick={handleLogout} className={styles.logoutButton}>
+//               Logout
+//             </button>
+//           </div>
+//         </div>
+//         </div>
+//       </div>
+//   )
+// }
+
+// export default ProductManagement;
