@@ -126,6 +126,19 @@ const ProductProvider = ({ children }) => {
     }
   };
 
+  const refreshProducts = async () => {
+    try {
+      const response = await publicAxios.get("/productlist");
+      const productsWithIds = (response.data.products || []).map((product) => ({
+        ...product,
+        _id: product._id || product.id.toString(),
+      }));
+      setProducts(productsWithIds);
+    } catch (err) {
+      setError(err.message || "Failed to refresh products");
+    }
+  };
+
   // ✅ Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
@@ -139,6 +152,7 @@ const ProductProvider = ({ children }) => {
       searchError,
       getProductByBarcode,
       adminStatistics,
+      refreshProducts,
     }),
     [products, loading, error, searchResults, searchLoading, searchError]
   );

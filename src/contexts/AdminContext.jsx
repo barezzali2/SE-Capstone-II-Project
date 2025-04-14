@@ -17,7 +17,7 @@ export const AdminProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const baseUrl = "http://localhost:3003";
 
-  // Create authenticated axios instance with interceptors
+  // we create an authenticated axios instance with interceptors, the interceptors are used to add the token to the request headers and to handle the response
   const authAxios = useMemo(() => {
     const instance = axios.create({
       baseURL: baseUrl,
@@ -36,13 +36,13 @@ export const AdminProvider = ({ children }) => {
       }
     );
 
+    // interceptor means that if the user is not authenticated, the user will be redirected to the login page
+    // so here we are checking if the user is not authenticated, we will remove the token from the local storage
     instance.interceptors.response.use(
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
           localStorage.removeItem("token");
-          // Instead of navigating directly, we'll set an auth error
-          // that components can handle
           setError("Authentication failed. Please login again.");
         }
         return Promise.reject(error);
