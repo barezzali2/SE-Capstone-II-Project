@@ -4,6 +4,7 @@ import { ProductProvider } from "./contexts/ProductContext";
 import { CartProvider } from "./contexts/CartContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import Loading from "./components/Loading";
+import { AdminProvider } from "./contexts/AdminContext";
 
 // import Home from "./pages/Home";
 // import ProductList from "./pages/ProductList";
@@ -33,55 +34,57 @@ function App() {
     <AuthProvider>
       <ProductProvider>
         <CartProvider>
-          <BrowserRouter>
-            <Suspense fallback={<Loading />}>
-              <Routes>
-                <Route path="/" element={<Navigate to="/home" replace />} />
-                <Route path="home" element={<Home />} />
-                <Route path="productlist" element={<ProductList />} />
-                <Route path="search" element={<Search />} />
-                <Route path="scanner" element={<Scanner />} />
-                <Route path="shopping" element={<ShoppingCart />} />
-                <Route path="map" element={<Map3D />} />
-                <Route path="review" element={<Review />} />
+          <AdminProvider>
+            <BrowserRouter>
+              <Suspense fallback={<Loading />}>
+                <Routes>
+                  <Route path="/" element={<Navigate to="/home" replace />} />
+                  <Route path="home" element={<Home />} />
+                  <Route path="productlist" element={<ProductList />} />
+                  <Route path="search" element={<Search />} />
+                  <Route path="scanner" element={<Scanner />} />
+                  <Route path="shopping" element={<ShoppingCart />} />
+                  <Route path="map" element={<Map3D />} />
+                  <Route path="review" element={<Review />} />
 
-                {/* admin */}
-                <Route path="/admin/login" element={<AdminLogin />} />
-                <Route
-                  path="/admin"
-                  element={
-                    <ProtectedRoute adminOnly={true}>
-                      <AdminHome />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/products"
-                  element={
-                    <ProtectedRoute adminOnly={true}>
-                      <ProductManagement />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/discounts"
-                  element={
-                    <ProtectedRoute adminOnly={true}>
-                      <DiscountManagement />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/featured"
-                  element={
-                    <ProtectedRoute adminOnly={true}>
-                      <FeaturedManagement />
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
+                  {/* admin */}
+                  <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route
+                    path="/admin"
+                    element={
+                      <ProtectedRoute adminOnly={true}>
+                        <AdminHome />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/products"
+                    element={
+                      <ProtectedRoute adminOnly={true}>
+                        <ProductManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/discounts"
+                    element={
+                      <ProtectedRoute adminOnly={true}>
+                        <DiscountManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/featured"
+                    element={
+                      <ProtectedRoute adminOnly={true}>
+                        <FeaturedManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </AdminProvider>
         </CartProvider>
       </ProductProvider>
     </AuthProvider>
