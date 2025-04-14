@@ -167,3 +167,123 @@
     padding: 1rem;
     text-align: center;
 }
+
+
+
+
+
+/* --- Modal Form Styles --- */
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Spacing between rows/groups */
+  padding-top: 0.5rem; /* Add some space from modal header */
+}
+
+.formRow {
+  display: flex;
+  flex-direction: row; /* Align items in a row */
+  gap: 1rem; /* Space between groups in a row */
+}
+/* Responsive behavior for rows */
+@media (max-width: 600px) {
+  .formRow {
+      flex-direction: column; /* Stack groups vertically on smaller screens */
+      gap: 1rem; /* Keep gap consistent */
+  }
+}
+
+
+.formRow .formGroup {
+  flex: 1; /* Allow groups in a row to share space */
+  min-width: 0; /* Prevent flex overflow issues */
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem; /* Space between label and input */
+}
+
+.formGroup label {
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="number"],
+.formGroup input[type="url"],
+.formGroup textarea {
+  padding: 0.6rem 0.8rem; /* Adjusted padding */
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.95rem; /* Adjust font size */
+  width: 100%; /* Ensure inputs fill their group */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25); /* Slightly smaller shadow */
+}
+
+.formGroup textarea {
+  resize: vertical; /* Allow vertical resize only */
+  min-height: 60px; /* Set a minimum height */
+}
+
+/* --- Modal Actions (Buttons at the bottom) --- */
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1.5rem; /* Space above buttons */
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.modalActions button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.modalActions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  background-color: #6c757d; /* Gray */
+  color: white;
+}
+.cancelButton:hover:not(:disabled) {
+  background-color: #5a6268;
+}
+
+.submitButton {
+  /* Using the same blue as edit button for consistency */
+  background-color: #dd5837;
+  color: white;
+}
+.submitButton:hover:not(:disabled) {
+  background-color: #c74a2d;
+}
+
+/* Error text specifically within the modal */
+.errorTextModal {
+  color: #dc3545; /* Red */
+  font-size: 0.9rem;
+  margin-top: -0.5rem; /* Pull up slightly below the last input */
+  margin-bottom: 0.5rem;
+  text-align: left; /* Align error text left */
+  width: 100%; /* Ensure it takes width in flex container */
+}
+
+/* === End styles for ProductManagement.module.css === */
