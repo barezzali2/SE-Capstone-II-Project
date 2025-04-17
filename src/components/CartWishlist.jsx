@@ -6,18 +6,42 @@ function CartWishlist() {
   const { cart, clearCart } = useCart();
   const cartItems = cart?.items || [];
 
-  const formatTotalPrice = () => {
-    if (!cart.totalPrice) return "0 IQD";
-    if (
-      typeof cart.totalPrice === "string" &&
-      cart.totalPrice.includes("IQD")
-    ) {
-      // the regex is used to extract all the numbers from the string
-      const numbers = cart.totalPrice.match(/\d+/g) || [];
-      const total = numbers.reduce((sum, num) => sum + parseInt(num, 10), 0);
-      return `${total} IQD`;
-    }
-    return `${cart.totalPrice} IQD`;
+  const calculateOriginalTotal = () => {
+    if (!cartItems.length) return 0;
+
+    return cartItems.reduce((total, item) => {
+      const numericPrice = parseFloat(
+        item.product.price.replace(/[^0-9.]/g, "")
+      );
+      return total + (isNaN(numericPrice) ? 0 : numericPrice);
+    }, 0);
+  };
+
+  const calculateDiscountedTotal = () => {
+    if (!cartItems.length) return 0;
+
+    return cartItems.reduce((total, item) => {
+      const numericPrice = parseFloat(
+        item.product.price.replace(/[^0-9.]/g, "")
+      );
+      if (isNaN(numericPrice)) return total;
+
+      if (item.product.isDiscounted && item.product.discountRate > 0) {
+        const discountedPrice =
+          numericPrice * (1 - item.product.discountRate / 100);
+        return total + discountedPrice;
+      }
+      return total + numericPrice;
+    }, 0);
+  };
+
+  const originalTotal = calculateOriginalTotal();
+  const discountedTotal = calculateDiscountedTotal();
+  const hasDiscount = originalTotal > discountedTotal;
+  const savings = originalTotal - discountedTotal;
+
+  const formatPrice = (price) => {
+    return `${Math.round(price)} IQD`;
   };
 
   const handleClearCart = () => {
@@ -56,7 +80,23 @@ function CartWishlist() {
       {cartItems.length > 0 && (
         <div className={styles.cartActions}>
           <div className={styles.total}>
-            <span>Total: {formatTotalPrice()}</span>
+            {hasDiscount ? (
+              <>
+                <span className={styles.totalOriginalPrice}>
+                  Original Total: {formatPrice(originalTotal)}
+                </span>
+                <span className={styles.totalDiscountedPrice}>
+                  Total: {formatPrice(discountedTotal)}
+                </span>
+                <span className={styles.savings}>
+                  You save: {formatPrice(savings)}
+                </span>
+              </>
+            ) : (
+              <span className={styles.totalDiscountedPrice}>
+                Total: {formatPrice(originalTotal)}
+              </span>
+            )}
           </div>
           <button className={styles.clearCartButton} onClick={handleClearCart}>
             Clear Cart

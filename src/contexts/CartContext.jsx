@@ -44,7 +44,26 @@ const CartProvider = ({ children }) => {
             const response = await axios.get(
               `${baseUrl}/cart?cartId=${cartId}`
             );
-            setCart(response.data.cart);
+            const cartWithDiscounts = {
+              ...response.data.cart,
+              items: response.data.cart.items.map((item) => ({
+                ...item,
+                product: {
+                  ...item.product,
+                  isDiscounted: item.product.isDiscounted || false,
+                  discountRate: item.product.discountRate || 0,
+                  isFeatured: item.product.isFeatured || false,
+                  price: item.product.price,
+                },
+              })),
+            };
+
+            // this is to ensure that the discount properties are preserved and calculate correct total
+            cartWithDiscounts.totalPrice = calculateTotalPrice(
+              cartWithDiscounts.items
+            );
+
+            setCart(cartWithDiscounts);
           } catch (getErr) {
             console.error("Error fetching cart:", getErr);
             setCart({ items: [], totalItems: 0, totalPrice: 0 });
@@ -59,17 +78,40 @@ const CartProvider = ({ children }) => {
     fetchCart();
   }, [cartId, baseUrl]);
 
+  const calculateItemPrice = (product) => {
+    const numericPrice = parseFloat(product.price.replace(/[^0-9.]/g, ""));
+    if (product.isDiscounted && product.discountRate > 0) {
+      return numericPrice * (1 - product.discountRate / 100);
+    }
+    return numericPrice;
+  };
+
+  const calculateTotalPrice = (items) => {
+    return items.reduce(
+      (total, item) => total + calculateItemPrice(item.product),
+      0
+    );
+  };
+
   const addToCart = async (productId) => {
     try {
       if (!cartId) {
         console.error("No cart ID available");
         return;
       }
-      let productToAdd = products.find((p) => p.id === productId);
+
+      let productToAdd = products.find(
+        (p) => p._id === productId || p.id === productId
+      );
+
       if (!productToAdd) {
-        productToAdd = searchResults.find((p) => p.id === productId);
+        productToAdd = searchResults.find(
+          (p) => p._id === productId || p.id === productId
+        );
+
         if (!productToAdd) {
           try {
+            console.log("Fetching product from API:", productId);
             const response = await axios.get(`${baseUrl}/product/${productId}`);
             productToAdd = response.data.product;
           } catch (err) {
@@ -89,20 +131,25 @@ const CartProvider = ({ children }) => {
         items: [
           ...cart.items,
           {
-            productId: productId,
+            productId: productToAdd._id || productToAdd.id,
             product: {
-              id: productId,
+              id: productToAdd._id || productToAdd.id,
               name: productToAdd.name,
               image: productToAdd.image,
               price: productToAdd.price,
               category: productToAdd.category,
+              description: productToAdd.description || "",
+              isDiscounted: productToAdd.isDiscounted,
+              discountRate: productToAdd.discountRate,
+              isFeatured: productToAdd.isFeatured,
             },
           },
         ],
         totalItems: cart.totalItems + 1,
-        totalPrice:
-          cart.totalPrice +
-          parseFloat(productToAdd.price.replace(/[^0-9.]/g, "")),
+        totalPrice: calculateTotalPrice([
+          ...cart.items,
+          { product: productToAdd },
+        ]),
       };
 
       setCart(updatedCart);
@@ -113,7 +160,39 @@ const CartProvider = ({ children }) => {
           productId: productId,
         });
 
-        setCart(response.data.cart);
+        const cartWithDiscounts = {
+          ...response.data.cart,
+          items: response.data.cart.items.map((item) => {
+            // here i find the original item in the cart to preserve its discount properties
+            const originalItem = cart.items.find(
+              (cartItem) => cartItem.productId === item.productId
+            );
+
+            return {
+              ...item,
+              product: {
+                ...item.product,
+                // if the item is already in the cart, use the original item's properties
+                // otherwise, use the productToAdd's properties
+                isDiscounted: originalItem
+                  ? originalItem.product.isDiscounted
+                  : productToAdd.isDiscounted,
+                discountRate: originalItem
+                  ? originalItem.product.discountRate
+                  : productToAdd.discountRate,
+                isFeatured: originalItem
+                  ? originalItem.product.isFeatured
+                  : productToAdd.isFeatured,
+                price: originalItem
+                  ? originalItem.product.price
+                  : productToAdd.price,
+              },
+            };
+          }),
+          totalPrice: calculateTotalPrice(response.data.cart.items),
+        };
+
+        setCart(cartWithDiscounts);
       } catch (apiErr) {
         console.error("API error adding to cart:", apiErr);
         setCart(cart);
@@ -146,9 +225,12 @@ const CartProvider = ({ children }) => {
             item.productId !== productId && item.product.id !== productId
         ),
         totalItems: cart.totalItems - 1,
-        totalPrice:
-          cart.totalPrice -
-          parseFloat(itemToRemove.product.price.replace(/[^0-9.]/g, "")),
+        totalPrice: calculateTotalPrice(
+          cart.items.filter(
+            (item) =>
+              item.productId !== productId && item.product.id !== productId
+          )
+        ),
       };
 
       setCart(updatedCart);

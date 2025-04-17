@@ -18,7 +18,7 @@ import styles from "./DiscountManagement.module.css";
 const formatPrice = (price) => {
   const num = parseFloat(price); // Attempt to convert to number
   if (!isNaN(num)) {
-    return `${num.toFixed(0)} IQD`; // Format with 2 decimal places and append "IQD"
+    return num.toFixed(0);
   }
   return "N/A"; // Fallback for invalid/missing price
 };
@@ -41,7 +41,6 @@ function DiscountManagement() {
   // State for the "Add Discount" form section
   const [productToAddDiscount, setProductToAddDiscount] = useState(null);
   const [addFormRate, setAddFormRate] = useState("");
-  const [addFormPrice, setAddFormPrice] = useState("");
   const [addFormError, setAddFormError] = useState(null);
 
   // State for inline editing in the discounted table
@@ -54,11 +53,16 @@ function DiscountManagement() {
   useEffect(() => {
     if (allProducts && allProducts.length > 0) {
       const discounted = allProducts.filter(
-        (p) => p.isDiscounted && p.discountRate != null && p.newPrice != null // Check for null too
+        (p) =>
+          p.isDiscounted === true && p.discountRate > 0 && p.newPrice !== null
       );
       const available = allProducts.filter(
-        (p) => !p.isDiscounted || p.discountRate == null || p.newPrice == null // Check for null too
+        (p) => !p.isDiscounted || p.discountRate <= 0 || p.newPrice === null
       );
+
+      console.log("Discounted Products:", discounted);
+      console.log("Available Products:", available);
+
       setDiscountedProducts(discounted);
       setAvailableProducts(available);
 
@@ -84,18 +88,17 @@ function DiscountManagement() {
   }, [allProducts, productToAddDiscount, editingProductId]);
 
   const updateLocalProductState = (updatedProduct) => {
-    if (
-      updatedProduct.isDiscounted &&
-      updatedProduct.discountRate != null &&
-      updatedProduct.newPrice != null
-    ) {
+    if (updatedProduct.isDiscounted && updatedProduct.discountRate != null) {
       setDiscountedProducts((prev) => {
         const existingIndex = prev.findIndex(
           (p) => p._id === updatedProduct._id
         );
-        return existingIndex > -1
-          ? prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p))
-          : [...prev, updatedProduct];
+        if (existingIndex > -1) {
+          const newArr = [...prev];
+          newArr[existingIndex] = updatedProduct;
+          return newArr;
+        }
+        return [...prev, updatedProduct];
       });
       setAvailableProducts((prev) =>
         prev.filter((p) => p._id !== updatedProduct._id)
@@ -108,9 +111,12 @@ function DiscountManagement() {
         const existingIndex = prev.findIndex(
           (p) => p._id === updatedProduct._id
         );
-        return existingIndex > -1
-          ? prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p))
-          : [...prev, updatedProduct];
+        if (existingIndex > -1) {
+          const newArr = [...prev];
+          newArr[existingIndex] = updatedProduct;
+          return newArr;
+        }
+        return [...prev, updatedProduct];
       });
     }
   };
@@ -119,7 +125,6 @@ function DiscountManagement() {
   const handleSelectProductForAdd = (product) => {
     setProductToAddDiscount(product);
     setAddFormRate("");
-    setAddFormPrice("");
     setAddFormError(null);
     setError(null);
     handleCancelInlineEdit();
@@ -127,34 +132,32 @@ function DiscountManagement() {
   const handleCancelAdd = () => {
     setProductToAddDiscount(null);
     setAddFormRate("");
-    setAddFormPrice("");
     setAddFormError(null);
   };
   const handleAddFormSubmit = async (e) => {
     e.preventDefault();
-    if (!productToAddDiscount || !addFormRate || !addFormPrice) {
-      setAddFormError("Discount Rate and New Price are required.");
+    if (!productToAddDiscount || !addFormRate) {
+      setAddFormError("Discount Rate is required.");
       return;
     }
 
     const rate = parseFloat(addFormRate);
-    const price = parseFloat(addFormPrice);
     const originalPrice = parseFloat(productToAddDiscount.price);
 
     if (isNaN(rate) || rate <= 0 || rate >= 100) {
       setAddFormError("Discount Rate must be a number between 0 and 100.");
       return;
     }
-    if (isNaN(price) || price <= 0 || price >= originalPrice) {
-      setAddFormError("New Price must be lower than the original price.");
-      return;
-    }
+
+    // this is the new price that will be set after the discount is applied
+    const discountAmount = (originalPrice * rate) / 100;
+    const newPrice = originalPrice - discountAmount;
 
     setIsLoading(true);
     try {
       const result = await updateDiscount(productToAddDiscount._id, {
         discountRate: rate,
-        newPrice: price,
+        newPrice: newPrice.toFixed(0), // Round to whole number for IQD
       });
       updateLocalProductState(result.product);
       handleCancelAdd();
@@ -183,12 +186,12 @@ function DiscountManagement() {
   };
   const handleInlineEditSubmit = async (e) => {
     e.preventDefault();
-    if (!editingProductId || !inlineEditRate || !inlineEditPrice) {
-      setInlineEditError("Discount Rate and New Price are required.");
+    if (!editingProductId || !inlineEditRate) {
+      setInlineEditError("Discount Rate is required.");
       return;
     }
+
     const rate = parseFloat(inlineEditRate);
-    const price = parseFloat(inlineEditPrice);
     const originalProduct = discountedProducts.find(
       (p) => p._id === editingProductId
     );
@@ -198,20 +201,17 @@ function DiscountManagement() {
       handleCancelInlineEdit();
       return;
     }
+
     const originalPrice = parseFloat(originalProduct.price);
 
     if (isNaN(rate) || rate <= 0 || rate >= 100) {
       setInlineEditError("Discount Rate must be a number between 0 and 100.");
       return;
     }
-    if (isNaN(price) || price <= 0) {
-      setInlineEditError("New Price must be a positive number.");
-      return;
-    }
-    if (isNaN(originalPrice) || price >= originalPrice) {
-      setInlineEditError("New Price must be lower than the original price.");
-      return;
-    }
+
+    // this is the new price that will be set after the discount is applied
+    const discountAmount = (originalPrice * rate) / 100;
+    const newPrice = originalPrice - discountAmount;
 
     setIsLoading(true);
     setInlineEditError(null);
@@ -219,7 +219,7 @@ function DiscountManagement() {
     try {
       const response = await updateDiscount(editingProductId, {
         discountRate: rate,
-        newPrice: price,
+        newPrice: newPrice.toFixed(0),
       });
       updateLocalProductState(response.product);
       handleCancelInlineEdit();
@@ -227,7 +227,7 @@ function DiscountManagement() {
     } catch (err) {
       console.error("Error updating discount:", err);
       setInlineEditError(
-        err.response?.data?.error || "Failed to update discount. Check console."
+        err.response?.data?.error || "Failed to update discount"
       );
     } finally {
       setIsLoading(false);
@@ -292,9 +292,8 @@ function DiscountManagement() {
               Original Price: {productToAddDiscount.price}
             </p>
             <form onSubmit={handleAddFormSubmit} className={styles.inlineForm}>
-              {/* Form inputs remain the same */}
               <div className={styles.formGroupInline}>
-                <label htmlFor="addRate">Rate (%):</label>
+                <label htmlFor="addRate">Discount Rate (%):</label>
                 <input
                   type="number"
                   id="addRate"
@@ -308,37 +307,31 @@ function DiscountManagement() {
                   disabled={isLoading}
                 />
               </div>
-              <div className={styles.formGroupInline}>
-                <label htmlFor="addPrice">New Price (IQD):</label>
-                <input
-                  type="number"
-                  id="addPrice"
-                  value={addFormPrice}
-                  onChange={(e) => setAddFormPrice(e.target.value)}
-                  placeholder="e.g., 19.99"
-                  min="0.01"
-                  step="0.01"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div className={styles.formActionsInline}>
+              {addFormRate && (
+                <div className={styles.previewPrice}>
+                  New Price will be:{" "}
+                  {formatPrice(
+                    parseFloat(productToAddDiscount.price) *
+                      (1 - parseFloat(addFormRate) / 100)
+                  )}{" "}
+                  IQD
+                </div>
+              )}
+              <div className={styles.formActions}>
                 <button
                   type="submit"
-                  className={`${styles.actionButton} ${styles.saveButton}`}
+                  className={styles.submitButton}
                   disabled={isLoading}
                 >
-                  {" "}
-                  {isLoading ? "Saving..." : "Save Discount"}{" "}
+                  {isLoading ? "Adding..." : "Add Discount"}
                 </button>
                 <button
                   type="button"
                   onClick={handleCancelAdd}
-                  className={`${styles.actionButton} ${styles.cancelButton}`}
+                  className={styles.cancelButton}
                   disabled={isLoading}
                 >
-                  {" "}
-                  Cancel{" "}
+                  Cancel
                 </button>
               </div>
               {addFormError && (
@@ -378,52 +371,72 @@ function DiscountManagement() {
                         {/* ***** FIXED PRICE FORMATTING ***** */}
                         <td>{formatPrice(product.price)}</td>
                         <td>
-                          <input
-                            type="number"
-                            value={inlineEditRate}
-                            onChange={(e) => setInlineEditRate(e.target.value)}
-                            className={styles.inlineInput}
-                            min="1"
-                            max="99"
-                            step="0.01"
-                            required
-                            disabled={isLoading}
-                          />
+                          <form
+                            onSubmit={handleInlineEditSubmit}
+                            className={styles.inlineForm}
+                          >
+                            <div className={styles.formGroupInline}>
+                              <label htmlFor="editRate">Rate (%):</label>
+                              <input
+                                type="number"
+                                id="editRate"
+                                value={inlineEditRate}
+                                onChange={(e) =>
+                                  setInlineEditRate(e.target.value)
+                                }
+                                placeholder="e.g., 15"
+                                min="1"
+                                max="99"
+                                required
+                                disabled={isLoading}
+                              />
+                            </div>
+                            {inlineEditRate && (
+                              <div className={styles.previewPrice}>
+                                New Price will be:{" "}
+                                {formatPrice(
+                                  parseFloat(product.price) *
+                                    (1 - parseFloat(inlineEditRate) / 100)
+                                )}{" "}
+                                IQD
+                              </div>
+                            )}
+                            <div className={styles.formActionsInline}>
+                              <button
+                                type="submit"
+                                className={`${styles.actionButton} ${styles.saveButton}`}
+                                disabled={isLoading}
+                              >
+                                {isLoading ? "Saving..." : "Save"}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleCancelInlineEdit}
+                                className={`${styles.actionButton} ${styles.cancelButton}`}
+                                disabled={isLoading}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                            {inlineEditError && (
+                              <div className={styles.errorTextInline}>
+                                {inlineEditError}
+                              </div>
+                            )}
+                          </form>
                         </td>
-                        <td>
-                          <input
-                            type="number"
-                            value={inlineEditPrice}
-                            onChange={(e) => setInlineEditPrice(e.target.value)}
-                            className={styles.inlineInput}
-                            min="0.01"
-                            step="0.01"
-                            required
-                            disabled={isLoading}
-                          />
-                        </td>
+                        <td>{formatPrice(product.newPrice)}</td>
                         <td>
                           <button
-                            onClick={handleInlineEditSubmit}
-                            className={`${styles.actionButton} ${styles.saveButton}`}
-                            disabled={isLoading}
+                            onClick={() => handleRemoveDiscount(product._id)}
+                            className={`${styles.actionButton} ${styles.removeButton}`}
+                            disabled={
+                              isLoading || editingProductId === product._id
+                            }
                           >
                             {" "}
-                            {isLoading ? "Saving..." : "Save"}{" "}
+                            Remove{" "}
                           </button>
-                          <button
-                            onClick={handleCancelInlineEdit}
-                            className={`${styles.actionButton} ${styles.cancelButton}`}
-                            disabled={isLoading}
-                          >
-                            {" "}
-                            Cancel{" "}
-                          </button>
-                          {inlineEditError && (
-                            <p className={styles.errorTextInline}>
-                              {inlineEditError}
-                            </p>
-                          )}
                         </td>
                       </>
                     ) : (
@@ -487,8 +500,7 @@ function DiscountManagement() {
                   <tr key={product._id}>
                     <td>{product.name}</td>
                     <td>{product.category}</td>
-                    {/* ***** FIXED PRICE FORMATTING ***** */}
-                    <td>{formatPrice(product.price)}</td>
+                    <td>{formatPrice(product.price)} IQD</td>
                     <td>
                       <button
                         onClick={() => handleSelectProductForAdd(product)}
@@ -499,8 +511,7 @@ function DiscountManagement() {
                           !!productToAddDiscount
                         }
                       >
-                        {" "}
-                        Add Discount{" "}
+                        Add Discount
                       </button>
                     </td>
                   </tr>

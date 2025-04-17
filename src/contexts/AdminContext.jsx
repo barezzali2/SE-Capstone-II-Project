@@ -130,8 +130,14 @@ export const AdminProvider = ({ children }) => {
   const toggleFeatured = async (productId, isFeatured) => {
     setLoading(true);
     try {
-      const method = isFeatured ? "post" : "delete";
-      const response = await authAxios[method](`/admin/featured/${productId}`);
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${baseUrl}/admin/featured/${productId}`,
+        { isFeatured },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return response.data;
     } catch (error) {
       setError(
