@@ -1,69 +1,145 @@
 .wishlist {
-    margin-top: 110px;
-    padding: 15px;
+  margin-top: 110px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .wishlist h3 {
-    margin-bottom: 30px;
-    font-size: 20px;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  color: #333;
 }
 
 .wishlist p {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .cards {
 }
 
+.cartActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-@media(min-width: 1000px) {
-    .wishlist {
-        margin-top: 11%;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 60px;
-        max-width: 1050px;
-    }
-    
-    .wishlist h3 {
-        margin-bottom: 40px;
-        font-size: 30px;
-    }
-    
-    .wishlist p {
-        font-weight: 400;
-        font-size: 20px;
-    }
+.total {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 15px;
+  width: 100%;
+}
 
-    .cartActions {
-        margin-top: 5%;
-    }
+.totalOriginalPrice {
+  font-size: 1rem;
+  color: #888;
+  text-decoration: line-through;
+  margin-bottom: 5px;
+  position: relative;
+}
 
-    .total {
-        margin: 15px 0;
-        font-size: 26px;
-        font-weight: 550;
-    }
+.totalOriginalPrice::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #e53935;
+  left: 0;
+  top: 50%;
+  transform: rotate(-5deg);
+}
 
-    .clearCartButton {
-        font-family: "Lexend Deca";
-        font-weight: 450;
-        margin-top: 2%;
-        padding: 10px;
-        font-size: 19px;
-        border-radius: 10px;
-        cursor: pointer;
-        background: none;
-        transition: ease-in-out 0.20s;
-    }
+.totalDiscountedPrice {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #e53935;
+}
 
-    .clearCartButton:hover {
-        background-color: #DD5837;
-        color: white;
-    }
+.clearCartButton {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
 
-    .carts .emptyCart {
-        margin-top: 10px;
-    }
+.clearCartButton:hover {
+  background-color: #c62828;
+}
 
+.savings {
+  font-size: 0.9rem;
+  color: #4caf50;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.carts .emptyCart {
+  padding: 30px;
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+}
+
+@media (min-width: 1000px) {
+  .wishlist {
+    margin-top: 11%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+    max-width: 1050px;
+  }
+
+  .wishlist h3 {
+    margin-bottom: 40px;
+    font-size: 30px;
+  }
+
+  .wishlist p {
+    font-weight: 400;
+    font-size: 20px;
+  }
+
+  .cartActions {
+    margin-top: 5%;
+  }
+
+  .total {
+    margin: 15px 0;
+    font-size: 26px;
+    font-weight: 550;
+  }
+
+  .clearCartButton {
+    font-family: "Lexend Deca";
+    font-weight: 450;
+    margin-top: 2%;
+    padding: 10px;
+    font-size: 19px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: none;
+    transition: ease-in-out 0.2s;
+  }
+
+  .clearCartButton:hover {
+    background-color: #dd5837;
+    color: white;
+  }
+
+  .carts .emptyCart {
+    margin-top: 10px;
+  }
 }

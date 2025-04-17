@@ -30,6 +30,7 @@ const ProductProvider = ({ children }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState(null);
+  const [statsData, setStatsData] = useState(null);
 
   // this is the axios instance for the public routes
   const publicAxios = axios.create({
@@ -127,15 +128,22 @@ const ProductProvider = ({ children }) => {
   };
 
   const refreshProducts = async () => {
+    setLoading(true);
     try {
       const response = await publicAxios.get("/productlist");
-      const productsWithIds = (response.data.products || []).map((product) => ({
-        ...product,
-        _id: product._id || product.id.toString(),
-      }));
-      setProducts(productsWithIds);
+      if (response.data && response.data.products) {
+        const productsWithIds = response.data.products.map((product) => ({
+          ...product,
+          _id: product._id || product.id,
+        }));
+        setProducts(productsWithIds);
+        setError(null);
+      }
     } catch (err) {
+      console.error("Error refreshing products:", err);
       setError(err.message || "Failed to refresh products");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -154,7 +162,16 @@ const ProductProvider = ({ children }) => {
       adminStatistics,
       refreshProducts,
     }),
-    [products, loading, error, searchResults, searchLoading, searchError]
+    [
+      products,
+      loading,
+      error,
+      searchResults,
+      searchLoading,
+      searchError,
+      adminStatistics,
+      refreshProducts,
+    ]
   );
 
   return (

@@ -32,14 +32,17 @@ function ProductDetailsModal({ product, onClose }) {
             alt={product.name}
             // if the image is not found, show a placeholder image
             onError={(e) => {
-              e.target.src = "/placeholder-image.jpg"; 
-              e.target.onerror = null; 
+              e.target.src = "/placeholder-image.jpg";
+              e.target.onerror = null;
             }}
           />
           {product.isDiscounted && (
             <span className={styles.discountBadge}>
               -{product.discountRate}%
             </span>
+          )}
+          {product.isFeatured && (
+            <span className={styles.featuredBadge}>Featured</span>
           )}
         </div>
 
@@ -90,6 +93,7 @@ ProductDetailsModal.propTypes = {
     description: PropTypes.string,
     isDiscounted: PropTypes.bool,
     discountRate: PropTypes.number,
+    isFeatured: PropTypes.bool,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };

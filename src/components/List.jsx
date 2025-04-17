@@ -90,6 +90,14 @@ function List() {
       return price >= priceRange.min && price <= priceRange.max;
     });
 
+    if (sortType === "featured") {
+      filtered.sort((a, b) => {
+        if (a.isFeatured && !b.isFeatured) return -1;
+        if (!a.isFeatured && b.isFeatured) return 1;
+        return 0;
+      });
+    }
+
     const groupedProducts = filtered.reduce((acc, product) => {
       if (!acc[product.category]) {
         acc[product.category] = [];
@@ -140,10 +148,7 @@ function List() {
       }
     });
 
-    const sortedProducts = Object.values(orderedGroupedProducts).flat();
-
     return {
-      filteredProducts: sortedProducts,
       groupedProducts: orderedGroupedProducts,
     };
   }, [products, filterState]);

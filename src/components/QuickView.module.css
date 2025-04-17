@@ -4,182 +4,244 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
-  padding: 20px;
+  backdrop-filter: blur(5px);
 }
 
-.modal {
+.modalContent {
   background: white;
-  border-radius: 12px;
-  position: relative;
-  width: 100%;
-  max-width: 900px;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 1000px;
   max-height: 90vh;
-  overflow: auto;
-  animation: modalFadeIn 0.3s ease;
-}
-
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
 }
 
 .closeButton {
   position: absolute;
-  top: 11px;
-  right: 8px;
-  background: none;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
-  font-size: 36px;
-  cursor: pointer;
-  /* width: 40px; */
-  /* height: 40px; */
-  padding: 0 12px;
   border-radius: 50%;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
-  transition: all 0.25s ease;
-  z-index: 1;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .closeButton:hover {
-  background: rgba(0, 0, 0, 0.1);
-  color: #000;
+  background: #dd5837;
+  color: white;
+  transform: rotate(90deg);
 }
 
-.modalContent {
-  /* display: flex; */
-  gap: 30px;
-  padding: 20px;
-}
-
-.modalImage {
-  flex: 1;
-  max-width: 50%;
-  margin-bottom: 10px;
-}
-
-.modalImage img {
+.productImage {
+  position: relative;
   width: 100%;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
+  height: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #f5f5f5;
 }
 
-.modalInfo {
-  flex: 1;
+.productImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.discountBadge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: #dd5837;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.featuredBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #28a745;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.productInfo {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
-.modalInfo h2 {
-  margin: 0 0 10px 0;
-  font-size: 1.8rem;
-  color: #0a1226;
-}
-
-.modalCategory {
-  color: #666;
-  font-size: 1rem;
-  margin: 0 0 10px 0;
-}
-
-.modalPrice {
-  color: #dd5837;
-  font-size: 1.4rem;
+.productInfo h2 {
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
   font-weight: 600;
-  margin: 0 0 20px 0;
 }
 
-.modalDescription {
-  color: #444;
-  line-height: 1.6;
-  margin: 0 0 30px 0;
+.category {
+  color: #666;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 1.2rem;
+}
+
+.discountedPrice {
+  color: #dd5837;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 2rem;
+  color: #333;
+}
+
+.description {
+  color: #666;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin: 0;
 }
 
 .modalActions {
-  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.star {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
 }
 
 .addToCard {
-  width: 100%;
-  padding: 15px 30px;
+  flex: 2;
+  padding: 1rem 2rem;
   background: #dd5837;
   color: white;
   border: none;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.25s ease;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.viewDetailsButton:hover {
-  background: #c94e31;
+.addToCard:hover {
+  background: #c44726;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(221, 88, 55, 0.2);
 }
 
-@media (min-width: 1000px) {
+.feedback {
+  flex: 1;
+  padding: 1rem 2rem;
+  background: #f8f9fa;
+  color: #333;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.feedback:hover {
+  background: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
   .modalContent {
-    flex-direction: column;
-    padding: 25px;
-    gap: 20px;
-    text-align: center;
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    gap: 1.5rem;
   }
 
-  .modal {
-    width: 100%;
-    max-width: 585px;
-    max-height: 94vh;
+  .productImage {
+    height: 300px;
   }
 
-  .modalImage {
-    margin: 0 auto;
-    max-width: 60%;
-  }
-
-  .modalInfo h2 {
+  .productInfo h2 {
     font-size: 1.5rem;
   }
 
-  .modalPrice {
-    font-size: 1.2rem;
+  .discountedPrice,
+  .price {
+    font-size: 1.5rem;
   }
 
-  .modalDescription {
-    margin: 0;
+  .description {
+    font-size: 1rem;
   }
 
-  .star {
-    /* margin: 10px 35%; */
-    max-width: 30%;
-    margin: 5% auto;
-    /* margin-left: auto; */
-    /* margin-right: auto; */
+  .buttonContainer {
+    flex-direction: column;
   }
 
+  .addToCard,
   .feedback {
     width: 100%;
-    padding: 15px 30px;
-    background: #dd5837;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.25s ease;
-    margin-bottom: 15px;
   }
 }

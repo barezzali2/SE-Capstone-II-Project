@@ -9,6 +9,19 @@ function Product({ product }) {
   const { baseUrl } = useProduct();
   const imageUrl = `${baseUrl}${product.image}`;
 
+  const calculateDiscountedPrice = (price) => {
+    if (
+      !product.isDiscounted ||
+      !product.discountRate ||
+      product.discountRate <= 0
+    )
+      return price;
+    const numericPrice = parseInt(price.replace(/[^0-9]/g, ""));
+    if (isNaN(numericPrice)) return price;
+    const discountedPrice = numericPrice * (1 - product.discountRate / 100);
+    return `${Math.round(discountedPrice)} IQD`;
+  };
+
   return (
     <>
       <div className={styles.productCard}>
@@ -22,11 +35,30 @@ function Product({ product }) {
               Quick View
             </button>
           </div>
+          {product.isDiscounted && product.discountRate > 0 && (
+            <span className={styles.discountBadge}>
+              -{product.discountRate}%
+            </span>
+          )}
+          {product.isFeatured && (
+            <span className={styles.featuredBadge}>Featured</span>
+          )}
         </div>
         <div className={styles.productInfo}>
           <h3>{product.name}</h3>
           <p className={styles.category}>{product.category}</p>
-          <p className={styles.price}>{product.price}</p>
+          <div className={styles.priceContainer}>
+            {product.isDiscounted && product.discountRate > 0 ? (
+              <>
+                <span className={styles.originalPrice}>{product.price}</span>
+                <span className={styles.discountedPrice}>
+                  {calculateDiscountedPrice(product.price)}
+                </span>
+              </>
+            ) : (
+              <p className={styles.price}>{product.price}</p>
+            )}
+          </div>
         </div>
       </div>
 
@@ -47,6 +79,10 @@ Product.propTypes = {
     image: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    isDiscounted: PropTypes.bool,
+    discountRate: PropTypes.number,
+    isFeatured: PropTypes.bool,
   }).isRequired,
 };
 
