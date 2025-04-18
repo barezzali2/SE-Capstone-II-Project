@@ -5,6 +5,8 @@ import { CartProvider } from "./contexts/CartContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import Loading from "./components/Loading";
 import { AdminProvider } from "./contexts/AdminContext";
+import FeaturedProducts from "./pages/FeaturedProducts";
+import CategoryPage from "./pages/CategoryPage";
 
 // import Home from "./pages/Home";
 // import ProductList from "./pages/ProductList";
@@ -46,6 +48,14 @@ function App() {
                   <Route path="shopping" element={<ShoppingCart />} />
                   <Route path="map" element={<Map3D />} />
                   <Route path="review" element={<Review />} />
+                  <Route
+                    path="/products/featured"
+                    element={<FeaturedProducts />}
+                  />
+                  <Route
+                    path="/category/:categoryName"
+                    element={<CategoryPage />}
+                  />
 
                   {/* admin */}
                   <Route path="/admin/login" element={<AdminLogin />} />

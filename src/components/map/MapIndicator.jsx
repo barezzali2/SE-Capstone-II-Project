@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./MapIndicator.module.css";
-import { useProduct } from "../contexts/ProductContext";
+import { useProduct } from "../../contexts/ProductContext";
 
 function MapIndicator() {
   const { baseUrl } = useProduct();

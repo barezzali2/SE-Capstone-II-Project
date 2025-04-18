@@ -1,52 +1,79 @@
-import { memo, useState } from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import styles from "./Product.module.css";
 import QuickView from "./QuickView";
 import { useProduct } from "../contexts/ProductContext";
 
-function Product({ product }) {
+function Product({ product, listView = false }) {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
   const { baseUrl } = useProduct();
-  const imageUrl = `${baseUrl}${product.image}`;
 
   const calculateDiscountedPrice = (price) => {
-    if (
-      !product.isDiscounted ||
-      !product.discountRate ||
-      product.discountRate <= 0
-    )
-      return price;
+    if (!product.isDiscounted || !product.discountRate) return price;
+
     const numericPrice = parseInt(price.replace(/[^0-9]/g, ""));
     if (isNaN(numericPrice)) return price;
+
     const discountedPrice = numericPrice * (1 - product.discountRate / 100);
     return `${Math.round(discountedPrice)} IQD`;
   };
 
+  const imageUrl = product.image.startsWith("http")
+    ? product.image
+    : `${baseUrl}${product.image}`;
+
+  const handleCardClick = () => {
+    setIsQuickViewOpen(true);
+  };
+
   return (
     <>
-      <div className={styles.productCard}>
+      <div
+        className={`${styles.productCard} ${
+          listView ? styles.listViewCard : ""
+        }`}
+        onClick={listView ? handleCardClick : undefined}
+      >
         <div className={styles.imageContainer}>
           <img src={imageUrl} alt={product.name} />
-          <div className={styles.overlay}>
-            <button
-              className={styles.quickView}
-              onClick={() => setIsQuickViewOpen(true)}
-            >
-              Quick View
-            </button>
-          </div>
-          {product.isDiscounted && product.discountRate > 0 && (
+          {!listView && (
+            <div className={styles.overlay}>
+              <button
+                className={styles.quickView}
+                onClick={() => setIsQuickViewOpen(true)}
+              >
+                Quick View
+              </button>
+            </div>
+          )}
+          {!listView && product.isDiscounted && product.discountRate > 0 && (
             <span className={styles.discountBadge}>
               -{product.discountRate}%
             </span>
           )}
-          {product.isFeatured && (
+          {!listView && product.isFeatured && (
             <span className={styles.featuredBadge}>Featured</span>
           )}
         </div>
         <div className={styles.productInfo}>
           <h3>{product.name}</h3>
           <p className={styles.category}>{product.category}</p>
+
+          {/* list view badges for discount and featured */}
+          {listView && (
+            <div className={styles.listViewBadges}>
+              {product.isDiscounted && product.discountRate > 0 && (
+                <span className={styles.listDiscountBadge}>
+                  -{product.discountRate}%
+                </span>
+              )}
+              {product.isFeatured && (
+                <span className={styles.listFeaturedBadge}>Featured</span>
+              )}
+            </div>
+          )}
+
           <div className={styles.priceContainer}>
             {product.isDiscounted && product.discountRate > 0 ? (
               <>
@@ -84,6 +111,7 @@ Product.propTypes = {
     discountRate: PropTypes.number,
     isFeatured: PropTypes.bool,
   }).isRequired,
+  listView: PropTypes.bool,
 };
 
-export default memo(Product);
+export default Product;

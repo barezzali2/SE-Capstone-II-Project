@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import styles from "./Navbar.module.css";
 import { memo, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { FiMap } from "react-icons/fi";
 import { useCart } from "../contexts/CartContext";
 
 // Memo
@@ -35,6 +36,18 @@ function Navbar() {
             className={({ isActive }) => (isActive ? styles.active : "")}
           >
             PRODUCT LIST
+          </NavLink>
+        </li>
+
+        <li className={styles.mapLinkContainer}>
+          <NavLink
+            to="/map"
+            className={({ isActive }) =>
+              `${styles.mapLink} ${isActive ? styles.activeMap : ""}`
+            }
+          >
+            <FiMap className={styles.mapIcon} />
+            <span>STORE MAP</span>
           </NavLink>
         </li>
 
@@ -87,6 +100,17 @@ function Navbar() {
         <li>
           <NavLink to="/productlist" onClick={handleMenuOpen}>
             PRODUCT LIST
+          </NavLink>
+        </li>
+
+        <li className={styles.mapLinkContainerMobile}>
+          <NavLink
+            to="/map"
+            className={styles.mapLinkMobile}
+            onClick={handleMenuOpen}
+          >
+            <FiMap className={styles.mapIconMobile} />
+            <span>STORE MAP</span>
           </NavLink>
         </li>
 

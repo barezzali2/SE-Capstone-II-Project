@@ -18,9 +18,63 @@ const useCart = () => {
   return context;
 };
 
+const initializeCart = () => {
+  const calculateCartTotal = (items) => {
+    return items.reduce((total, item) => {
+      const numericPrice = parseFloat(
+        item.product.price.replace(/[^0-9.]/g, "")
+      );
+      const quantity = item.quantity || 1;
+
+      if (item.product.isDiscounted && item.product.discountRate > 0) {
+        const discountedPrice =
+          numericPrice * (1 - item.product.discountRate / 100);
+        return total + discountedPrice * quantity;
+      }
+
+      return total + numericPrice * quantity;
+    }, 0);
+  };
+
+  try {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      const parsedCart = JSON.parse(storedCart);
+
+      // if cart is not valid, reset it
+      if (!parsedCart.items || !Array.isArray(parsedCart.items)) {
+        console.warn("Invalid cart structure in localStorage, resetting");
+        localStorage.removeItem("cart");
+        return { items: [], totalItems: 0, totalPrice: 0 };
+      }
+
+      // if items are not valid, remove them
+      const validItems = parsedCart.items.filter(
+        (item) => item && item.product && item.productId && item.quantity
+      );
+
+      if (validItems.length !== parsedCart.items.length) {
+        console.warn("Some cart items were invalid and have been removed");
+      }
+
+      return {
+        ...parsedCart,
+        items: validItems,
+        totalItems: validItems.length,
+        totalPrice: calculateCartTotal(validItems),
+      };
+    }
+  } catch (error) {
+    console.error("Error parsing cart from localStorage:", error);
+    localStorage.removeItem("cart");
+  }
+
+  return { items: [], totalItems: 0, totalPrice: 0 };
+};
+
 const CartProvider = ({ children }) => {
   const { products, baseUrl, searchResults } = useProduct();
-  const [cart, setCart] = useState({ items: [], totalItems: 0, totalPrice: 0 });
+  const [cart, setCart] = useState(initializeCart());
   const [cartId, setCartId] = useState(() => {
     return localStorage.getItem("cartId") || null;
   });
@@ -78,19 +132,32 @@ const CartProvider = ({ children }) => {
     fetchCart();
   }, [cartId, baseUrl]);
 
-  const calculateItemPrice = (product) => {
-    const numericPrice = parseFloat(product.price.replace(/[^0-9.]/g, ""));
-    if (product.isDiscounted && product.discountRate > 0) {
-      return numericPrice * (1 - product.discountRate / 100);
+  // save cart to localStorage
+  useEffect(() => {
+    if (cart && cart.items) {
+      try {
+        localStorage.setItem("cart", JSON.stringify(cart));
+      } catch (error) {
+        console.error("Error saving cart to localStorage:", error);
+      }
     }
-    return numericPrice;
-  };
+  }, [cart]);
 
   const calculateTotalPrice = (items) => {
-    return items.reduce(
-      (total, item) => total + calculateItemPrice(item.product),
-      0
-    );
+    return items.reduce((total, item) => {
+      const numericPrice = parseFloat(
+        item.product.price.replace(/[^0-9.]/g, "")
+      );
+      const quantity = item.quantity || item.product.quantity || 1;
+
+      if (item.product.isDiscounted && item.product.discountRate > 0) {
+        const discountedPrice =
+          numericPrice * (1 - item.product.discountRate / 100);
+        return total + discountedPrice * quantity;
+      }
+
+      return total + numericPrice * quantity;
+    }, 0);
   };
 
   const addToCart = async (productId) => {
@@ -241,7 +308,31 @@ const CartProvider = ({ children }) => {
           productId: itemToRemove.productId,
         });
 
-        setCart(response.data.cart);
+        const cartWithDiscounts = {
+          ...response.data.cart,
+          items: response.data.cart.items.map((item) => {
+            const originalItem = updatedCart.items.find(
+              (cartItem) => cartItem.productId === item.productId
+            );
+
+            return {
+              ...item,
+              product: {
+                ...item.product,
+                isDiscounted: originalItem?.product.isDiscounted || false,
+                discountRate: originalItem?.product.discountRate || 0,
+                isFeatured: originalItem?.product.isFeatured || false,
+                price: originalItem?.product.price || item.product.price,
+              },
+            };
+          }),
+        };
+
+        cartWithDiscounts.totalPrice = calculateTotalPrice(
+          cartWithDiscounts.items
+        );
+
+        setCart(cartWithDiscounts);
       } catch (apiErr) {
         console.error("API error removing from cart:", apiErr);
         setCart(cart);
@@ -270,6 +361,101 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  const updateCartItemQuantity = async (productId, quantity) => {
+    try {
+      if (!cartId) {
+        console.error("No cart ID available");
+        return;
+      }
+
+      const itemToUpdate = cart.items.find(
+        (item) => item.productId === productId || item.product.id === productId
+      );
+
+      if (!itemToUpdate) {
+        console.error("Item not found in cart:", productId);
+        return;
+      }
+
+      // first update the cart locally because the server will take time to update
+      const updatedItems = cart.items.map((item) => {
+        if (item.productId === productId || item.product.id === productId) {
+          return {
+            ...item,
+            quantity: quantity,
+            product: {
+              ...item.product,
+              quantity: quantity,
+            },
+          };
+        }
+        return item;
+      });
+
+      const updatedCart = {
+        ...cart,
+        items: updatedItems,
+        totalPrice: calculateTotalPrice(updatedItems),
+      };
+
+      setCart(updatedCart);
+
+      // and then update the server by sending the productId and the new quantity
+      try {
+        const response = await axios.post(`${baseUrl}/cart/update`, {
+          cartId,
+          productId: itemToUpdate.productId,
+          quantity: quantity,
+        });
+
+        // this is to ensure that the discount properties are preserved and calculate correct total
+        const cartWithDiscounts = {
+          ...response.data.cart,
+          items: response.data.cart.items.map((item) => {
+            // Find the original item to preserve discount properties
+            const originalItem = updatedItems.find(
+              (cartItem) =>
+                cartItem.productId === item.productId ||
+                cartItem.product.id === item.productId
+            );
+
+            return {
+              ...item,
+              product: {
+                ...item.product,
+                // if the item is already in the cart, use the original item's properties
+                // otherwise, use the item.product.isDiscounted || false
+                isDiscounted: originalItem
+                  ? originalItem.product.isDiscounted
+                  : item.product.isDiscounted || false,
+                discountRate: originalItem
+                  ? originalItem.product.discountRate
+                  : item.product.discountRate || 0,
+                isFeatured: originalItem
+                  ? originalItem.product.isFeatured
+                  : item.product.isFeatured || false,
+                price: originalItem
+                  ? originalItem.product.price
+                  : item.product.price,
+                quantity: item.quantity || quantity,
+              },
+            };
+          }),
+        };
+
+        cartWithDiscounts.totalPrice = calculateTotalPrice(
+          cartWithDiscounts.items
+        );
+        setCart(cartWithDiscounts);
+      } catch (apiErr) {
+        console.error("API error updating cart item quantity:", apiErr);
+        setCart(cart);
+      }
+    } catch (err) {
+      console.error("Error updating cart item quantity:", err);
+    }
+  };
+
   // ✅ Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({
@@ -277,6 +463,7 @@ const CartProvider = ({ children }) => {
       addToCart,
       removeFromCart,
       clearCart,
+      updateCartItemQuantity,
     }),
     [cart]
   );

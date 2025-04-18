@@ -13,7 +13,8 @@ function CartWishlist() {
       const numericPrice = parseFloat(
         item.product.price.replace(/[^0-9.]/g, "")
       );
-      return total + (isNaN(numericPrice) ? 0 : numericPrice);
+      const quantity = item.quantity || item.product.quantity || 1;
+      return total + (isNaN(numericPrice) ? 0 : numericPrice * quantity);
     }, 0);
   };
 
@@ -25,13 +26,15 @@ function CartWishlist() {
         item.product.price.replace(/[^0-9.]/g, "")
       );
       if (isNaN(numericPrice)) return total;
+      
+      const quantity = item.quantity || item.product.quantity || 1;
 
       if (item.product.isDiscounted && item.product.discountRate > 0) {
         const discountedPrice =
           numericPrice * (1 - item.product.discountRate / 100);
-        return total + discountedPrice;
+        return total + (discountedPrice * quantity);
       }
-      return total + numericPrice;
+      return total + (numericPrice * quantity);
     }, 0);
   };
 
@@ -65,6 +68,7 @@ function CartWishlist() {
                   ? {
                       id: item.product.id,
                       ...item.product,
+                      quantity: item.quantity || item.product.quantity || 1
                     }
                   : null
               }

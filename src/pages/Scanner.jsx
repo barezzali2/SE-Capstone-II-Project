@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import ScannerView from "../components/ScannerView";
+import ScannerView from "../components/scanner/ScannerView";
 import styles from "./Scanner.module.css";
 import Footer from "../components/Footer";
 
