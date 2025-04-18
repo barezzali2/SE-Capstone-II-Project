@@ -22,6 +22,9 @@ function ProductManagement() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editProductData, setEditProductData] = useState(null);
+
   // Check authentication on component mount
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -68,13 +71,15 @@ function ProductManagement() {
 
   const handleEditProduct = async (productId, formData) => {
     try {
-      const result = await updateProduct(productId, formData);
+      const result = await updateProduct(productId, formData); // Call the API to update the product
       setProductList((prev) =>
-        prev.map((p) => (p._id === productId ? result.product : p))
+        prev.map((p) => (p._id === productId ? result.product : p)) // Update the product in the list
       );
+      setShowEditModal(false); // Close the modal
+      setEditProductData(null); // Clear the edit data
     } catch (error) {
       console.error("Error updating product:", error);
-      alert(error.message);
+      alert(error.message || "Failed to update product");
     }
   };
 
@@ -222,6 +227,110 @@ function ProductManagement() {
           </div>
         )}
 
+        {/* Edit */}
+        {showEditModal && (
+            <div className={styles.modalEdit}>
+              <div className={styles.modalContentEdit}>
+                <h2>Edit Product</h2>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.target);
+                    handleEditProduct(editProductData._id, formData); // Pass the product ID and updated data
+                  }}
+                  className={styles.editProductFormEdit}
+                >
+                  <div className={styles.formGroup}>
+                    <label htmlFor="editName">Product Name</label>
+                    <input
+                      id="editName"
+                      name="name"
+                      defaultValue={editProductData?.name}
+                      required
+                    />
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="editPrice">Price (IQD)</label>
+                    <input
+                      id="editPrice"
+                      name="price"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      defaultValue={editProductData?.price.replace(" IQD", "")}
+                      required
+                    />
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="editCategory">Category</label>
+                    <select
+                      id="editCategory"
+                      name="category"
+                      defaultValue={editProductData?.category}
+                      required
+                    >
+                      <option value="fruits">Fruits</option>
+                      <option value="dairy">Dairy</option>
+                      <option value="drinks">Drinks</option>
+                      <option value="bakery">Bakery</option>
+                      <option value="grains">Grains</option>
+                      <option value="snacks">Snacks</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="editDescription">Description</label>
+                    <textarea
+                      id="editDescription"
+                      name="description"
+                      defaultValue={editProductData?.description}
+                      rows="3"
+                    />
+                  </div>
+
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="editImage">Product Image</label>
+                    <input
+                      id="editImage"
+                      name="image"
+                      type="file"
+                      accept="image/*"
+                    />
+                  </div>
+
+                  {/* Add Barcode Field */}
+                  <div className={styles.formGroup}>
+                    <label htmlFor="editBarcode">Barcode (Optional)</label>
+                    <input
+                      id="editBarcode"
+                      name="barcode"
+                      defaultValue={editProductData?.barcode}
+                      placeholder="e.g., 5901234123999"
+                      pattern="[0-9]{13}"
+                      title="13-digit barcode number"
+                    />
+                </div>
+
+                  <div className={styles.formActions}>
+                    <button
+                      type="button"
+                      onClick={() => setShowEditModal(false)}
+                      className={styles.cancelButton}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className={styles.submitButton}>
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+)}
+
         {loading ? (
           <p className={styles.loadingText}>Loading products...</p>
         ) : error ? (
@@ -245,12 +354,15 @@ function ProductManagement() {
                   <p>Price: {product.price}</p>
                 </div>
                 <div className={styles.productActions}>
-                  <button
-                    onClick={() => handleEditProduct(product._id)}
-                    className={`${styles.actionButton} ${styles.editButton}`}
-                  >
-                    Edit
-                  </button>
+                <button
+                  onClick={() => {
+                    setEditProductData(product); // Set the product to be edited
+                    setShowEditModal(true); // Open the edit modal
+                  }}
+                  className={`${styles.actionButton} ${styles.editButton}`}
+                >
+                  Edit
+              </button>
                   <button
                     onClick={() => handleDeleteProduct(product._id)}
                     className={`${styles.actionButton} ${styles.deleteButton}`}
