@@ -193,10 +193,17 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
+  // this is to check if the user is authenticated by checking if the token is in the local storage
+  const isAuthenticated = () => {
+    const token = localStorage.getItem("token");
+    return !!token;
+  };
+
   const value = {
     loading,
     error,
     baseUrl,
+    authAxios,
     getStatistics,
     addProduct,
     updateProduct,
@@ -206,7 +213,7 @@ export const AdminProvider = ({ children }) => {
     removeDiscount,
     updateBarcode,
     clearError: () => setError(null),
-    isAuthenticated: () => !!localStorage.getItem("token"),
+    isAuthenticated: isAuthenticated,
   };
 
   return (

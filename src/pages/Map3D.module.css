@@ -1,0 +1,31 @@
+.map {
+  position: relative;
+  min-height: 100vh;
+}
+
+.backButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+.backButton a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #dd5837;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.backButton a:hover {
+  background-color: #c44726;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

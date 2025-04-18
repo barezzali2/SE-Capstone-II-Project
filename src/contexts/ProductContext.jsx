@@ -87,13 +87,36 @@ const ProductProvider = ({ children }) => {
       const response = await publicAxios.get(
         `/search?q=${encodeURIComponent(query)}`
       );
-      const searchProductsWithIds = (response.data.products || []).map(
-        (product) => ({
-          ...product,
-          _id: product._id || product.id.toString(),
-        })
+
+      // this is the search results with the complete details by merging the local products with the search results
+      const searchProductsWithDetails = (response.data.products || []).map(
+        (product) => {
+          // first we find the product in the local products array to get the complete details then we merge the data 
+          const localProduct = products.find(
+            (p) => p._id === product._id || p.id === product.id
+          );
+          if (localProduct) {
+            return {
+              ...product,
+              _id: product._id || product.id.toString(),
+              isDiscounted: localProduct.isDiscounted,
+              discountRate: localProduct.discountRate,
+              isFeatured: localProduct.isFeatured,
+            };
+          }
+
+          // if the product is not found in the local products array then we use the data from the API
+          return {
+            ...product,
+            _id: product._id || product.id.toString(),
+            isDiscounted: !!product.isDiscounted,
+            discountRate: product.discountRate || 0,
+            isFeatured: !!product.isFeatured,
+          };
+        }
       );
-      setSearchResults(searchProductsWithIds);
+
+      setSearchResults(searchProductsWithDetails);
     } catch (err) {
       setSearchError(err.message || "Failed to search products");
     } finally {

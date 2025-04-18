@@ -1,0 +1,72 @@
+/* Mobile screen styles */
+
+.map {
+  position: relative;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.map .map3D {
+  max-width: 100%;
+  height: auto;
+  opacity: 0.72;
+}
+
+/* .map img {
+    position: relative;
+    display: inline-block;
+} */
+
+.map .touch {
+  position: absolute;
+  width: 66px;
+  height: 66px;
+  opacity: 1;
+  top: 43%;
+  left: 48.2%;
+  transform: translate(-50%, -50%);
+  animation: zoom-in-zoom-out 2.5s ease infinite;
+}
+
+@keyframes zoom-in-zoom-out {
+  /* At the beginning of the animation */
+  0% {
+    /* Scale the element to its original size */
+    transform: scale(1.15);
+  }
+  /* At the middle of the animation */
+  50% {
+    /* Scale the element to 1.5 times its original size */
+    transform: scale(0.8);
+  }
+  /* At the end of the animation */
+  100% {
+    /* Scale the element back to its original size */
+    transform: scale(1.15);
+  }
+}
+
+/* Larger screen styles */
+@media (min-width: 1000px) {
+  .map {
+    margin: 0 auto;
+  }
+
+  .map .map3D {
+    width: 700px;
+    opacity: 0.62;
+  }
+
+  .map .touch {
+    /* position: absolute; */
+    width: 75px;
+    height: 75px;
+    /* top: 68%;
+        left: 48%; */
+    /* opacity: 1; */
+  }
+}

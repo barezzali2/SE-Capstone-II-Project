@@ -1,0 +1,169 @@
+.featuredWrapper {
+  margin-top: 0;
+  margin-bottom: 60px;
+}
+
+.featuredContainer {
+  padding: 60px 20px;
+  background: linear-gradient(to bottom, #f9f9f9, #ffffff);
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+  margin-bottom: 60px;
+}
+
+.featuredContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, #dd5837, #ff9966);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.sectionHeader h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.sectionHeader h2 span {
+  color: #dd5837;
+}
+
+.sectionHeader h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #dd5837;
+  border-radius: 2px;
+}
+
+.sectionHeader p {
+  color: #666;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 15px auto 0;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.awardIcon {
+  color: #dd5837;
+  font-size: 28px;
+  margin-right: 12px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 10px 0 20px;
+}
+
+.viewAllLink {
+  display: inline-flex;
+  align-items: center;
+  color: #dd5837;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 2px solid #dd5837;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.viewAllLink svg {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.viewAllLink:hover {
+  background-color: #dd5837;
+  color: white;
+}
+
+.viewAllLink:hover svg {
+  transform: translateX(5px);
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+.noProducts {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 1024px) {
+  .sectionHeader h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .featuredContainer {
+    padding: 40px 15px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.8rem;
+  }
+
+  .sectionHeader p {
+    font-size: 1rem;
+  }
+
+  .productsGrid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .featuredContainer {
+    padding: 30px 15px;
+    margin-bottom: 40px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.6rem;
+  }
+
+  .viewAllLink {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .featuredWrapper {
+    margin-bottom: 40px;
+  }
+}

@@ -1,0 +1,50 @@
+.featuresBar {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: #333;
+}
+
+.feature svg {
+  color: #dd5837;
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .featuresBar {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .feature {
+    margin: 10px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .featuresBar {
+    padding: 12px;
+  }
+
+  .feature {
+    font-size: 14px;
+  }
+
+  .feature svg {
+    font-size: 18px;
+  }
+}

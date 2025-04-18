@@ -1,0 +1,48 @@
+.categoryPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.categoryContainer {
+  max-width: 1600px;
+  margin: 160px auto 60px;
+  padding: 0 20px;
+  flex: 1;
+  position: relative;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: absolute;
+  top: -40px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #eaeaea;
+  transform: translateX(-5px);
+}
+
+@media (max-width: 768px) {
+  .categoryContainer {
+    margin: 120px auto 40px;
+    padding: 0 15px;
+  }
+
+  .backButton {
+    top: -30px;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}

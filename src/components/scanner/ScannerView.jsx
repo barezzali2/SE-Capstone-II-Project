@@ -2,9 +2,9 @@ import styles from "./ScannerView.module.css";
 import CameraScanner from "./CameraScanner";
 import ImageScanner from "./ImageScanner";
 import { useState } from "react";
-import { useProduct } from "../contexts/ProductContext";
+import { useProduct } from "../../contexts/ProductContext";
 import axios from "axios";
-import QuickView from "./QuickView";
+import QuickView from "../QuickView";
 
 function ScannerView() {
   const [scanning, setScanning] = useState(false);
