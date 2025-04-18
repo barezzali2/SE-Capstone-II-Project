@@ -144,7 +144,7 @@
   background-color: #e9ecef;
   padding: 0.5rem;
   border-radius: 4px;
-  display: inline-block; /* Fit content */
+  display: inline-block;
 }
 
 /* Styles for inline forms (both add section and table edit) */
@@ -307,6 +307,8 @@
   padding: 0.5rem;
   border-radius: 4px;
   display: inline-block;
+  margin-left: 25px;
+  
 }
 
 .tagContainer {

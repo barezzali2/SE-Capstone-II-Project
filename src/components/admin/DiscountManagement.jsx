@@ -291,6 +291,16 @@ function DiscountManagement() {
               {/* ***** FIXED PRICE FORMATTING ***** */}
               Original Price: {productToAddDiscount.price}
             </p>
+            {addFormRate && (
+                <div className={styles.previewPrice}>
+                  New Price will be:{" "}
+                  {formatPrice(
+                    parseFloat(productToAddDiscount.price) *
+                      (1 - parseFloat(addFormRate) / 100)
+                  )}{" "}
+                  IQD
+                </div>
+              )}
             <form onSubmit={handleAddFormSubmit} className={styles.inlineForm}>
               <div className={styles.formGroupInline}>
                 <label htmlFor="addRate">Discount Rate (%):</label>
@@ -307,16 +317,6 @@ function DiscountManagement() {
                   disabled={isLoading}
                 />
               </div>
-              {addFormRate && (
-                <div className={styles.previewPrice}>
-                  New Price will be:{" "}
-                  {formatPrice(
-                    parseFloat(productToAddDiscount.price) *
-                      (1 - parseFloat(addFormRate) / 100)
-                  )}{" "}
-                  IQD
-                </div>
-              )}
               <div className={styles.formActions}>
                 <button
                   type="submit"
