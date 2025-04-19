@@ -196,7 +196,7 @@ function List() {
             onClick={() => setViewMode("grid")}
             aria-label="Grid view"
           >
-            <FiGrid />
+            <FiGrid className={styles.toggle}/>
           </button>
           <button
             className={`${styles.viewButton} ${
@@ -205,7 +205,7 @@ function List() {
             onClick={() => setViewMode("list")}
             aria-label="List view"
           >
-            <FiList />
+            <FiList className={styles.toggle}/>
           </button>
         </div>
       </div>
