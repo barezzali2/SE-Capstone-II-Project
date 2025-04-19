@@ -118,7 +118,7 @@
     display: flex;
     list-style-type: none;
     align-items: center;
-    gap: 6rem;
+    gap: 4rem;
     margin: 0 10%;
   }
 
@@ -126,8 +126,8 @@
     text-decoration: none;
     color: #0a1226;
     font-weight: 600;
-    font-size: 15.5px;
-    border: 1.8px solid black;
+    font-size: 14.5px;
+    border: 1.7px solid black;
     padding: 15px;
     border-radius: 20px;
     transition: ease-in-out 0.19s;
