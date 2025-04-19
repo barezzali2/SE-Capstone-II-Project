@@ -101,27 +101,31 @@ function MapView() {
         </div>
 
         <div className={styles.canvasContainer}>
-          <Canvas shadows camera={{ position: [0, 30, 30], fov: 50 }}>
+          <Canvas shadows camera={{ position: [15, 8, 15], fov: 60 }}>
             <Suspense fallback={null}>
-              {/* Lights */}
-              <ambientLight intensity={0.5} />
-              <directionalLight position={[10, 20, 10]} intensity={0.8} />
-              <directionalLight position={[-10, 15, -10]} intensity={0.4} />
+              {/* this is the lighting for the indoor store */}
+              <ambientLight intensity={0.8} />
+              <directionalLight
+                position={[5, 10, 5]}
+                intensity={0.5}
+                castShadow
+                shadow-mapSize-width={2048}
+                shadow-mapSize-height={2048}
+              />
+              <hemisphereLight intensity={0.3} groundColor="#000000" />
 
-              {/* Store Layout */}
               <StoreLayout
                 activeCategory={activeCategory}
                 onQuickViewProduct={setQuickViewProduct}
               />
 
-              {/* Custom camera controller with restricted movement */}
               <CameraController />
             </Suspense>
           </Canvas>
         </div>
       </div>
 
-      {/* Render QuickView here, outside of Canvas */}
+      {/* this is the quick view for the product */}
       {quickViewProduct && (
         <QuickView
           product={quickViewProduct}

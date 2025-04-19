@@ -7,57 +7,128 @@ import styles from "./StoreLayout.module.css";
 import PropTypes from "prop-types";
 
 export function StoreLayout({ activeCategory, onQuickViewProduct }) {
-  const planeRef = useRef();
+  const storeRef = useRef();
+  const sidePanelRef = useRef();
   const { products, baseUrl } = useProduct();
   const [localActiveCategory, setLocalActiveCategory] = useState(null);
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [highlightedSection, setHighlightedSection] = useState(null);
   const [showProductDisplay, setShowProductDisplay] = useState(false);
   const navigate = useNavigate();
-  const sidePanelRef = useRef(null);
 
   // these are the aisles in the store and they are the markers for the aisles and using useMemo to prevent recreation on each render
   const sections = useMemo(
     () => [
+      // Fruits aisle
       {
-        position: [-10, 0.1, -10],
+        position: [-20, 0.1, 0],
         label: "Fruits",
         color: "#8bc34a",
         category: "fruits",
+        rotation: [0, 0, 0],
+        shelves: [
+          // Left side
+          { offset: [0, 0, -8] },
+          { offset: [0, 0, -4] },
+          { offset: [0, 0, 0] },
+          { offset: [0, 0, 4] },
+          { offset: [0, 0, 8] },
+          // Right side 
+          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+        ],
       },
+      // Dairy Aisle
       {
-        position: [10, 0.1, -10],
+        position: [-10, 0.1, 0],
         label: "Dairy",
         color: "#64b5f6",
         category: "dairy",
+        rotation: [0, 0, 0],
+        shelves: [
+          // Left side
+          { offset: [0, 0, -8] },
+          { offset: [0, 0, -4] },
+          { offset: [0, 0, 0] },
+          { offset: [0, 0, 4] },
+          { offset: [0, 0, 8] },
+          // Right side 
+          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+        ],
       },
+      // Bakery Aisle
       {
-        position: [-10, 0.1, 10],
+        position: [0, 0.1, 0],
         label: "Bakery",
         color: "#bcaaa4",
         category: "bakery",
+        rotation: [0, 0, 0],
+        shelves: [
+          // Same pattern as above
+          { offset: [0, 0, -8] },
+          { offset: [0, 0, -4] },
+          { offset: [0, 0, 0] },
+          { offset: [0, 0, 4] },
+          { offset: [0, 0, 8] },
+          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+        ],
       },
+      // Drinks aisle
       {
-        position: [10, 0.1, 10],
+        position: [10, 0.1, 0],
         label: "Drinks",
         color: "#7986cb",
         category: "drinks",
+        rotation: [0, 0, 0],
+        shelves: [
+          // Same pattern
+          { offset: [0, 0, -8] },
+          { offset: [0, 0, -4] },
+          { offset: [0, 0, 0] },
+          { offset: [0, 0, 4] },
+          { offset: [0, 0, 8] },
+          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+        ],
       },
+      // Snacks aisle
       {
-        position: [0, 0.1, 0],
+        position: [20, 0.1, 0],
         label: "Snacks",
         color: "#ffa726",
         category: "snacks",
-      },
-      {
-        position: [0, 0.1, -15],
-        label: "Grains",
-        color: "#d4a056",
-        category: "grains",
+        rotation: [0, 0, 0],
+        shelves: [
+          // Same pattern
+          { offset: [0, 0, -8] },
+          { offset: [0, 0, -4] },
+          { offset: [0, 0, 0] },
+          { offset: [0, 0, 4] },
+          { offset: [0, 0, 8] },
+          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+        ],
       },
     ],
     []
-  ); // Empty dependency array means this only runs once
+  ); 
 
   // this is to sync with the parent component's active category by highlighting the aisle, and the parent is MapView.jsx
   useEffect(() => {
@@ -293,24 +364,31 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
   };
 
   const handleProductClick = (product) => {
-    onQuickViewProduct(product); // Pass the product up to parent
+    onQuickViewProduct(product); // this is to pass the product up to the parent
   };
 
   return (
-    <group ref={planeRef}>
+    <group ref={storeRef}>
       <StoreFloor />
-
-      {/* this is the aisle markers */}
       {sections.map((section, index) => (
-        <SectionMarker
-          key={`section-${index}`}
-          position={section.position}
-          label={section.label}
-          color={section.color}
-          category={section.category}
-          onActivate={handleSectionActivate}
-          isHighlighted={section.category === highlightedSection}
-        />
+        <group key={`section-${index}`}>
+          {section.shelves.map((shelf, shelfIndex) => (
+            <SectionMarker
+              key={`section-${index}-shelf-${shelfIndex}`}
+              position={[
+                section.position[0] + shelf.offset[0],
+                section.position[1],
+                section.position[2] + shelf.offset[2],
+              ]}
+              label={shelfIndex === 0 ? section.label : ""}
+              color={section.color}
+              category={section.category}
+              onActivate={handleSectionActivate}
+              isHighlighted={section.category === highlightedSection}
+              rotation={section.rotation}
+            />
+          ))}
+        </group>
       ))}
     </group>
   );

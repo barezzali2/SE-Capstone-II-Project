@@ -1,12 +1,17 @@
 /* eslint-disable react/no-unknown-property */
 import PropTypes from "prop-types";
-import { Text } from "@react-three/drei";
+import { Text, useTexture, useGLTF } from "@react-three/drei";
+import * as THREE from "three";
 
 export function StoreFloor() {
+  const woodTexture = useTexture("/assets/stone_embedded_tiles_ao_1k.jpg");
+  woodTexture.wrapS = woodTexture.wrapT = THREE.RepeatWrapping;
+  woodTexture.repeat.set(20, 20);
+
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-      <planeGeometry args={[40, 40]} />
-      <meshStandardMaterial color="#f5f5f5" />
+      <planeGeometry args={[80, 80]} />
+      <meshStandardMaterial map={woodTexture} color="#ffffff" roughness={0.8} />
     </mesh>
   );
 }
@@ -20,51 +25,49 @@ export function SectionMarker({
   onActivate,
   isHighlighted,
 }) {
+  const { scene } = useGLTF("/assets/supermarket_shelving.glb");
+
+  const model = scene.clone();
+  model.traverse((child) => {
+    if (child.isMesh) {
+      child.material = new THREE.MeshStandardMaterial({
+        color: color,
+        metalness: 0.4,
+        roughness: 0.6,
+        emissive: isHighlighted ? color : "#000000",
+        emissiveIntensity: isHighlighted ? 0.3 : 0,
+      });
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+
   return (
-    <group position={position}>
-      {/* this is the circle for the aisle */}
-      <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        onClick={() => onActivate(category, position)}
-        onPointerOver={(e) => {
-          e.stopPropagation();
-          document.body.style.cursor = "pointer";
-        }}
-        onPointerOut={(e) => {
-          e.stopPropagation();
-          document.body.style.cursor = "auto";
-        }}
-      >
-        <circleGeometry args={[2.5, 32]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={isHighlighted ? color : "#000000"}
-          emissiveIntensity={isHighlighted ? 0.5 : 0}
-          transparent
-          opacity={0.8}
-        />
-      </mesh>
+    <group
+      position={position}
+      onClick={() => onActivate(category, position)}
+      onPointerOver={(e) => {
+        e.stopPropagation();
+        document.body.style.cursor = "pointer";
+      }}
+      onPointerOut={(e) => {
+        e.stopPropagation();
+        document.body.style.cursor = "auto";
+      }}
+    >
+      <primitive
+        object={model}
+        scale={[2, 2, 2]}
+        rotation={[0, Math.PI / 2, 0]}
+      />
 
-      {/* this is the ring for the highlight when the aisle is selected */}
-      <mesh
-        position={[0, 0.05, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        visible={isHighlighted}
-      >
-        <ringGeometry args={[2.7, 3.0, 32]} />
-        <meshStandardMaterial color="#dd5837" transparent opacity={0.8} />
-      </mesh>
-
-      {/* this is the text label for the aisle like "dairy" or "fruits" */}
       <Text
-        position={[0, 0.5, 0]}
-        color="black"
-        fontSize={0.8}
+        position={[0, 5, 0]}
+        rotation={[0, Math.PI / 4, 0]}
+        fontSize={1.5}
+        color="#ffffff"
         anchorX="center"
         anchorY="middle"
-        fontWeight={isHighlighted ? "bold" : "normal"}
-        outlineWidth={isHighlighted ? 0.05 : 0}
-        outlineColor="#ffffff"
       >
         {label}
       </Text>
@@ -78,9 +81,5 @@ SectionMarker.propTypes = {
   color: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   onActivate: PropTypes.func.isRequired,
-  isHighlighted: PropTypes.bool,
-};
-
-SectionMarker.defaultProps = {
-  isHighlighted: false,
+  isHighlighted: PropTypes.bool.isRequired,
 };
