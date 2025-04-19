@@ -1,0 +1,35 @@
+.featuredProductsPage {
+  width: 100%;
+  position: relative;
+}
+
+.backButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.backButton:hover {
+  background: #dd5837;
+  color: white;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .backButton {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}

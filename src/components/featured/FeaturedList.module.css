@@ -1,0 +1,163 @@
+.featuredSection {
+  padding: 60px 22px;
+  background: linear-gradient(to bottom, #f9f9f9, #ffffff);
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.featuredSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, #dd5837, #ff9966);
+}
+
+.featuredHeader {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.awardIcon {
+  color: #dd5837;
+  font-size: 28px;
+  margin-right: 12px;
+}
+
+.featuredHeader h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  position: relative;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 10px 0 20px;
+}
+
+.viewAllLink {
+  display: inline-flex;
+  align-items: center;
+  color: #dd5837;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 2px solid #dd5837;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.viewAllLink svg {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.viewAllLink:hover {
+  background-color: #dd5837;
+  color: white;
+}
+
+.viewAllLink:hover svg {
+  transform: translateX(5px);
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+.noProducts {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-size: 18px;
+  color: #666;
+}
+
+/* the animation does some fade in and slide up effect for the featured products */
+.productsGrid > div {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.productsGrid > div:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.productsGrid > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.productsGrid > div:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.productsGrid > div:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 1000px) {
+  .featuredSection {
+    padding: 80px 40px;
+    margin: 40px auto;
+  }
+
+  .featuredHeader h2 {
+    font-size: 38px;
+  }
+
+  .awardIcon {
+    font-size: 32px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    max-width: 600px;
+    margin: 15px auto 25px;
+  }
+
+  .productsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .featuredSection {
+    padding: 40px 20px;
+  }
+
+  .featuredHeader h2 {
+    font-size: 28px;
+  }
+
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+}

@@ -9,37 +9,363 @@
   flex-direction: column;
 }
 
+.listHeader {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.listHeader::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, #dd5837, #ff9966);
+  border-radius: 3px;
+}
+
+.listTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+
+.listSubtitle {
+  font-size: 16px;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.controlsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 10px;
+  background: #f5f5f5;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.viewButton {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.viewButton:hover {
+  color: #dd5837;
+}
+
+.viewButton.active {
+  background: white;
+  color: #dd5837;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.productsContainer {
+  margin-top: 20px;
+}
+
+.categorySection {
+  margin-bottom: 60px;
+  animation: fadeIn 0.5s ease-in-out;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  padding: 30px;
+  overflow: hidden;
+}
+
+.categoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.categoryTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  text-transform: capitalize;
+  position: relative;
+  display: inline-block;
+  color: #333;
+}
+
+.productCount {
+  background: #f5f5f5;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
 .productsGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 25px;
-  padding: 20px 0;
-  margin-top: 20px;
-  flex: 1;
+  padding: 10px 0;
+}
+
+.productsGrid.listView {
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.noProducts {
+  text-align: center;
+  padding: 60px 40px;
+  background: white;
+  border-radius: 16px;
+  color: #666;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.noProductsIcon {
+  font-size: 50px;
+  color: #dd5837;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.noProducts h3 {
+  font-size: 22px;
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.noProducts p {
+  margin: 0 0 20px;
+  color: #666;
+}
+
+.resetButton {
+  padding: 10px 20px;
+  background: #dd5837;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.resetButton:hover {
+  background: #c44726;
+  transform: translateY(-2px);
+}
+
+.viewMoreContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.viewMoreButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: white;
+  color: #dd5837;
+  border: 2px solid #dd5837;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.viewMoreButton:hover {
+  background-color: #dd5837;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(221, 88, 55, 0.2);
+}
+
+.viewMoreButton .arrowIcon {
+  transition: transform 0.3s ease;
+}
+
+.viewMoreButton:hover .arrowIcon {
+  transform: translateX(5px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (min-width: 1000px) {
   .listContainer {
     margin: 6.5% auto;
-    max-width: 1100px;  /* Adjust width to prevent stretching */
+    max-width: 1200px;
+  }
+
+  .listHeader {
+    margin-bottom: 60px;
+  }
+
+  .listTitle {
+    font-size: 38px;
+  }
+
+  .listSubtitle {
+    font-size: 18px;
   }
 
   .productsGrid {
-    grid-template-columns: repeat(auto-fill, repeat(4, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
   }
 
   .categorySection {
-    margin-bottom: 3rem;
+    margin-bottom: 70px;
   }
-  
+
   .categoryTitle {
     font-size: 1.7rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-transform: capitalize;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 0.5rem;
   }
-  
+
+  .viewMoreButton {
+    padding: 14px 28px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 768px) {
+  .listContainer {
+    margin-top: 120px;
+    padding: 15px;
+  }
+
+  .listTitle {
+    font-size: 28px;
+  }
+
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+  }
+
+  .viewMoreButton {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .categorySection {
+    padding: 20px;
+  }
+
+  .controlsContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .viewToggle {
+    align-self: flex-end;
+  }
+}
+
+.viewAllContainer {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.viewAllButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.viewAllButton:hover {
+  background-color: #eaeaea;
+  transform: translateY(-2px);
+}
+
+.viewAllButton svg {
+  transition: transform 0.3s ease;
+}
+
+.viewAllButton:hover svg {
+  transform: translateX(5px);
+}
+
+.categoryFooter {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.categoryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #f5f5f5;
+  color: #333;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.categoryLink:hover {
+  background-color: #eaeaea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.categoryLink svg {
+  transition: transform 0.3s ease;
+}
+
+.categoryLink:hover svg {
+  transform: translateX(5px);
 }

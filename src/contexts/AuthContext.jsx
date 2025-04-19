@@ -8,6 +8,7 @@ const API_URL = "http://localhost:3003/auth";
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [tokenVerified, setTokenVerified] = useState(false);
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -17,21 +18,38 @@ export function AuthProvider({ children }) {
           setLoading(false);
           return;
         }
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-        const response = await axios.get(`${API_URL}/verify`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        try {
+          const response = await axios.get(`${API_URL}/verify`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            signal: controller.signal,
+          });
 
-        if (response.data.success) {
-          setUser(response.data.user);
-        } else {
-          localStorage.removeItem("token");
+          clearTimeout(timeoutId);
+
+          if (response.data.success || response.data.valid) {
+            const userData = response.data.user || user;
+            setUser(userData);
+            setTokenVerified(true);
+          }
+        } catch (requestError) {
+          clearTimeout(timeoutId);
+          if (requestError.name === "AbortError") {
+            setTokenVerified(true);
+            return;
+          }
+          throw requestError;
         }
       } catch (error) {
-        console.error("Token verification failed:", error);
-        localStorage.removeItem("token");
+        // log verification error but keep user logged in
+        console.error("Token verification error:", error);
+        if (localStorage.getItem("token")) {
+          setTokenVerified(true);
+        }
       } finally {
         setLoading(false);
       }
@@ -39,6 +57,35 @@ export function AuthProvider({ children }) {
 
     verifyToken();
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const refreshTokenInterval = setInterval(async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const response = await axios.post(
+          `${API_URL}/refresh`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.data && response.data.token) {
+          localStorage.setItem("token", response.data.token);
+        }
+      } catch (error) {
+        console.error("Token refresh error:", error);
+      }
+    }, 15 * 60 * 1000);
+
+    return () => clearInterval(refreshTokenInterval);
+  }, [user]);
 
   const login = async (email, password) => {
     try {
@@ -51,6 +98,7 @@ export function AuthProvider({ children }) {
         const { token, user } = response.data;
         localStorage.setItem("token", token);
         setUser(user);
+        setTokenVerified(true);
         return { success: true };
       }
 
@@ -59,7 +107,6 @@ export function AuthProvider({ children }) {
         error: response.data?.message || "Invalid credentials",
       };
     } catch (error) {
-      console.error("Login failed:", error);
       return {
         success: false,
         error:
@@ -70,19 +117,27 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     setUser(null);
+    setTokenVerified(false);
     localStorage.removeItem("token");
   };
 
   const isAdmin = user?.role === "admin";
 
+  const isAuthenticated = () => {
+    const hasToken = !!localStorage.getItem("token");
+    return hasToken || (!!user && tokenVerified);
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
-        isAdmin,
         loading,
         login,
         logout,
+        isAdmin,
+        tokenVerified,
+        isAuthenticated,
       }}
     >
       {children}
@@ -94,6 +149,6 @@ AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);
+
+export default AuthContext;

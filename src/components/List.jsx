@@ -1,8 +1,11 @@
-import { useReducer, useCallback, useMemo } from "react";
+import { useReducer, useCallback, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./List.module.css";
 import Filter from "./Filter";
 import Product from "./Product";
 import { useProduct } from "../contexts/ProductContext";
+import { FiArrowRight, FiShoppingBag, FiGrid, FiList } from "react-icons/fi";
 
 const CATEGORY_ORDER = [
   "fruits",
@@ -47,6 +50,10 @@ function filterReducer(state, action) {
 function List() {
   const { products } = useProduct();
   const [filterState, dispatch] = useReducer(filterReducer, initialFilterState);
+  const [viewMode, setViewMode] = useState("grid");
+
+  // Number of products to show initially per category
+  const PRODUCTS_PER_CATEGORY = 8;
 
   const toggleCategory = useCallback((category) => {
     dispatch({ type: "TOGGLE_CATEGORY", payload: category });
@@ -72,7 +79,7 @@ function List() {
     dispatch({ type: "RESET_FILTERS" });
   }, []);
 
-  const { groupedProducts } = useMemo(() => {
+  const { groupedProducts, totalProducts } = useMemo(() => {
     const { categories, priceRange, sortType } = filterState;
 
     let filtered = [...products];
@@ -148,34 +155,127 @@ function List() {
       }
     });
 
+    // Calculate total products
+    const totalProducts = Object.values(orderedGroupedProducts).reduce(
+      (sum, products) => sum + products.length,
+      0
+    );
+
     return {
       groupedProducts: orderedGroupedProducts,
+      totalProducts,
     };
   }, [products, filterState]);
 
   return (
     <div className={styles.listContainer}>
-      <Filter
-        filterState={filterState}
-        toggleCategory={toggleCategory}
-        setPriceRange={setPriceRange}
-        setSortType={setSortType}
-        toggleFilterMenu={toggleFilterMenu}
-        closeFilterMenu={closeFilterMenu}
-        resetFilters={resetFilters}
-      />
+      <div className={styles.listHeader}>
+        <h1 className={styles.listTitle}>Our Products</h1>
+        <p className={styles.listSubtitle}>
+          Discover our selection of high-quality products, carefully sourced for
+          your satisfaction
+        </p>
+      </div>
+
+      <div className={styles.controlsContainer}>
+        <Filter
+          filterState={filterState}
+          toggleCategory={toggleCategory}
+          setPriceRange={setPriceRange}
+          setSortType={setSortType}
+          toggleFilterMenu={toggleFilterMenu}
+          closeFilterMenu={closeFilterMenu}
+          resetFilters={resetFilters}
+        />
+
+        <div className={styles.viewToggle}>
+          <button
+            className={`${styles.viewButton} ${
+              viewMode === "grid" ? styles.active : ""
+            }`}
+            onClick={() => setViewMode("grid")}
+            aria-label="Grid view"
+          >
+            <FiGrid />
+          </button>
+          <button
+            className={`${styles.viewButton} ${
+              viewMode === "list" ? styles.active : ""
+            }`}
+            onClick={() => setViewMode("list")}
+            aria-label="List view"
+          >
+            <FiList />
+          </button>
+        </div>
+      </div>
 
       <div className={styles.productsContainer}>
-        {Object.keys(groupedProducts).map((category) => (
-          <div key={category} className={styles.categorySection}>
-            <h2 className={styles.categoryTitle}>{category}</h2>
-            <div className={styles.productsGrid}>
-              {groupedProducts[category].map((product) => (
-                <Product key={product.id} product={product} />
-              ))}
-            </div>
+        {totalProducts > 0 ? (
+          <AnimatePresence>
+            {Object.keys(groupedProducts).map((category) => (
+              <motion.div
+                key={category}
+                className={styles.categorySection}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className={styles.categoryHeader}>
+                  <h2 className={styles.categoryTitle}>{category}</h2>
+                  <span className={styles.productCount}>
+                    {groupedProducts[category].length} products
+                  </span>
+                </div>
+
+                <div
+                  className={`${styles.productsGrid} ${
+                    viewMode === "list" ? styles.listView : ""
+                  }`}
+                >
+                  {groupedProducts[category]
+                    .slice(0, PRODUCTS_PER_CATEGORY)
+                    .map((product, index) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.05 * index, duration: 0.4 }}
+                      >
+                        <Product
+                          key={product.id}
+                          product={product}
+                          listView={viewMode === "list"}
+                        />
+                      </motion.div>
+                    ))}
+                </div>
+
+                {groupedProducts[category].length > PRODUCTS_PER_CATEGORY && (
+                  <div className={styles.categoryFooter}>
+                    <Link
+                      to={`/category/${category}`}
+                      className={styles.categoryLink}
+                    >
+                      Browse All {category} <FiArrowRight />
+                    </Link>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        ) : (
+          <div className={styles.noResults}>
+            <FiShoppingBag className={styles.noResultsIcon} />
+            <h2>No products found</h2>
+            <p>
+              Try adjusting your filters to find what you&apos;re looking for.
+            </p>
+            <button onClick={resetFilters} className={styles.resetButton}>
+              Reset Filters
+            </button>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

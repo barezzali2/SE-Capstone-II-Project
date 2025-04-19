@@ -1,0 +1,86 @@
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 50px;
+  margin: 0 auto;
+}
+
+.productsGrid > div {
+  transform: scale(1.15);
+  transition: transform 0.3s ease;
+}
+
+.productsGrid > div:hover {
+  transform: scale(1.18);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  margin: 40px 0;
+}
+
+.emptyState h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.emptyState p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.browseButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #dd5837;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.browseButton:hover {
+  background-color: #c74a2d;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(221, 88, 55, 0.2);
+}
+
+@media (min-width: 1000px) {
+  .productsGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 50px;
+  }
+
+  .productsGrid > div {
+    transform: scale(1.12);
+  }
+
+  .productsGrid > div:hover {
+    transform: scale(1.15);
+  }
+}
+
+@media (max-width: 768px) {
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+  }
+
+  .productsGrid > div {
+    transform: scale(1.02);
+  }
+
+  .emptyState {
+    padding: 60px 15px;
+  }
+
+  .browseButton {
+    padding: 10px 20px;
+  }
+}
