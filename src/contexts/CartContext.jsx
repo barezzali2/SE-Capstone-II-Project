@@ -3,6 +3,21 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { useProduct } from "./ProductContext";
 
+const calculateTotalPrice = (items) => {
+  return items.reduce((total, item) => {
+    const numericPrice = parseFloat(item.product.price.replace(/[^0-9.]/g, ""));
+    const quantity = item.quantity || item.product.quantity || 1;
+
+    if (item.product.isDiscounted && item.product.discountRate > 0) {
+      const discountedPrice =
+        numericPrice * (1 - item.product.discountRate / 100);
+      return total + discountedPrice * quantity;
+    }
+
+    return total + numericPrice * quantity;
+  }, 0);
+};
+
 const CartContext = createContext({
   cart: { items: [], totalItems: 0, totalPrice: 0 },
   addToCart: () => {},
@@ -19,49 +34,36 @@ const useCart = () => {
 };
 
 const initializeCart = () => {
-  const calculateCartTotal = (items) => {
-    return items.reduce((total, item) => {
-      const numericPrice = parseFloat(
-        item.product.price.replace(/[^0-9.]/g, "")
-      );
-      const quantity = item.quantity || 1;
-
-      if (item.product.isDiscounted && item.product.discountRate > 0) {
-        const discountedPrice =
-          numericPrice * (1 - item.product.discountRate / 100);
-        return total + discountedPrice * quantity;
-      }
-
-      return total + numericPrice * quantity;
-    }, 0);
-  };
-
   try {
     const storedCart = localStorage.getItem("cart");
     if (storedCart) {
       const parsedCart = JSON.parse(storedCart);
 
-      // if cart is not valid, reset it
       if (!parsedCart.items || !Array.isArray(parsedCart.items)) {
         console.warn("Invalid cart structure in localStorage, resetting");
         localStorage.removeItem("cart");
         return { items: [], totalItems: 0, totalPrice: 0 };
       }
 
-      // if items are not valid, remove them
       const validItems = parsedCart.items.filter(
-        (item) => item && item.product && item.productId && item.quantity
+        (item) => item && item.product && item.productId
       );
 
-      if (validItems.length !== parsedCart.items.length) {
-        console.warn("Some cart items were invalid and have been removed");
-      }
+      const itemsWithDiscounts = validItems.map((item) => ({
+        ...item,
+        product: {
+          ...item.product,
+          isDiscounted: item.product.isDiscounted || false,
+          discountRate: item.product.discountRate || 0,
+          isFeatured: item.product.isFeatured || false,
+        },
+      }));
 
       return {
         ...parsedCart,
-        items: validItems,
-        totalItems: validItems.length,
-        totalPrice: calculateCartTotal(validItems),
+        items: itemsWithDiscounts,
+        totalItems: itemsWithDiscounts.length,
+        totalPrice: calculateTotalPrice(itemsWithDiscounts),
       };
     }
   } catch (error) {
@@ -76,9 +78,19 @@ const CartProvider = ({ children }) => {
   const { products, baseUrl, searchResults } = useProduct();
   const [cart, setCart] = useState(initializeCart());
   const [cartId, setCartId] = useState(() => {
-    return localStorage.getItem("cartId") || null;
+    // this will be used to fetch the cart from the server
+    const existingCartId = localStorage.getItem("cartId");
+    if (existingCartId) return existingCartId;
+
+    // this will be used to generate a new cartId
+    const newCartId = `cart_${Date.now()}_${Math.random()
+      .toString(36)
+      .substr(2, 9)}`;
+    localStorage.setItem("cartId", newCartId);
+    return newCartId;
   });
 
+  // we need to fetch the cart from the server and preserve the discount information so that we can display the correct price 
   useEffect(() => {
     const fetchCart = async (retries = 3, delay = 1000) => {
       try {
@@ -91,7 +103,37 @@ const CartProvider = ({ children }) => {
           const response = await axios.get(`${baseUrl}/cart`, {
             params: { cartId },
           });
-          setCart(response.data.cart);
+          const cartWithDiscounts = {
+            ...response.data.cart,
+            items: response.data.cart.items.map((item) => {
+              // this is to preserve the discount information so that we can display the correct price
+              const existingItem = cart.items.find(
+                (cartItem) => cartItem.productId === item.productId
+              );
+              return {
+                ...item,
+                product: {
+                  ...item.product,
+                  isDiscounted:
+                    existingItem?.product.isDiscounted ||
+                    item.product.isDiscounted ||
+                    false,
+                  discountRate:
+                    existingItem?.product.discountRate ||
+                    item.product.discountRate ||
+                    0,
+                  isFeatured:
+                    existingItem?.product.isFeatured ||
+                    item.product.isFeatured ||
+                    false,
+                  price: existingItem?.product.price || item.product.price,
+                },
+              };
+            }),
+          };
+
+          setCart(cartWithDiscounts);
+          localStorage.setItem("cart", JSON.stringify(cartWithDiscounts));
         } catch (error) {
           if (error.response?.status === 429 && retries > 0) {
             console.log(`Rate limited, retrying in ${delay}ms...`);
@@ -119,23 +161,6 @@ const CartProvider = ({ children }) => {
     }
   }, [cart]);
 
-  const calculateTotalPrice = (items) => {
-    return items.reduce((total, item) => {
-      const numericPrice = parseFloat(
-        item.product.price.replace(/[^0-9.]/g, "")
-      );
-      const quantity = item.quantity || item.product.quantity || 1;
-
-      if (item.product.isDiscounted && item.product.discountRate > 0) {
-        const discountedPrice =
-          numericPrice * (1 - item.product.discountRate / 100);
-        return total + discountedPrice * quantity;
-      }
-
-      return total + numericPrice * quantity;
-    }, 0);
-  };
-
   const addToCart = async (productId) => {
     try {
       if (!cartId) {
@@ -155,7 +180,9 @@ const CartProvider = ({ children }) => {
         if (!productToAdd) {
           try {
             console.log("Fetching product from API:", productId);
-            const response = await axios.get(`${baseUrl}/product/${productId}`);
+            const response = await axios.get(
+              `${baseUrl}/products/${productId}`
+            );
             productToAdd = response.data.product;
           } catch (err) {
             console.error("Failed to fetch product details:", err);
@@ -182,9 +209,10 @@ const CartProvider = ({ children }) => {
               price: productToAdd.price,
               category: productToAdd.category,
               description: productToAdd.description || "",
-              isDiscounted: productToAdd.isDiscounted,
-              discountRate: productToAdd.discountRate,
-              isFeatured: productToAdd.isFeatured,
+              isDiscounted: productToAdd.isDiscounted || false,
+              discountRate: productToAdd.discountRate || 0,
+              isFeatured: productToAdd.isFeatured || false,
+              quantity: 1,
             },
           },
         ],
@@ -206,8 +234,8 @@ const CartProvider = ({ children }) => {
         const cartWithDiscounts = {
           ...response.data.cart,
           items: response.data.cart.items.map((item) => {
-            // here i find the original item in the cart to preserve its discount properties
-            const originalItem = cart.items.find(
+            // this originalItem is the item that is already in the cart and is used to preserve the discount information by comparing the productId of the item in the cart with the productId of the item in the response
+            const originalItem = updatedCart.items.find(
               (cartItem) => cartItem.productId === item.productId
             );
 
@@ -215,30 +243,20 @@ const CartProvider = ({ children }) => {
               ...item,
               product: {
                 ...item.product,
-                // if the item is already in the cart, use the original item's properties
-                // otherwise, use the productToAdd's properties
-                isDiscounted: originalItem
-                  ? originalItem.product.isDiscounted
-                  : productToAdd.isDiscounted,
-                discountRate: originalItem
-                  ? originalItem.product.discountRate
-                  : productToAdd.discountRate,
-                isFeatured: originalItem
-                  ? originalItem.product.isFeatured
-                  : productToAdd.isFeatured,
-                price: originalItem
-                  ? originalItem.product.price
-                  : productToAdd.price,
+                isDiscounted: originalItem?.product.isDiscounted || false,
+                discountRate: originalItem?.product.discountRate || 0,
+                isFeatured: originalItem?.product.isFeatured || false,
+                price: originalItem?.product.price || item.product.price,
               },
             };
           }),
-          totalPrice: calculateTotalPrice(response.data.cart.items),
         };
 
         setCart(cartWithDiscounts);
+        localStorage.setItem("cart", JSON.stringify(cartWithDiscounts));
       } catch (apiErr) {
         console.error("API error adding to cart:", apiErr);
-        setCart(cart);
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
       }
     } catch (err) {
       console.error("Error adding to cart:", err);
