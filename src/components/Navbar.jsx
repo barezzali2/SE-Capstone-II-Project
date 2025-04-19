@@ -47,6 +47,7 @@ function Navbar() {
             }
           >
             <FiMap className={styles.mapIcon} />
+            <span> </span>
             <span>STORE MAP</span>
           </NavLink>
         </li>

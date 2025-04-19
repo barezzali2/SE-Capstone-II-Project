@@ -111,7 +111,7 @@ function ChatbotAssistant() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <FiMessageCircle size={24} />
+        <FiMessageCircle size={26} />
       </motion.button>
 
       <AnimatePresence>

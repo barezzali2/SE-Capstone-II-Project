@@ -45,7 +45,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -61,7 +61,7 @@
 .viewButton {
   background: none;
   border: none;
-  padding: 8px 12px;
+  padding: 15px 15px;
   border-radius: 6px;
   cursor: pointer;
   display: flex;
@@ -73,6 +73,11 @@
 
 .viewButton:hover {
   color: #dd5837;
+}
+
+.viewButton .toggle {
+  width: 17px;
+  height: 17px;
 }
 
 .viewButton.active {
@@ -233,12 +238,12 @@
 
 @media (min-width: 1000px) {
   .listContainer {
-    margin: 6.5% auto;
+    margin: 10% auto;
     max-width: 1200px;
   }
 
   .listHeader {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
 
   .listTitle {

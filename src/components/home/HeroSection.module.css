@@ -41,14 +41,14 @@
 
 .scrollIndicator {
   position: absolute;
-  bottom: 50px;
+  bottom: 38px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   color: #666;
-  font-size: 0.9rem;
+  font-size: 1.0rem;
   gap: 8px;
   z-index: 2;
 }
@@ -129,10 +129,10 @@
 
 .greetingBanner {
   background: white;
-  padding: 30px;
+  padding: 50px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  max-width: 400px;
+  max-width: 500px;
   position: relative;
   z-index: 1;
 }
@@ -154,15 +154,15 @@
 
 .brandContainer p {
   color: #666;
-  margin-bottom: 5px;
-  font-size: 1rem;
+  margin-bottom: 12px;
+  font-size: 1.25rem;
 }
 
 .fullBrandName {
   font-size: 2rem;
   font-weight: 800;
   margin: 0;
-  color: #333;
+  /* color: #333; */
 }
 
 .fullBrandName span {
@@ -349,7 +349,8 @@
     font-weight: 900;
     color: #000000;
     line-height: 2;
-    margin-left: 45px;
+    margin-left: 5px;
+    margin-bottom: 15px;
   }
 
   .greetingBanner {
@@ -372,7 +373,7 @@
       width: 0;
     }
     to {
-      width: 80.5%;
+      width: 57%;
     }
   }
 
