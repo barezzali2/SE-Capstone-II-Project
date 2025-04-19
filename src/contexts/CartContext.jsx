@@ -80,52 +80,28 @@ const CartProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const fetchCart = async () => {
+    const fetchCart = async (retries = 3, delay = 1000) => {
       try {
         if (!cartId) {
-          try {
-            const response = await axios.post(`${baseUrl}/cart/create`);
-            const newCartId = response.data.cart.cartId;
-            setCartId(newCartId);
-            localStorage.setItem("cartId", newCartId);
-            setCart(response.data.cart);
-          } catch (createErr) {
-            console.error("Error creating cart:", createErr);
-            setCart({ items: [], totalItems: 0, totalPrice: 0 });
-          }
-        } else {
-          try {
-            const response = await axios.get(
-              `${baseUrl}/cart?cartId=${cartId}`
-            );
-            const cartWithDiscounts = {
-              ...response.data.cart,
-              items: response.data.cart.items.map((item) => ({
-                ...item,
-                product: {
-                  ...item.product,
-                  isDiscounted: item.product.isDiscounted || false,
-                  discountRate: item.product.discountRate || 0,
-                  isFeatured: item.product.isFeatured || false,
-                  price: item.product.price,
-                },
-              })),
-            };
+          console.log("No cart ID available");
+          return;
+        }
 
-            // this is to ensure that the discount properties are preserved and calculate correct total
-            cartWithDiscounts.totalPrice = calculateTotalPrice(
-              cartWithDiscounts.items
-            );
-
-            setCart(cartWithDiscounts);
-          } catch (getErr) {
-            console.error("Error fetching cart:", getErr);
-            setCart({ items: [], totalItems: 0, totalPrice: 0 });
+        try {
+          const response = await axios.get(`${baseUrl}/cart`, {
+            params: { cartId },
+          });
+          setCart(response.data.cart);
+        } catch (error) {
+          if (error.response?.status === 429 && retries > 0) {
+            console.log(`Rate limited, retrying in ${delay}ms...`);
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            return fetchCart(retries - 1, delay * 2);
           }
+          throw error;
         }
       } catch (err) {
-        console.error("Error in cart operations:", err);
-        setCart({ items: [], totalItems: 0, totalPrice: 0 });
+        console.error("Error fetching cart:", err);
       }
     };
 

@@ -426,3 +426,41 @@
   transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(221, 88, 55, 0.15);
 }
+
+.cartFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid #eee;
+  margin-top: 16px;
+}
+
+.cartTotal {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  gap: 8px;
+}
+
+.clearAllButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #dd5837;
+  color: #dd5837;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.clearAllButton:hover {
+  background: rgba(221, 88, 55, 0.1);
+}
+
+.clearAllButton .trashIcon {
+  font-size: 16px;
+}

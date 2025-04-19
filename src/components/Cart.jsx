@@ -3,13 +3,20 @@ import PropTypes from "prop-types";
 import { useProduct } from "../contexts/ProductContext";
 import { useCart } from "../contexts/CartContext";
 import { motion } from "framer-motion";
-import { FiTrash2, FiTag, FiMinus, FiPlus, FiEye } from "react-icons/fi";
+import {
+  FiTrash2,
+  FiTag,
+  FiMinus,
+  FiPlus,
+  FiEye,
+  FiTrash,
+} from "react-icons/fi";
 import { useState, useEffect } from "react";
 import QuickView from "./QuickView";
 
 function Cart({ product }) {
   const { baseUrl } = useProduct();
-  const { removeFromCart, updateCartItemQuantity } = useCart();
+  const { removeFromCart, updateCartItemQuantity, clearCart } = useCart();
   const imageUrl = `${baseUrl}${product.image}`;
   const [quantity, setQuantity] = useState(product.quantity || 1);
   const [showQuickView, setShowQuickView] = useState(false);
