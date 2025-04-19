@@ -80,7 +80,7 @@ function QuickView({ product, onClose }) {
         </div>
         <div className={styles.modalActions}>
           <div className={styles.star}>
-            <StarRating rating={rating} onRatingChange={handleRatingChange} />
+            <StarRating rating={rating} onRatingChange={handleRatingChange} readOnly={true}/>
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.addToCard} onClick={handleAddToCart}>
