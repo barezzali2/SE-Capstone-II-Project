@@ -1,133 +1,198 @@
 
 
 @media (min-width: 1000px) {
-    .feedbackReview {
-        max-width: 50%;
-        margin: 12% auto;
-    }
+/* General Styling */
+.feedbackReview {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  margin-top: 10%;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-family: 'Lexend Deca', sans-serif;
+}
 
-    .header {
-        margin-bottom: 25px;
-    }
+.header {
+  margin-bottom: 30px;
+  text-align: center;
+}
 
-    .backLink {
-        text-decoration: none;
-        font-size: 20px;
-        color: #dd5837;
-        font-weight: bold;
-      }
+.backLink {
+  text-decoration: none;
+  font-size: 18px;
+  color: #dd5837;
+  font-weight: bold;
+  display: flex;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+  transition: 0.3s ease-in-out;
+  width: fit-content;
 
-      .productInfo {
-        /* text-align: center; */
-      }
+}
 
-      .productImage {
-        /* width: 40%; */
-        width: 300px;
-        height: auto;
-        border-radius: 10px;
-        margin-bottom: 15px;
-        margin: 6% 30%;
-      }
+.backLink span {
+  margin-left: 6px;
+  margin-top: -3px;
+}
+
+.backLink:hover {
+  color: #b94a2e;
+  transform: translateX(-3px);
+}
+
+.productInfo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.productImage {
+  width: 250px;
+  height: auto;
+  border-radius: 10px;
+  margin: 0 auto 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.productInfo h2 {
+  font-size: 28px;
+  margin: 15px 0;
+  color: #000000;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #dd5837;
+  margin-bottom: 20px;
+}
+
+.productDetail, .nutritions, .review {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.productDetail h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+.nutritions h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+.review h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #000000;
+}
 
 
-      h2 {
-        font-size: 24px;
-        margin: 15px 0;
-      }
-      
-      .price {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-      }
+.productDetail p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+}
 
-      .productDetail, .nutritions, .review {
-        margin-top: 20px;
-      }
+.commentArea {
+  margin-top: 30px;
+}
 
-      h3 {
-        font-size: 21px;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-      
-      p {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #555;
-      }
+textarea {
+  width: 770px;
+  max-height: 150px;
+  font-family: 'Lexend Deca', sans-serif;
+  font-size: 16px;
+  padding: 15px;
+  border-radius: 8px;
+  resize: none;
+  /* box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); */
+  transition: border-color 0.3s ease;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+}
 
-      .nutritions, .review {
-        display: flex;
-        /* justify-content: space-between; */
-        gap: 68%;
-        align-items: center;
-        border-top: 1px solid #ddd;
-        padding-top: 10px;
-      }
-      
-      .stars {
-        /* font-size: 20px; */
-        /* color: #ffcc00; */
-      }
+textarea:focus {
+  border: 1px solid #dd5837;
+  /* border-color: #dd5837; */
+  outline: none;
+}
 
-      .commentArea {
-        margin-top: 30px;
-      }
+.submit {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #dd5837;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
 
-      textarea {
-        font-family: 'Lexend Deca';
-        font-size: 16.5px;
-        padding: 10px;
-      }
+.submit:hover {
+  background-color: #b94a2e;
+}
 
-      .submit {
-        font-family: 'Lexend Deca';
-        width: 40%;
-        padding: 15px 30px;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.25s ease;
+.cusReview {
+  margin-top: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+}
 
-        margin: 30px 30%;
-        background: none;
-        transition: ease-in-out 0.20s;
-      }
+.reviewList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
 
-      .submit:hover {
-        background-color: #DD5837;
-        color: white;
-    }
+.singleReview {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .cusReview {
-      margin-top: 50px;
-    }
+.singleReview:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
 
-    .reviewList {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 3 columns */
-      gap: 50px; /* Space between reviews */
-      margin-top: 25px;
-    }
-  
-    .singleReview {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+.anonymous {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #444;
+}
 
-    .anonymous {
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
-    
-    .comment {
-      margin-top: 8px;
-      font-size: 15px;
-    }
+.comment {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+.stars {
+  font-size: 20px;
+  color: #dd5837;
+  margin-bottom: 10px;
+}
 
 }

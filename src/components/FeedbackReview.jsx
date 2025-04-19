@@ -1,5 +1,6 @@
 import { useProduct } from "../contexts/ProductContext";
 import styles from "./FeedbackReview.module.css";
+import { FiArrowLeft} from "react-icons/fi";
 import PropTypes from "prop-types";
 import StarRating from "./StarRating";
 import { useEffect, useState } from "react";
@@ -65,7 +66,7 @@ const handleSubmitReview = () => {
     <div className={styles.feedbackReview}>
       <div className={styles.header}>
         <a href="/productlist" className={styles.backLink}>
-          &larr; Back to Products Page
+          <FiArrowLeft /> <span>Back to Products Page</span>
         </a>
       </div>
       <div className={styles.productInfo}>
@@ -104,8 +105,9 @@ const handleSubmitReview = () => {
               name="commments" 
               id="" 
               placeholder="Write your comments" 
-              rows={6} 
-              cols={75.5} />
+              rows={6}
+              
+               />
       </div>
 
       <button className={styles.submit} onClick={handleSubmitReview}>Submit your Feedback</button>
