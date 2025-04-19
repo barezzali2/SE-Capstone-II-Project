@@ -94,6 +94,26 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
     };
   }, []);
 
+
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      const sidePanel = sidePanelRef.current;
+      if (sidePanel && !sidePanel.contains(event.target)) {
+        setShowProductDisplay(false); // Close the side panel
+      }
+    };
+  
+    // Add event listener for clicks
+    document.addEventListener("mousedown", handleOutsideClick);
+  
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+
   // this is to update the side panel content when products or visibility changes
   useEffect(() => {
     const sidePanel = sidePanelRef.current;
@@ -294,6 +314,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
 
   const handleProductClick = (product) => {
     onQuickViewProduct(product); // Pass the product up to parent
+    setShowProductDisplay(false); // Close the side panel
   };
 
   return (
