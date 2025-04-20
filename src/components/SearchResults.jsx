@@ -111,7 +111,7 @@ function SearchResults() {
 
                 <div className={styles.productInfo}>
                   <h3 className={styles.productName}>{product.name}</h3>
-                  <div className={styles.categoryBadge}>{product.category}</div>
+                  <p className={styles.categoryBadge}>{product.category}</p>
 
                   <div className={styles.priceContainer}>
                     {product.isDiscounted && product.discountRate > 0 ? (

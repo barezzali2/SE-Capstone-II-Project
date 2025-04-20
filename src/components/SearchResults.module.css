@@ -186,7 +186,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: #333;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   height: 2.4rem;
   overflow: hidden;
   display: -webkit-box;
@@ -196,17 +196,17 @@
 
 .categoryBadge {
   display: inline-block;
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
   color: #666;
   font-size: 0.7rem;
-  padding: 3px 8px;
-  border-radius: 12px;
+  /* padding: 3px 8px; */
+  /* border-radius: 12px; */
   margin-bottom: 10px;
   font-weight: 500;
 }
 
 .priceContainer {
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
 }
@@ -228,6 +228,7 @@
   font-weight: 600;
   color: #ff5252;
   font-size: 1.1rem;
+  margin-top: 5px;
 }
 
 .productActions {
@@ -262,6 +263,7 @@
 }
 
 .addToCartButton {
+  font-family: 'Lexend Deca';
   background-color: #dd5837;
   color: white;
 }
@@ -363,8 +365,8 @@
   }
 
   .categoryBadge {
-    font-size: 0.8rem;
-    padding: 4px 10px;
+    font-size: 0.85rem;
+    /* padding: 4px 10px; */
   }
 
   .quickViewButton,
