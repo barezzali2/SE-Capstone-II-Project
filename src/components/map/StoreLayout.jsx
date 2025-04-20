@@ -386,7 +386,6 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
   const handleProductClick = (product) => {
     onQuickViewProduct(product); // Pass the product up to parent
     setShowProductDisplay(false); // Close the side panel
-    onQuickViewProduct(product); // this is to pass the product up to the parent
   };
 
   return (
