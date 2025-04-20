@@ -17,16 +17,25 @@ function QuickView({ product, onClose }) {
 
 
   useEffect(() => {
-    // Fetch top 3 feedbacks for the product
-    axios
-      .get(`${baseUrl}/api/reviews/top?productId=${product.id}&limit=3`)
-      .then((response) => {
-        console.log("Top feedbacks:", response.data.reviews); 
-        setTopFeedbacks(response.data.reviews); // Store the feedbacks in state
-      })
-      .catch((error) => {
-        console.error("Error fetching top feedbacks:", error);
-      });
+    // Fetch top 3 feedbacks and average rating for the product
+    const fetchFeedbacksAndRating = async () => {
+      try {
+        const [feedbackResponse, ratingResponse] = await Promise.all([
+          axios.get(`${baseUrl}/api/reviews/top?productId=${product.id}&limit=3`),
+          axios.get(`${baseUrl}/api/reviews/average?productId=${product.id}`),
+        ]);
+  
+        console.log("Top feedbacks:", feedbackResponse.data.reviews);
+        setTopFeedbacks(feedbackResponse.data.reviews);
+  
+        console.log("Average rating:", ratingResponse.data.averageRating);
+        setRating(ratingResponse.data.averageRating);
+      } catch (error) {
+        console.error("Error fetching feedbacks or average rating:", error);
+      }
+    };
+  
+    fetchFeedbacksAndRating();
   }, [baseUrl, product.id]);
 
 
@@ -126,7 +135,7 @@ function QuickView({ product, onClose }) {
         </div>
         <div className={styles.modalActions}>
           <div className={styles.star}>
-            <StarRating rating={rating} onRatingChange={handleRatingChange} readOnly={true}/>
+            <StarRating value={rating} onRatingChange={handleRatingChange} readOnly={true}/>
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.addToCard} onClick={handleAddToCart}>
