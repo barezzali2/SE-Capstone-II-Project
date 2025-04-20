@@ -4,14 +4,31 @@ import styles from "./QuickView.module.css";
 import { useProduct } from "../contexts/ProductContext";
 import { useCart } from "../contexts/CartContext";
 import StarRating from "./StarRating";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function QuickView({ product, onClose }) {
   const { baseUrl } = useProduct();
   const { addToCart } = useCart();
   const imageUrl = `${baseUrl}${product.image}`;
   const [rating, setRating] = useState(product.rating || 0);
+  const [topFeedbacks, setTopFeedbacks] = useState([]);
+
+
+  useEffect(() => {
+    // Fetch top 3 feedbacks for the product
+    axios
+      .get(`${baseUrl}/api/reviews/top?productId=${product.id}&limit=3`)
+      .then((response) => {
+        console.log("Top feedbacks:", response.data.reviews); 
+        setTopFeedbacks(response.data.reviews); // Store the feedbacks in state
+      })
+      .catch((error) => {
+        console.error("Error fetching top feedbacks:", error);
+      });
+  }, [baseUrl, product.id]);
+
 
   const navigate = useNavigate();
   const handleFeedbackClick = () => {
@@ -77,6 +94,35 @@ function QuickView({ product, onClose }) {
             )}
           </div>
           <p className={styles.description}>{product.description}</p>
+
+
+          {/*  */}
+          <div className={styles.topFeedbacks}>
+            <h3>Top Feedbacks</h3>
+            {topFeedbacks.length > 0 ? (
+              topFeedbacks.map((feedback) => (
+                <div key={feedback.id} className={styles.feedbackItem}>
+                  <p className={styles.feedbackRating}>
+                    Rating: {feedback.rating} ★
+                  </p>
+                  <p className={styles.feedbackComment}>
+                  {`"${feedback.comment}"`}
+                  </p>
+                  <p className={styles.feedbackDate}>
+                  {feedback.createdAt
+                    ? new Date(feedback.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                    : "No date available"}
+                </p>
+                </div>
+              ))
+            ) : (
+              <p>No feedbacks available yet.</p>
+            )}
+          </div>
         </div>
         <div className={styles.modalActions}>
           <div className={styles.star}>
