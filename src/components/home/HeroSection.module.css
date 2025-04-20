@@ -13,7 +13,7 @@
   left: 0;
   width: 100%;
   height: 5px;
-  background: linear-gradient(to right, #dd5837, #ff9966);
+  background: linear-gradient(to right, #ffffff, #ffffff);
 }
 
 .heroSection::after {
