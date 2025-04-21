@@ -128,26 +128,23 @@ export const AdminProvider = ({ children }) => {
   };
 
   const toggleFeatured = async (productId, isFeatured) => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${baseUrl}/admin/featured/${productId}`,
-        { isFeatured },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      setError(
-        error.response?.data?.message || "Failed to update featured status"
-      );
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    const token = localStorage.getItem("token");
+    const url = `${baseUrl}/admin/featured/${productId}`;
+    const response = isFeatured
+      ? await axios.post(url, {}, { headers: { Authorization: `Bearer ${token}` } })
+      : await axios.delete(url, { headers: { Authorization: `Bearer ${token}` } });
+    return response.data;
+  } catch (error) {
+    setError(
+      error.response?.data?.message || "Failed to update featured status"
+    );
+    throw error;
+  } finally {
+    setLoading(false);
+  }
+};
 
   const updateDiscount = async (productId, discountData) => {
     setLoading(true);
