@@ -1,4 +1,4 @@
-import { FiX } from "react-icons/fi";
+import { FiX, FiMapPin, FiShoppingCart, FiMessageCircle } from "react-icons/fi";
 import PropTypes from "prop-types";
 import styles from "./QuickView.module.css";
 import { useProduct } from "../contexts/ProductContext";
@@ -15,29 +15,29 @@ function QuickView({ product, onClose }) {
   const [rating, setRating] = useState(product.rating || 0);
   const [topFeedbacks, setTopFeedbacks] = useState([]);
 
-
   useEffect(() => {
     // Fetch top 3 feedbacks and average rating for the product
     const fetchFeedbacksAndRating = async () => {
       try {
         const [feedbackResponse, ratingResponse] = await Promise.all([
-          axios.get(`${baseUrl}/api/reviews/top?productId=${product.id}&limit=3`),
+          axios.get(
+            `${baseUrl}/api/reviews/top?productId=${product.id}&limit=3`
+          ),
           axios.get(`${baseUrl}/api/reviews/average?productId=${product.id}`),
         ]);
-  
+
         console.log("Top feedbacks:", feedbackResponse.data.reviews);
         setTopFeedbacks(feedbackResponse.data.reviews);
-  
+
         console.log("Average rating:", ratingResponse.data.averageRating);
         setRating(ratingResponse.data.averageRating);
       } catch (error) {
         console.error("Error fetching feedbacks or average rating:", error);
       }
     };
-  
+
     fetchFeedbacksAndRating();
   }, [baseUrl, product.id]);
-
 
   const navigate = useNavigate();
   const handleFeedbackClick = () => {
@@ -55,6 +55,16 @@ function QuickView({ product, onClose }) {
       addToCart(product._id || product.id);
       onClose();
     }
+  };
+
+  // we also pass the category and product name to the 3d map page
+  const handleLocationClick = () => {
+    navigate("/map", {
+      state: {
+        category: product.category,
+        productName: product.name,
+      },
+    });
   };
 
   const calculateDiscountedPrice = (price) => {
@@ -104,7 +114,6 @@ function QuickView({ product, onClose }) {
           </div>
           <p className={styles.description}>{product.description}</p>
 
-
           {/*  */}
           <div className={styles.topFeedbacks}>
             <h3>Top Feedbacks</h3>
@@ -115,17 +124,20 @@ function QuickView({ product, onClose }) {
                     Rating: {feedback.rating} ★
                   </p>
                   <p className={styles.feedbackComment}>
-                  {`"${feedback.comment}"`}
+                    {`"${feedback.comment}"`}
                   </p>
                   <p className={styles.feedbackDate}>
-                  {feedback.createdAt
-                    ? new Date(feedback.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })
-                    : "No date available"}
-                </p>
+                    {feedback.createdAt
+                      ? new Date(feedback.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )
+                      : "No date available"}
+                  </p>
                 </div>
               ))
             ) : (
@@ -135,13 +147,26 @@ function QuickView({ product, onClose }) {
         </div>
         <div className={styles.modalActions}>
           <div className={styles.star}>
-            <StarRating value={rating} onRatingChange={handleRatingChange} readOnly={true}/>
+            <StarRating
+              value={rating}
+              onRatingChange={handleRatingChange}
+              readOnly={true}
+            />
           </div>
           <div className={styles.buttonContainer}>
             <button className={styles.addToCard} onClick={handleAddToCart}>
+              <FiShoppingCart className={styles.buttonIcon} />
               Add to Cart
             </button>
+            <button
+              className={styles.locationButton}
+              onClick={handleLocationClick}
+            >
+              <FiMapPin className={styles.buttonIcon} />
+              Find in Store
+            </button>
             <button className={styles.feedback} onClick={handleFeedbackClick}>
+              <FiMessageCircle className={styles.buttonIcon} />
               Feedback
             </button>
           </div>
