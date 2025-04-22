@@ -16,16 +16,15 @@
 .modalContent {
   background: white;
   border-radius: 24px;
-  width: 70%;
-  max-width: 900px;
-  max-height: 80vh;
+  width: 85%;
+  max-width: 1100px;
+  max-height: 85vh;
   position: relative;
-  /* overflow: hidden; */
   overflow-y: auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 2rem;
+  gap: 3rem;
+  padding: 3rem;
 }
 
 .closeButton {
@@ -99,18 +98,20 @@
 }
 
 .productInfo h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #333;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .category {
   color: #666;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   margin: 0;
+  font-weight: 500;
 }
 
 .priceContainer {
@@ -139,9 +140,9 @@
 }
 
 .description {
-  color: #666;
-  line-height: 1.4;
-  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+  font-size: 1.2rem;
   margin: 0;
 }
 
@@ -165,56 +166,158 @@
 
 .buttonContainer {
   display: flex;
-  gap: 1rem;
+  gap: 12px;
+  margin-top: 16px;
   width: 100%;
 }
 
+.buttonIcon {
+  font-size: 1.25rem;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+
 .addToCard {
-  flex: 2;
-  padding: 1rem 2rem;
-  background: #dd5837;
+  flex: 1.5;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #dd5837 0%, #ff7657 100%);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.addToCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+  clip-path: polygon(0 0, 100% 0, 100% 30%, 0 60%);
 }
 
 .addToCard:hover {
-  background: #c44726;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(221, 88, 55, 0.2);
+  box-shadow: 0 10px 20px -10px rgba(221, 88, 55, 0.5);
+}
+
+.addToCard:hover .buttonIcon {
+  transform: rotate(-10deg) scale(1.1);
 }
 
 .feedback {
   flex: 1;
-  padding: 1rem 2rem;
-  background: #f8f9fa;
+  padding: 12px 24px;
+  background: white;
   color: #333;
-  border: 2px solid #e9ecef;
-  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .feedback:hover {
-  background: #e9ecef;
+  border-color: #dd5837;
+  color: #dd5837;
+  background: #fff5f2;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.feedback:hover .buttonIcon {
+  transform: scale(1.1);
+  color: #dd5837;
+}
+
+.locationButton {
+  flex: 1;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.locationButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+  clip-path: polygon(0 0, 100% 0, 100% 30%, 0 60%);
+}
+
+.locationButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px rgba(74, 144, 226, 0.5);
+}
+
+.locationButton:hover .buttonIcon {
+  transform: translateY(-2px);
+}
+
+/* Active states */
+.addToCard:active,
+.feedback:active,
+.locationButton:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* Focus states for accessibility */
+.addToCard:focus,
+.feedback:focus,
+.locationButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(221, 88, 55, 0.3);
+}
+
+.locationIcon {
+  font-size: 0.9rem;
+}
+
+/* Active state animations */
+.addToCard:active,
+.feedback:active,
+.locationButton:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
 
 /*  */
 .topFeedbacks {
