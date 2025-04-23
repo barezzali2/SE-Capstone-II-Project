@@ -64,7 +64,7 @@ function CameraScanner({ onBarcodeDetected }) {
         { facingMode: "environment" },
         {
           fps: 10,
-          qrbox: { width: 400, height: 250 },
+          qrbox: { width: 510, height: 310 },
           aspectRatio: 1.0,
         },
         (decodedText) => {
