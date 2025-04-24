@@ -24,6 +24,7 @@ export function SectionMarker({
   category,
   onActivate,
   isHighlighted,
+  rotation
 }) {
   const { scene } = useGLTF("/assets/supermarket_shelving.glb");
 
@@ -45,6 +46,7 @@ export function SectionMarker({
   return (
     <group
       position={position}
+      rotation={rotation}
       onClick={() => onActivate(category, position)}
       onPointerOver={(e) => {
         e.stopPropagation();
@@ -57,8 +59,8 @@ export function SectionMarker({
     >
       <primitive
         object={model}
+        // rotation={[0, Math.PI / 2, 0]}
         scale={[2, 2, 2]}
-        rotation={[0, Math.PI / 2, 0]}
       />
 
       <Text
