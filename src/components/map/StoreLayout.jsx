@@ -21,7 +21,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
     () => [
       // Fruits aisle
       {
-        position: [-20, 0.1, 0],
+        position: [-26, 0.1, 0],
         label: "Fruits",
         color: "#8bc34a",
         category: "fruits",
@@ -41,9 +41,54 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
           { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
         ],
       },
+
+      // Drinks aisle
+      {
+        position: [-16, 0.1, 0],
+        label: "Drinks",
+        color: "#7986cb",
+        category: "drinks",
+        rotation: [0, 0, 0],
+        shelves: [
+          // Same pattern
+          { offset: [0, 0, -8] },
+          { offset: [0, 0, -4] },
+          { offset: [0, 0, 0] },
+          { offset: [0, 0, 4] },
+          { offset: [0, 0, 8] },
+          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+        ],
+      },
+
+      // Grains aisle
+      {
+        position: [-6, 0.1, 0],
+        label: "Grains",
+        color: "#fff176",
+        category: "grains",
+        rotation: [0, 0, 0],
+        shelves: [
+          // Same pattern
+          { offset: [0, 0, -8] },
+          { offset: [0, 0, -4] },
+          { offset: [0, 0, 0] },
+          { offset: [0, 0, 4] },
+          { offset: [0, 0, 8] },
+          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+        ],
+      },
+
       // Dairy Aisle
       {
-        position: [-10, 0.1, 0],
+        position: [4, 0.1, 0],
         label: "Dairy",
         color: "#64b5f6",
         category: "dairy",
@@ -63,57 +108,38 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
           { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
         ],
       },
-      // Bakery Aisle
-      {
-        position: [0, 0.1, 0],
-        label: "Bakery",
-        color: "#bcaaa4",
-        category: "bakery",
-        rotation: [0, 0, 0],
-        shelves: [
-          // Same pattern as above
-          { offset: [0, 0, -8] },
-          { offset: [0, 0, -4] },
-          { offset: [0, 0, 0] },
-          { offset: [0, 0, 4] },
-          { offset: [0, 0, 8] },
-          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
-        ],
-      },
-      // Drinks aisle
-      {
-        position: [10, 0.1, 0],
-        label: "Drinks",
-        color: "#7986cb",
-        category: "drinks",
-        rotation: [0, 0, 0],
-        shelves: [
-          // Same pattern
-          { offset: [0, 0, -8] },
-          { offset: [0, 0, -4] },
-          { offset: [0, 0, 0] },
-          { offset: [0, 0, 4] },
-          { offset: [0, 0, 8] },
-          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
-        ],
-      },
+
       // Snacks aisle
       {
-        position: [20, 0.1, 0],
+        position: [14, 0.1, 0],
         label: "Snacks",
         color: "#ffa726",
         category: "snacks",
         rotation: [0, 0, 0],
         shelves: [
           // Same pattern
+          { offset: [0, 0, -8] },
+          { offset: [0, 0, -4] },
+          { offset: [0, 0, 0] },
+          { offset: [0, 0, 4] },
+          { offset: [0, 0, 8] },
+          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+        ],
+      },
+
+      // Bakery Aisle
+      {
+        position: [24, 0.1, 0],
+        label: "Bakery",
+        color: "#bcaaa4",
+        category: "bakery",
+        rotation: [0, 0, 0],
+        shelves: [
+          // Same pattern as above
           { offset: [0, 0, -8] },
           { offset: [0, 0, -4] },
           { offset: [0, 0, 0] },

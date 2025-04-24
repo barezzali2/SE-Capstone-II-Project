@@ -1,10 +1,33 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 
-export function CameraController() {
+export function CameraController({ activeCategory }) {
   const { camera } = useThree();
   const controlsRef = useRef();
+
+
+  const aisleCameraPositions = {
+    fruits: { x: -40, y: 1, z: 20 },
+    drinks: { x: -35, y: 1, z: 20 },
+    grains: { x: 1, y: 10, z: 15 },
+    dairy: { x: -10, y: -10, z: 20 }, //
+    snacks: { x: 25, y: 5, z: 20 },
+    bakery: { x: 20, y: 25, z: 10 },
+  };
+
+  useEffect(() => {
+    if (activeCategory && aisleCameraPositions[activeCategory]) {
+      const { x, y, z } = aisleCameraPositions[activeCategory];
+      // Smoothly move the camera to the selected aisle
+      camera.position.set(x, y, z);
+      camera.lookAt(x, 0, 0); // Adjust the look-at position if needed
+    }
+  }, [activeCategory, camera]);
+
+
+
 
   useEffect(() => {
     // this is the initial camera position
@@ -37,3 +60,8 @@ export function CameraController() {
     />
   );
 }
+
+
+CameraController.propTypes = {
+  activeCategory: PropTypes.string,
+};

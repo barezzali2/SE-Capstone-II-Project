@@ -62,8 +62,8 @@ export function SectionMarker({
       />
 
       <Text
-        position={[0, 5, 0]}
-        rotation={[0, Math.PI / 4, 0]}
+        position={[1.5, 6, -2]}
+        // rotation={[0, Math.PI / 40, 0]}
         fontSize={1.5}
         color="#ffffff"
         anchorX="center"

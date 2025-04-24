@@ -35,15 +35,15 @@ function MapView() {
   const categories =
     products && products.length
       ? [...new Set(products.map((product) => product.category))]
-      : ["fruits", "dairy", "bakery", "drinks", "snacks", "grains"];
+      : ["fruits", "drinks", "grains", "dairy", "snacks", "bakery"];
 
   const categoryIcons = {
     fruits: "🍎",
-    dairy: "🥛",
-    bakery: "🍞",
     drinks: "🥤",
-    snacks: "🍿",
     grains: "🌾",
+    dairy: "🥛",
+    snacks: "🍿",
+    bakery: "🍞",
   };
 
   return (
@@ -119,7 +119,7 @@ function MapView() {
                 onQuickViewProduct={setQuickViewProduct}
               />
 
-              <CameraController />
+              <CameraController activeCategory={activeCategory} />
             </Suspense>
           </Canvas>
         </div>
