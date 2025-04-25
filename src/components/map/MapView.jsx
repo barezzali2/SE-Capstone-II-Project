@@ -117,6 +117,7 @@ function MapView() {
               <StoreLayout
                 activeCategory={activeCategory}
                 onQuickViewProduct={setQuickViewProduct}
+                onCategoryChange={setActiveCategory} // pass the state updater to the StoreLayout
               />
 
               <CameraController activeCategory={activeCategory} />

@@ -46,7 +46,8 @@ export function SectionMarker({
   return (
     <group
       position={position}
-      rotation={rotation}
+      // rotation={rotation}
+      // rotation={[0, Math.PI / 2, 0]}
       onClick={() => onActivate(category, position)}
       onPointerOver={(e) => {
         e.stopPropagation();
@@ -59,7 +60,7 @@ export function SectionMarker({
     >
       <primitive
         object={model}
-        // rotation={[0, Math.PI / 2, 0]}
+        rotation={[0, 300.02, 0]}
         scale={[2, 2, 2]}
       />
 

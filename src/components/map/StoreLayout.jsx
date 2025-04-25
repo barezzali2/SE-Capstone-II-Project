@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./StoreLayout.module.css";
 import PropTypes from "prop-types";
 
-export function StoreLayout({ activeCategory, onQuickViewProduct }) {
+export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChange }) {
   const storeRef = useRef();
   const sidePanelRef = useRef();
   const { products, baseUrl } = useProduct();
@@ -157,19 +157,86 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
   ); 
 
   // this is to sync with the parent component's active category by highlighting the aisle, and the parent is MapView.jsx
+  // useEffect(() => {
+  //   if (activeCategory) {
+  //     setHighlightedSection(activeCategory);
+
+  //     // If we have an active category from parent, also show products
+  //     const section = sections.find((s) => s.category === activeCategory);
+  //     if (section) {
+  //       handleSectionActivate(section.category);
+  //     }
+  //   } else {
+  //     setHighlightedSection(null);
+  //   }
+  // }, [activeCategory]);
+
+
+
+
   useEffect(() => {
     if (activeCategory) {
       setHighlightedSection(activeCategory);
-
-      // If we have an active category from parent, also show products
-      const section = sections.find((s) => s.category === activeCategory);
-      if (section) {
-        handleSectionActivate(section.category);
+  
+      // If we have an active category from the parent, show products only if not already displayed
+      if (activeCategory !== localActiveCategory) {
+        const section = sections.find((s) => s.category === activeCategory);
+        if (section) {
+          setLocalActiveCategory(activeCategory);
+  
+          // Filter products for the selected category
+          let filtered = [];
+          if (products && products.length > 0) {
+            filtered = products.filter(
+              (product) =>
+                product.category === activeCategory ||
+                product.category_id === activeCategory
+            );
+          }
+  
+          // Use fallback products if no products are found
+          if (!filtered || filtered.length === 0) {
+            filtered = [
+              {
+                id: `demo1-${activeCategory}`,
+                name: `${activeCategory} Product 1`,
+                price: "2500 IQD",
+                description: "Sample product description",
+                image: "/images/placeholder.jpg",
+                category: activeCategory,
+              },
+              {
+                id: `demo2-${activeCategory}`,
+                name: `${activeCategory} Product 2`,
+                price: "3500 IQD",
+                description: "Sample product description",
+                image: "/images/placeholder.jpg",
+                category: activeCategory,
+              },
+              {
+                id: `demo3-${activeCategory}`,
+                name: `${activeCategory} Product 3`,
+                price: "4500 IQD",
+                description: "Sample product description",
+                image: "/images/placeholder.jpg",
+                category: activeCategory,
+              },
+            ];
+          }
+  
+          setCategoryProducts(filtered);
+          setShowProductDisplay(true);
+        }
       }
     } else {
       setHighlightedSection(null);
+      setShowProductDisplay(false);
     }
-  }, [activeCategory]);
+  }, [activeCategory, localActiveCategory, products, sections]);
+
+
+
+
 
   // this is the side panel for the product display and it is only once on component mount meaning it only runs once because it is a side panel so it doesn't need to run on every render
   useEffect(() => {
@@ -351,6 +418,9 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
   const handleSectionActivate = (category) => {
     console.log("Section clicked:", category);
 
+    // Notify parent about the active category
+    onCategoryChange(category);
+
     // if the same aisle is clicked again, close the side panel
     if (category === localActiveCategory && showProductDisplay) {
       setShowProductDisplay(false);
@@ -444,6 +514,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct }) {
 StoreLayout.propTypes = {
   activeCategory: PropTypes.string,
   onQuickViewProduct: PropTypes.func.isRequired,
+  onCategoryChange: PropTypes.func.isRequired,
 };
 
 StoreLayout.defaultProps = {
