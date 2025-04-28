@@ -12,9 +12,9 @@ export function CameraController({ activeCategory }) {
     fruits: { x: -40, y: 1, z: 20 },
     drinks: { x: -35, y: 1, z: 20 },
     grains: { x: 1, y: 10, z: 15 },
-    dairy: { x: -10, y: -10, z: 20 }, //
-    snacks: { x: 25, y: 5, z: 20 },
-    bakery: { x: 20, y: 25, z: 10 },
+    dairy: { x: 20, y: 20, z: 10 }, 
+    snacks: { x: 40, y: 2, z: 12 }, 
+    bakery: { x: 60, y: -12, z: 7 },
   };
 
   useEffect(() => {
