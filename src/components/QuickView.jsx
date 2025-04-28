@@ -7,6 +7,7 @@ import StarRating from "./StarRating";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 function QuickView({ product, onClose }) {
   const { baseUrl } = useProduct();
@@ -14,6 +15,7 @@ function QuickView({ product, onClose }) {
   const imageUrl = `${baseUrl}${product.image}`;
   const [rating, setRating] = useState(product.rating || 0);
   const [topFeedbacks, setTopFeedbacks] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false); // State for dialog visibility
 
   useEffect(() => {
     // Fetch top 3 feedbacks and average rating for the product
@@ -51,11 +53,25 @@ function QuickView({ product, onClose }) {
   };
 
   const handleAddToCart = () => {
-    if (window.confirm("Are you sure to add this item to your cart?")) {
-      addToCart(product._id || product.id);
-      onClose();
-    }
+    setShowConfirmation(true); 
+    // if (window.confirm("Are you sure to add this item to your cart?")) {
+    //   addToCart(product._id || product.id);
+    //   onClose();
+    // }
   };
+
+
+  const handleConfirmAddToCart = () => {
+    addToCart(product._id || product.id);
+    setShowConfirmation(false); // Hide the dialog
+    onClose();
+  };
+
+  const handleCancelAddToCart = () => {
+    setShowConfirmation(false); // Hide the dialog
+  };
+
+
 
   // we also pass the category and product name to the 3d map page
   const handleLocationClick = () => {
@@ -172,6 +188,13 @@ function QuickView({ product, onClose }) {
           </div>
         </div>
       </div>
+      {showConfirmation && (
+        <ConfirmationDialog
+          message="Are you sure you want to add this item to your cart?"
+          onConfirm={handleConfirmAddToCart}
+          onCancel={handleCancelAddToCart}
+          />
+      )}
     </div>
   );
 }
