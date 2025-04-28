@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useAdmin } from "../../contexts/AdminContext";
 import Sidebar from "./Sidebar";
 import styles from "./ProductManagement.module.css";
+import ConfirmationDialog from "../ConfirmationDialog"; 
 
 function ProductManagement() {
   const { user, logout } = useAuth();
@@ -24,6 +25,9 @@ function ProductManagement() {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editProductData, setEditProductData] = useState(null);
+
+  const [showConfirmation, setShowConfirmation] = useState(false); // State for dialog visibility
+  const [productToDelete, setProductToDelete] = useState(null); // Store product ID to delete
 
   // Check authentication on component mount
   useEffect(() => {
@@ -83,18 +87,42 @@ function ProductManagement() {
     }
   };
 
-  const handleDeleteProduct = async (productId) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) {
-      return;
-    }
+  // const handleDeleteProduct = async (productId) => {
+  //   if (!window.confirm("Are you sure you want to delete this product?")) {
+  //     return;
+  //   }
 
+  //   try {
+  //     await deleteProduct(productId);
+  //     setProductList((prev) => prev.filter((p) => p._id !== productId));
+  //   } catch (error) {
+  //     console.error("Error deleting product:", error);
+  //     alert(error.message);
+  //   }
+  // };
+
+
+  const handleDeleteProduct = (productId) => {
+    setProductToDelete(productId); // Set the product ID to delete
+    setShowConfirmation(true); // Show the confirmation dialog
+  };
+
+  const confirmDeleteProduct = async () => {
     try {
-      await deleteProduct(productId);
-      setProductList((prev) => prev.filter((p) => p._id !== productId));
+      await deleteProduct(productToDelete); // Call the API to delete the product
+      setProductList((prev) => prev.filter((p) => p._id !== productToDelete)); // Remove the product from the list
     } catch (error) {
       console.error("Error deleting product:", error);
-      alert(error.message);
+      alert(error.message || "Failed to delete product");
+    } finally {
+      setShowConfirmation(false); // Hide the confirmation dialog
+      setProductToDelete(null); // Clear the product ID
     }
+  };
+  
+  const cancelDeleteProduct = () => {
+    setShowConfirmation(false); // Hide the confirmation dialog
+    setProductToDelete(null); // Clear the product ID
   };
 
   return (
@@ -373,6 +401,14 @@ function ProductManagement() {
               </div>
             ))}
           </div>
+        )}
+
+      {showConfirmation && (
+          <ConfirmationDialog
+            message="Are you sure you want to delete this product?"
+            onConfirm={confirmDeleteProduct}
+            onCancel={cancelDeleteProduct}
+          />
         )}
       </div>
     </div>

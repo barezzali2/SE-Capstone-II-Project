@@ -4,6 +4,7 @@ import { useProduct } from "../../contexts/ProductContext";
 import { useAdmin } from "../../contexts/AdminContext";
 import Sidebar from "./Sidebar";
 import styles from "./FeaturedManagement.module.css";
+import ConfirmationDialog from "../ConfirmationDialog"; 
 
 const formatPrice = (price) => {
   const num = parseFloat(price);
@@ -27,6 +28,9 @@ function FeaturedManagement() {
   const [availableProducts, setAvailableProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [showConfirmation, setShowConfirmation] = useState(false); // State for dialog visibility
+  const [productToRemove, setProductToRemove] = useState(null); // Store product ID to remove
 
   useEffect(() => {
     if (allProducts && allProducts.length > 0) {
@@ -54,18 +58,42 @@ function FeaturedManagement() {
     }
   };
 
-  const handleRemoveFeatured = async (productId) => {
-    if (
-      !window.confirm(
-        "Are you sure you want to remove this product from featured?"
-      )
-    ) {
-      return;
-    }
+
+  const handleRemoveFeatured = (productId) => {
+    setProductToRemove(productId); // Set the product ID to remove
+    setShowConfirmation(true); // Show the confirmation dialog
+  };
+
+  // const handleRemoveFeatured = async (productId) => {
+  //   if (
+  //     !window.confirm(
+  //       "Are you sure you want to remove this product from featured?"
+  //     )
+  //   ) {
+  //     return;
+  //   }
+  //   setIsLoading(true);
+  //   setError(null);
+  //   try {
+  //     await toggleFeatured(productId, false);
+  //     await refreshProducts();
+  //   } catch (err) {
+  //     console.error("Error removing featured product:", err);
+  //     setError(
+  //       err.response?.data?.error ||
+  //         "Failed to remove product from featured items."
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
+  const confirmRemoveFeatured = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      await toggleFeatured(productId, false);
+      await toggleFeatured(productToRemove, false);
       await refreshProducts();
     } catch (err) {
       console.error("Error removing featured product:", err);
@@ -75,7 +103,15 @@ function FeaturedManagement() {
       );
     } finally {
       setIsLoading(false);
+      setShowConfirmation(false); // Hide the confirmation dialog
+      setProductToRemove(null); // Clear the product ID
     }
+  };
+
+
+  const cancelRemoveFeatured = () => {
+    setShowConfirmation(false); // Hide the confirmation dialog
+    setProductToRemove(null); // Clear the product ID
   };
 
   return (
@@ -169,6 +205,16 @@ function FeaturedManagement() {
           )}
         </div>
       </div>
+
+      {showConfirmation && (
+        <ConfirmationDialog
+          message="Are you sure you want to remove this product from featured?"
+          onConfirm={confirmRemoveFeatured}
+          onCancel={cancelRemoveFeatured}
+        />
+      )}
+
+
     </div>
   );
 }

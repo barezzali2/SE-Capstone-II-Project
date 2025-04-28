@@ -5,6 +5,7 @@ import { useAdmin } from "../../contexts/AdminContext";
 import Sidebar from "./Sidebar";
 // No Modal import needed
 import styles from "./DiscountManagement.module.css";
+import ConfirmationDialog from "../ConfirmationDialog"; 
 
 // Helper function for safe price formatting
 // const formatPrice = (price) => {
@@ -48,6 +49,10 @@ function DiscountManagement() {
   const [inlineEditRate, setInlineEditRate] = useState("");
   const [inlineEditPrice, setInlineEditPrice] = useState("");
   const [inlineEditError, setInlineEditError] = useState(null);
+
+
+  const [showConfirmation, setShowConfirmation] = useState(false); // State for dialog visibility
+  const [productToRemove, setProductToRemove] = useState(null); // Store product ID to remove
 
   // Filter products when allProducts change (no changes needed here)
   useEffect(() => {
@@ -235,21 +240,46 @@ function DiscountManagement() {
   };
 
   // --- Remove Discount Handler --- (no changes needed here)
-  const handleRemoveDiscount = async (productId) => {
-    if (editingProductId === productId) {
-      handleCancelInlineEdit();
-    }
-    if (
-      !window.confirm(
-        "Are you sure you want to remove the discount from this product?"
-      )
-    ) {
-      return;
-    }
+  // const handleRemoveDiscount = async (productId) => {
+  //   if (editingProductId === productId) {
+  //     handleCancelInlineEdit();
+  //   }
+  //   if (
+  //     !window.confirm(
+  //       "Are you sure you want to remove the discount from this product?"
+  //     )
+  //   ) {
+  //     return;
+  //   }
+  //   setIsLoading(true);
+  //   setError(null);
+  //   try {
+  //     const response = await removeDiscount(productId);
+  //     updateLocalProductState(response.product);
+  //     await refreshProducts();
+  //   } catch (err) {
+  //     console.error("Error removing discount:", err);
+  //     setError(
+  //       err.response?.data?.error || "Failed to remove discount. Check console."
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
+
+  const handleRemoveDiscount = (productId) => {
+    setProductToRemove(productId); // Set the product ID to remove
+    setShowConfirmation(true); // Show the confirmation dialog
+  };
+
+
+  const confirmRemoveDiscount = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await removeDiscount(productId);
+      const response = await removeDiscount(productToRemove);
       updateLocalProductState(response.product);
       await refreshProducts();
     } catch (err) {
@@ -259,8 +289,17 @@ function DiscountManagement() {
       );
     } finally {
       setIsLoading(false);
+      setShowConfirmation(false); // Hide the confirmation dialog
+      setProductToRemove(null); // Clear the product ID
     }
   };
+  
+  const cancelRemoveDiscount = () => {
+    setShowConfirmation(false); // Hide the confirmation dialog
+    setProductToRemove(null); // Clear the product ID
+  };
+
+
 
   return (
     <div className={styles.adminLayout}>
@@ -521,6 +560,15 @@ function DiscountManagement() {
           )}
         </div>
       </div>
+
+      {showConfirmation && (
+        <ConfirmationDialog
+          message="Are you sure you want to remove the discount from this product?"
+          onConfirm={confirmRemoveDiscount}
+          onCancel={cancelRemoveDiscount}
+        />
+      )}
+
     </div>
   );
 }
