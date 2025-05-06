@@ -4,6 +4,7 @@ import Cart from "./Cart";
 import { motion } from "framer-motion";
 import { FiPrinter, FiX } from "react-icons/fi";
 import { useState } from "react";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 function CartWishlist() {
   const { cart, clearCart } = useCart();
@@ -11,6 +12,8 @@ function CartWishlist() {
 
   const [showPreview, setShowPreview] = useState(false);
   const [receiptContent, setReceiptContent] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
 
   const calculateOriginalTotal = () => {
     if (!cartItems.length) return 0;
@@ -67,10 +70,23 @@ function CartWishlist() {
   };
 
   const handleClearCart = () => {
-    if (window.confirm("Are you sure you want to clear your cart?")) {
-      clearCart();
-    }
+    // if (window.confirm("Are you sure you want to clear your cart?")) {
+    //   clearCart();
+    // }
+    setShowConfirmation(true);
   };
+
+
+
+  const handleConfirmClearCart = () => {
+    clearCart(); // Clear the cart
+    setShowConfirmation(false); // Hide the dialog
+  };
+
+  const handleCancelClearCart = () => {
+    setShowConfirmation(false); // Hide the dialog
+  };
+
 
   const handlePrintReceipt = () => {
     const content = `
@@ -195,6 +211,15 @@ function CartWishlist() {
             </div>
           </div>
         </div>
+      )}
+
+
+      {showConfirmation && (
+        <ConfirmationDialog
+          message="Are you sure you want to clear all in the cart?"
+          onConfirm={handleConfirmClearCart}
+          onCancel={handleCancelClearCart}
+        />
       )}
 
       {showPreview && (
