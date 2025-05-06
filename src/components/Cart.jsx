@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import QuickView from "./QuickView";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 function Cart({ product }) {
   const { baseUrl } = useProduct();
@@ -20,6 +21,7 @@ function Cart({ product }) {
   const imageUrl = `${baseUrl}${product.image}`;
   const [quantity, setQuantity] = useState(product.quantity || 1);
   const [showQuickView, setShowQuickView] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     // this will update the quantity if it changes from props
@@ -55,10 +57,21 @@ function Cart({ product }) {
   };
 
   const handleRemove = () => {
-    if (window.confirm("Are you sure to delete this item in your cart?")) {
-      removeFromCart(product.id);
-    }
+    // if (window.confirm("Are you sure to delete this item in your cart?")) {
+    //   removeFromCart(product.id);
+    // }
+    setShowConfirmation(true);
   };
+
+  const handleConfirmRemove = () => {
+    removeFromCart(product.id); // Remove the product from the cart
+    setShowConfirmation(false); // Hide the dialog
+  };
+
+  const handleCancelRemove = () => {
+    setShowConfirmation(false); // Hide the dialog
+  };
+
 
   const handleIncreaseQuantity = () => {
     const newQuantity = quantity + 1;
@@ -166,6 +179,14 @@ function Cart({ product }) {
           <FiTrash2 className={styles.trashIcon} />
         </motion.button>
       </motion.div>
+
+      {showConfirmation && (
+        <ConfirmationDialog
+        message="Are you sure you want to remove this item from your cart?"
+        onConfirm={handleConfirmRemove}
+        onCancel={handleCancelRemove}
+      />
+      )}
 
       {showQuickView && (
         <QuickView product={product} onClose={closeQuickView} />
