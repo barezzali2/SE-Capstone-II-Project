@@ -13,19 +13,25 @@
   
   .dialog {
     background: white;
-    padding: 50px;
+    padding: 40px;
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-top: 6px solid #e87255;
   }
 
   .dialog p {
     font-size: 20px;
   }
 
+  .dialog h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-family: 'Lexend Deca';
+  }
   
   .actions {
-    margin-top: 40px;
+    margin-top: 27px;
     display: flex;
     justify-content: space-around;
 }

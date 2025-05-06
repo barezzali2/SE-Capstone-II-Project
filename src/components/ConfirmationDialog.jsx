@@ -5,6 +5,7 @@ function ConfirmationDialog({ message, onConfirm, onCancel }) {
   return (
     <div className={styles.overlay} onClick={(e) => e.stopPropagation()}>
       <div className={styles.dialog}>
+        <h2>Confirm the action</h2>
         <p>{message}</p>
         <div className={styles.actions}>
           <button className={styles.confirmButton} onClick={onConfirm}>
