@@ -16,6 +16,7 @@ function QuickView({ product, onClose }) {
   const [rating, setRating] = useState(product.rating || 0);
   const [topFeedbacks, setTopFeedbacks] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false); // State for dialog visibility
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     // Fetch top 3 feedbacks and average rating for the product
@@ -64,7 +65,13 @@ function QuickView({ product, onClose }) {
   const handleConfirmAddToCart = () => {
     addToCart(product._id || product.id);
     setShowConfirmation(false); // Hide the dialog
-    onClose();
+    setShowNotification(true); // Show the notification
+
+    setTimeout(() => {
+      setShowNotification(false); 
+    }, 3000);
+
+    // onClose();
   };
 
   const handleCancelAddToCart = () => {
@@ -99,6 +106,13 @@ function QuickView({ product, onClose }) {
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+
+        {showNotification && (
+          <div className={styles.notification}>
+              Product added to cart successfully!
+            </div>
+        )}
+
         <button className={styles.closeButton} onClick={onClose}>
           <FiX />
         </button>
