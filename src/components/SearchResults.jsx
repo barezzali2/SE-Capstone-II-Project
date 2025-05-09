@@ -6,12 +6,17 @@ import { FiShoppingCart } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import QuickView from "./QuickView";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 function SearchResults() {
   const { searchResults, searchLoading, searchError, baseUrl } = useProduct();
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const [showConfirmation, setShowConfirmation] = useState(false); // State for dialog visibility
+  const [showNotification, setShowNotification] = useState(false); // State for notification visibility
+  const [productToAdd, setProductToAdd] = useState(null); // Track the product to add to the cart
 
   // Debug log to see what's in the search results
   useEffect(() => {
@@ -40,10 +45,30 @@ function SearchResults() {
     navigate("/productlist");
   };
 
-  const handleAddToCart = (e, product) => {
+  // const handleAddToCart = (e, product) => {
+  //   e.stopPropagation();
+  //   addToCart(product._id || product.id);
+  // };
+
+    const handleAddToCart = (e, product) => {
     e.stopPropagation();
-    addToCart(product._id || product.id);
+    setProductToAdd(product); // Store the product to add
+    setShowConfirmation(true); // Show the confirmation dialog
   };
+
+  const handleConfirmAddToCart = () => {
+    if (productToAdd) {
+      addToCart(productToAdd._id || productToAdd.id); // Add the product to the cart
+      setShowNotification(true); // Show the notification
+      setTimeout(() => setShowNotification(false), 3000); // Hide the notification after 3 seconds
+    }
+    setShowConfirmation(false); // Hide the confirmation dialog
+  };
+
+  const handleCancelAddToCart = () => {
+    setShowConfirmation(false); // Hide the confirmation dialog
+  };
+
 
   const handleQuickView = (product) => {
     // Debug log to see what product is being passed to QuickView
@@ -61,6 +86,20 @@ function SearchResults() {
 
   return (
     <div className={styles.searchResultsContainer}>
+      {showNotification && (
+        <div className={styles.notification}>
+          Product added to cart successfully!
+        </div>
+      )}
+
+      {showConfirmation && (
+        <ConfirmationDialog
+          message="Are you sure you want to add this item to your cart?"
+          onConfirm={handleConfirmAddToCart}
+          onCancel={handleCancelAddToCart}
+        />
+      )}
+
       {searchLoading ? (
         <div className={styles.searchStatus}>
           <div className={styles.loadingSpinner}></div>
