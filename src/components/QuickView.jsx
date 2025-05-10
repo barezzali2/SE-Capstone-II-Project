@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ConfirmationDialog from "./ConfirmationDialog";
 
-function QuickView({ product, onClose }) {
+function QuickView({ product, onClose, onFindInStore }) {
   const { baseUrl } = useProduct();
   const { addToCart } = useCart();
   const imageUrl = `${baseUrl}${product.image}`;
@@ -54,13 +54,12 @@ function QuickView({ product, onClose }) {
   };
 
   const handleAddToCart = () => {
-    setShowConfirmation(true); 
+    setShowConfirmation(true);
     // if (window.confirm("Are you sure to add this item to your cart?")) {
     //   addToCart(product._id || product.id);
     //   onClose();
     // }
   };
-
 
   const handleConfirmAddToCart = () => {
     addToCart(product._id || product.id);
@@ -68,7 +67,7 @@ function QuickView({ product, onClose }) {
     setShowNotification(true); // Show the notification
 
     setTimeout(() => {
-      setShowNotification(false); 
+      setShowNotification(false);
     }, 3000);
 
     // onClose();
@@ -76,18 +75,6 @@ function QuickView({ product, onClose }) {
 
   const handleCancelAddToCart = () => {
     setShowConfirmation(false); // Hide the dialog
-  };
-
-
-
-  // we also pass the category and product name to the 3d map page
-  const handleLocationClick = () => {
-    navigate("/map", {
-      state: {
-        category: product.category,
-        productName: product.name,
-      },
-    });
   };
 
   const calculateDiscountedPrice = (price) => {
@@ -106,11 +93,10 @@ function QuickView({ product, onClose }) {
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-
         {showNotification && (
           <div className={styles.notification}>
-              Product added to cart successfully!
-            </div>
+            Product added to cart successfully!
+          </div>
         )}
 
         <button className={styles.closeButton} onClick={onClose}>
@@ -190,7 +176,7 @@ function QuickView({ product, onClose }) {
             </button>
             <button
               className={styles.locationButton}
-              onClick={handleLocationClick}
+              onClick={() => onFindInStore(product)}
             >
               <FiMapPin className={styles.buttonIcon} />
               Find in Store
@@ -207,7 +193,7 @@ function QuickView({ product, onClose }) {
           message="Are you sure you want to add this item to your cart?"
           onConfirm={handleConfirmAddToCart}
           onCancel={handleCancelAddToCart}
-          />
+        />
       )}
     </div>
   );
@@ -228,6 +214,7 @@ QuickView.propTypes = {
     rating: PropTypes.number,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
+  onFindInStore: PropTypes.func.isRequired,
 };
 
 export default QuickView;

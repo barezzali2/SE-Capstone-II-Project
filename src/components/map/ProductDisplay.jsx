@@ -13,6 +13,7 @@ export function ProductDisplay({
   visible,
   onClose,
   category,
+  onFindInStore,
 }) {
   console.log("ProductDisplay rendered:", { products, visible, category });
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -108,6 +109,10 @@ export function ProductDisplay({
         <QuickView
           product={selectedProduct}
           onClose={() => setSelectedProduct(null)}
+          onFindInStore={(product) => {
+            setSelectedProduct(null);
+            onFindInStore(product);
+          }}
         />
       )}
     </>
@@ -127,4 +132,5 @@ ProductDisplay.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
+  onFindInStore: PropTypes.func.isRequired,
 };
