@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 import styles from "./Product.module.css";
 import QuickView from "./QuickView";
 import { useProduct } from "../contexts/ProductContext";
+import { useNavigate } from "react-router-dom";
 
 function Product({ product, listView = false }) {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
   const { baseUrl } = useProduct();
+  const navigate = useNavigate();
 
   const calculateDiscountedPrice = (price) => {
     if (!product.isDiscounted || !product.discountRate) return price;
@@ -93,6 +95,10 @@ function Product({ product, listView = false }) {
         <QuickView
           product={product}
           onClose={() => setIsQuickViewOpen(false)}
+          onFindInStore={(product) => {
+            setIsQuickViewOpen(false);
+            navigate("/map", { state: { highlightProduct: product } });
+          }}
         />
       )}
     </>
