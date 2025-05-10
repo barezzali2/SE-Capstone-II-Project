@@ -1,7 +1,7 @@
 import styles from "./Cart.module.css";
 import PropTypes from "prop-types";
-import { useProduct } from "../contexts/ProductContext";
-import { useCart } from "../contexts/CartContext";
+import { useProduct } from "../../contexts/ProductContext";
+import { useCart } from "../../contexts/CartContext";
 import { motion } from "framer-motion";
 import {
   FiTrash2,
@@ -12,8 +12,8 @@ import {
   FiTrash,
 } from "react-icons/fi";
 import { useState, useEffect } from "react";
-import QuickView from "./QuickView";
-import ConfirmationDialog from "./ConfirmationDialog";
+import QuickView from "../QuickView";
+import ConfirmationDialog from "../ConfirmationDialog";
 
 function Cart({ product }) {
   const { baseUrl } = useProduct();
@@ -71,7 +71,6 @@ function Cart({ product }) {
   const handleCancelRemove = () => {
     setShowConfirmation(false); // Hide the dialog
   };
-
 
   const handleIncreaseQuantity = () => {
     const newQuantity = quantity + 1;
@@ -182,10 +181,10 @@ function Cart({ product }) {
 
       {showConfirmation && (
         <ConfirmationDialog
-        message="Are you sure you want to remove this item from your cart?"
-        onConfirm={handleConfirmRemove}
-        onCancel={handleCancelRemove}
-      />
+          message="Are you sure you want to remove this item from your cart?"
+          onConfirm={handleConfirmRemove}
+          onCancel={handleCancelRemove}
+        />
       )}
 
       {showQuickView && (
