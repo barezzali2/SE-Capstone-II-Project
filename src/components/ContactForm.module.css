@@ -13,7 +13,8 @@
 
 .formContainer {
   background: white;
-  padding: 2.5rem;
+  /* padding: 2.5rem; */
+  padding: 4%;
   border-radius: 20px;
   width: 90%;
   max-width: 500px;
@@ -27,7 +28,7 @@
   top: 1rem;
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.9rem;
   cursor: pointer;
   color: #666;
 }

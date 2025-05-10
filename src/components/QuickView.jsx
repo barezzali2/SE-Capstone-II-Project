@@ -1,6 +1,6 @@
 import { FiX, FiMapPin, FiShoppingCart, FiMessageCircle } from "react-icons/fi";
-import PropTypes from "prop-types";
 import styles from "./QuickView.module.css";
+import PropTypes from "prop-types";
 import { useProduct } from "../contexts/ProductContext";
 import { useCart } from "../contexts/CartContext";
 import StarRating from "./StarRating";
