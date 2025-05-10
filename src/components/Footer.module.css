@@ -1,138 +1,200 @@
 /* Mobile screen styles */
 
 .footer {
-    width: 100%;
-    margin-top: 20px;
-    background-color: #DD5837;
-    padding: 15px 0;
-    text-align: center;
-    color: white;
-    position: relative;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  background: #fff;
+  color: #333;
+  padding: 4rem 2rem 1rem;
+  margin-top: auto;
+  border-top: 1px solid #eee;
+  position: relative;
 }
 
-.footer h3 {
-    text-align: center;
-    font-size: 23px;
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(221, 88, 55, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
-.footer .info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    margin: 30px 0; 
-    flex-direction: column;
-    flex-wrap: nowrap;
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.2fr;
+  gap: 4rem;
+  position: relative;
+  z-index: 1;
 }
 
-.footer .info a {
-    display: flex;
-    gap: 9px;
-    text-decoration: none;
-    color: white;
-}
-.footer .info h4 {
-    font-size: 13px;
-    margin-top: 9px;
-}
-.footer .info .tel {
-    width: 28px;
-    height: 28px;
+.footerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
-.footer .info .email {
-    width: 33px;
-    height: 33px;
+.footerSection h3 {
+  color: #dd5837;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
-
-
-.socials {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin: 20px 0;
+.footerSection a,
+.contactButton {
+  color: #555;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
 }
 
-.socials a {
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-    font-weight: 500;
+.footerSection a:hover,
+.contactButton:hover {
+  color: #dd5837;
+  transform: translateX(5px);
 }
 
-.socials a h5 {
-    font-size: 16px;
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #555;
+  transition: all 0.3s ease;
 }
 
-.socials .social {
-    width: 35px;
-    height: 35px;
+.contactItem:hover {
+  color: #dd5837;
+  transform: translateX(5px);
 }
 
-.footer p {
-    color: white;
-    font-size: 16px;
-    padding: 12px 0 7px 0;
-    font-weight: 400;
+.socialLinks {
+  display: flex;
+  gap: 1.5rem;
 }
 
+.socialLinks a {
+  font-size: 1.5rem;
+  color: #dd5837;
+  transition: all 0.3s ease;
+}
 
+.socialLinks a:hover {
+  transform: translateY(-3px) scale(1.1);
+}
 
+.footerBottom {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  text-align: center;
+  color: #666;
+}
+
+.contactSection {
+  background: linear-gradient(145deg, #fff, #fff8f6);
+  padding: 1.8rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(221, 88, 55, 0.07);
+  border: 1px solid rgba(221, 88, 55, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.contactButton {
+  margin-top: 1rem;
+  background: linear-gradient(135deg, #dd5837, #e66d4f);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  width: 100%;
+  text-align: center;
+}
+
+.contactButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(221, 88, 55, 0.2);
+  background: linear-gradient(135deg, #e66d4f, #dd5837);
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
 
 /* Larger screen styles */
-@media(min-width: 1000px) {
+@media (min-width: 1000px) {
+  .footer h3 {
+    font-size: 26px;
+  }
 
-    .footer h3 {
-        font-size: 26px;
-    }
+  .footer .info {
+    flex-direction: row;
+    gap: 258px;
+  }
 
-    .footer .info {
-        flex-direction: row;
-        gap: 258px;
-    }
+  .footer .info a {
+  }
+  .footer .info h4 {
+    font-size: 13.5px;
+    margin-top: 8.5px;
+  }
+  .footer .info .tel {
+    width: 25px;
+    height: 30px;
+  }
 
-    .footer .info a {
-       
-    }
-    .footer .info h4 {
-        font-size: 13.5px;
-        margin-top: 8.5px;
-    }
-    .footer .info .tel {
-        width: 25px;
-        height: 30px;
-    }
-    
-    .footer .info .email {
-        width: 31px;
-        height: 31px;
-    }
+  .footer .info .email {
+    width: 31px;
+    height: 31px;
+  }
 
+  .socials {
+    gap: 55px;
+    margin: 22px 0;
+  }
 
-    .socials {
-        gap: 55px;
-        margin: 22px 0;
-    }
+  .socials a h5 {
+    font-size: 15px;
+  }
 
-    .socials a h5 {
-        font-size: 15px;
-    }
+  .socials .social {
+    width: 32px;
+    height: 32px;
+  }
 
-    .socials .social {
-        width: 32px;
-        height: 32px;
-    }
+  .socials a {
+    transition: ease-in-out 0.3s;
+  }
 
-    .socials a {
-        transition: ease-in-out 0.3s;
-    }
+  .socials a:hover {
+    transform: scale(1.1);
+  }
+}
 
-    .socials a:hover {
-        transform: scale(1.10);
+@media (max-width: 768px) {
+  .footerContent {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 
-    }
-    
+  .contactSection {
+    order: -1;
+  }
 }

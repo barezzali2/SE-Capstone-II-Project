@@ -43,116 +43,175 @@
 }
 
 .filterGroup {
-  margin-bottom: 24px;
+  position: relative;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  margin-bottom: 16px;
+  border: none;
 }
 
 .filterGroup h4 {
-  margin: 0 0 12px 0;
-  color: #0a1226;
+  margin: 0 0 16px 0;
+  color: #333;
   font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .sortOptions {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .sortButton {
-  padding: 8px 12px;
+  padding: 12px 16px;
   border: none;
-  background: transparent;
+  background: #f8f8f8;
   text-align: left;
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  color: #333;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .sortButton:hover {
-  background: #f5f5f5;
+  background: #f0f0f0;
+  transform: translateX(4px);
 }
 
 .sortButton.active {
   background: #dd5837;
   color: white;
+  box-shadow: 0 4px 12px rgba(221, 88, 55, 0.15);
 }
 
 .categoryOptions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
 .categoryLabel {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
-  position: relative;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f8f8f8;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
-.categoryLabel input {
-  opacity: 0;
-  position: absolute;
-}
-
-.checkmark {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+.categoryLabel:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
 }
 
 .categoryLabel input:checked + .checkmark {
   background: #dd5837;
   border-color: #dd5837;
   color: white;
+  box-shadow: 0 4px 12px rgba(221, 88, 55, 0.15);
+}
+
+.checkmark {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.checkmark svg {
+  font-size: 12px;
 }
 
 .priceRange {
+  padding: 20px 0 0 0;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
 }
 
-.priceInput {
+.rangeTrack {
+  height: 4px;
+  width: 80%;
+  background: #e0e0e0;
+  border-radius: 2px;
   position: relative;
-  display: flex;
-  align-items: center;
-  background: #f5f5f5;
-  border-radius: 4px;
-  padding: 8px 12px;
+  margin: 0 auto;
 }
 
-.priceInput span {
+.rangeTrack::before {
+  content: "";
   position: absolute;
-  left: 12px;
+  height: 100%;
+  background: #dd5837;
+  border-radius: 2px;
+  left: var(--start-percent);
+  right: var(--end-percent);
+}
+
+.rangeThumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #dd5837;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.rangeThumb.dragged {
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.thumbValue {
+  position: absolute;
+  top: -30px;
+  padding: 4px 8px;
+  background: #dd5837;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all 0.2s ease;
+}
+
+.rangeThumb:hover .thumbValue,
+.rangeThumb.dragged .thumbValue {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rangeValues {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 12px auto 0 auto;
   color: #666;
-  font-size: 14px;
-}
-
-.priceInput input {
-  width: 100px;
-  padding-left: 45px;
-  border: none;
-  background: transparent;
-  font-size: 14px;
-}
-
-.priceSeparator {
-  color: #666;
-  margin: 0 5px;
-}
-
-.priceInput input:focus {
-  outline: none;
-  background: #fff;
-  box-shadow: 0 0 0 2px #dd5837;
+  font-size: 0.9rem;
 }
 
 .filterActions {
@@ -189,6 +248,16 @@
 
 .clearButton:hover {
   background: #e5e5e5;
+}
+
+.categoryLabel input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
 }
 
 @media (min-width: 1000px) {
@@ -264,7 +333,6 @@
     padding: 15px 20px;
     font-size: 16px;
   }
-
 }
 
 @media (max-width: 1000px) {
@@ -280,5 +348,11 @@
   .priceInput span {
     left: 8px;
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .categoryOptions {
+    grid-template-columns: 1fr;
   }
 }
