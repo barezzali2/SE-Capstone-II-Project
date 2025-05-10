@@ -6,6 +6,7 @@ import Filter from "./Filter";
 import Product from "./Product";
 import { useProduct } from "../contexts/ProductContext";
 import { FiArrowRight, FiShoppingBag, FiGrid, FiList } from "react-icons/fi";
+import ActiveFilters from "./ActiveFilters";
 
 const CATEGORY_ORDER = [
   "fruits",
@@ -196,7 +197,7 @@ function List() {
             onClick={() => setViewMode("grid")}
             aria-label="Grid view"
           >
-            <FiGrid className={styles.toggle}/>
+            <FiGrid className={styles.toggle} />
           </button>
           <button
             className={`${styles.viewButton} ${
@@ -205,10 +206,25 @@ function List() {
             onClick={() => setViewMode("list")}
             aria-label="List view"
           >
-            <FiList className={styles.toggle}/>
+            <FiList className={styles.toggle} />
           </button>
         </div>
       </div>
+
+      <ActiveFilters
+        categories={filterState.categories}
+        priceRange={filterState.priceRange}
+        sortType={filterState.sortType}
+        onRemoveFilter={(type, value) => {
+          if (type === "category") {
+            toggleCategory(value);
+          } else if (type === "price") {
+            setPriceRange({ min: 0, max: 10000 });
+          } else if (type === "sort") {
+            setSortType("featured");
+          }
+        }}
+      />
 
       <div className={styles.productsContainer}>
         {totalProducts > 0 ? (

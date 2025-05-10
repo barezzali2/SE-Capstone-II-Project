@@ -2,6 +2,7 @@ import styles from "./Filter.module.css";
 import { useEffect, memo } from "react";
 import { FaFilter, FaCheck } from "react-icons/fa";
 import PropTypes from "prop-types";
+import { Range } from "react-range";
 
 function Filter({
   filterState,
@@ -22,15 +23,6 @@ function Filter({
     "grains",
     "snacks",
   ];
-
-  const handlePriceChange = (e) => {
-    const value = e.target.value === "" ? 0 : parseFloat(e.target.value);
-    if (e.target.name === "min") {
-      setPriceRange({ ...priceRange, min: value });
-    } else {
-      setPriceRange({ ...priceRange, max: value });
-    }
-  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -100,30 +92,35 @@ function Filter({
           <div className={styles.filterGroup}>
             <h4>Price Range</h4>
             <div className={styles.priceRange}>
-              <div className={styles.priceInput}>
-                <span>IQD</span>
-                <input
-                  type="number"
-                  name="min"
-                  value={priceRange.min}
-                  onChange={handlePriceChange}
-                  min="0"
-                  max={priceRange.max}
-                  placeholder="Min"
-                />
-              </div>
-              <div className={styles.priceSeparator}>-</div>
-              <div className={styles.priceInput}>
-                <span>IQD</span>
-                <input
-                  type="number"
-                  name="max"
-                  value={priceRange.max}
-                  onChange={handlePriceChange}
-                  min={priceRange.min}
-                  max="10000"
-                  placeholder="Max"
-                />
+              <Range
+                step={100}
+                min={0}
+                max={10000}
+                values={[priceRange.min, priceRange.max]}
+                onChange={(values) =>
+                  setPriceRange({ min: values[0], max: values[1] })
+                }
+                renderTrack={({ props, children }) => (
+                  <div {...props} className={styles.rangeTrack}>
+                    {children}
+                  </div>
+                )}
+                renderThumb={({ props, isDragged }) => (
+                  <div
+                    {...props}
+                    className={`${styles.rangeThumb} ${
+                      isDragged ? styles.dragged : ""
+                    }`}
+                  >
+                    <div className={styles.thumbValue}>
+                      {props["aria-valuenow"]} IQD
+                    </div>
+                  </div>
+                )}
+              />
+              <div className={styles.rangeValues}>
+                <span>{priceRange.min} IQD</span>
+                <span>{priceRange.max} IQD</span>
               </div>
             </div>
           </div>
@@ -150,6 +147,7 @@ Filter.propTypes = {
   toggleFilterMenu: PropTypes.func.isRequired,
   closeFilterMenu: PropTypes.func.isRequired,
   resetFilters: PropTypes.func.isRequired,
+  "aria-valuenow": PropTypes.number,
 };
 
 export default memo(Filter);

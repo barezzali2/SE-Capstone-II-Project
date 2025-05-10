@@ -81,12 +81,18 @@
 }
 
 .message {
-  max-width: 80%;
-  padding: 18px 24px;
-  border-radius: 22px;
+  max-width: 85%;
+  padding: 16px 20px;
+  border-radius: 18px;
   position: relative;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.6;
+  animation: messageAppear 0.3s ease;
+}
+
+.message p {
+  margin: 0;
+  white-space: pre-wrap;
 }
 
 .userMessage {
@@ -94,19 +100,76 @@
   background-color: #dd5837;
   color: white;
   border-bottom-right-radius: 4px;
+  margin-left: auto;
 }
 
 .botMessage {
   align-self: flex-start;
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
   color: #333;
   border-bottom-left-radius: 4px;
+  margin-right: auto;
+}
+
+/* Product names */
+.botMessage strong {
+  color: #dd5837;
+  font-weight: 600;
+  background: rgba(221, 88, 55, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Original prices */
+.botMessage em {
+  color: #666;
+  font-style: normal;
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+/* Discounted prices */
+.botMessage span[data-price] {
+  color: #2ecc71;
+  font-weight: 600;
+  padding: 2px 6px;
+  background: rgba(46, 204, 113, 0.1);
+  border-radius: 4px;
+  margin: 0 2px;
+}
+
+/* Discount percentages */
+.botMessage span[data-discount] {
+  color: #e74c3c;
+  font-weight: 600;
+  padding: 2px 6px;
+  background: rgba(231, 76, 60, 0.1);
+  border-radius: 4px;
+  margin: 0 2px;
+}
+
+/* List styling */
+.botMessage ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.botMessage li {
+  margin: 8px 0;
+  padding: 4px 0;
+}
+
+/* Question styling at the end */
+.botMessage p:last-child {
+  margin-top: 16px;
+  color: #2c3e50;
+  font-weight: 500;
 }
 
 .timestamp {
   display: block;
-  font-size: 14px;
-  margin-top: 8px;
+  font-size: 12px;
+  margin-top: 6px;
   opacity: 0.8;
 }
 
@@ -121,81 +184,94 @@
 }
 
 .recommendedQuestions {
-  padding: 20px 30px;
+  padding: 20px;
   background-color: #f9f9f9;
   border-top: 1px solid #eee;
 }
 
 .recommendedQuestions p {
-  margin: 0 0 15px 0;
-  font-size: 18px;
+  margin: 0 0 12px 0;
+  font-size: 16px;
   color: #666;
   font-weight: 500;
 }
 
-.questionButtons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.recommendedButton {
-  background-color: white;
-  border: 1px solid #ddd;
+.recommendedQuestion {
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  background: white;
+  border: 1px solid #e0e0e0;
   border-radius: 12px;
-  padding: 16px 20px;
   text-align: left;
-  font-size: 17px;
+  font-size: 15px;
   color: #333;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.recommendedButton:hover {
-  background-color: #f5f5f5;
-  border-color: #ccc;
+.recommendedQuestion:hover {
+  background-color: #f8f8f8;
+  border-color: #dd5837;
   transform: translateX(5px);
 }
 
 .chatInput {
-  display: flex;
-  padding: 25px 30px;
-  border-top: 1px solid #eee;
-  background-color: white;
-}
-
-.chatInput input {
   flex: 1;
-  padding: 18px 25px;
-  border: 1px solid #ddd;
-  border-radius: 30px;
-  font-size: 18px;
+  padding: 16px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  font-size: 16px;
   outline: none;
-  transition: border-color 0.2s ease;
+  background: #f8f8f8;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-.chatInput input:focus {
+.chatInput:focus {
   border-color: #dd5837;
+  background: white;
+  box-shadow: 0 2px 8px rgba(221, 88, 55, 0.1);
+}
+
+.chatInput:disabled {
+  background: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.chatInputContainer {
+  display: flex;
+  gap: 12px;
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #eee;
+  align-items: center;
 }
 
 .sendButton {
-  background-color: #dd5837;
+  background: #dd5837;
   color: white;
   border: none;
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  margin-left: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-size: 24px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .sendButton:hover {
-  background-color: #c44726;
+  background: #c44726;
+  transform: scale(1.05);
+}
+
+.sendButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
 @media (max-width: 768px) {
@@ -212,5 +288,58 @@
     right: 25px;
     width: 70px;
     height: 70px;
+  }
+}
+
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f5f5f5;
+  border-radius: 18px;
+  width: fit-content;
+}
+
+.typingIndicator span {
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: #999;
+  border-radius: 50%;
+  display: inline-block;
+  animation: bouncing 1.4s infinite ease-in-out;
+}
+
+.typingIndicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typingIndicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typingIndicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bouncing {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

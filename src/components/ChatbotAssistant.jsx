@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FiMessageCircle, FiX, FiSend } from "react-icons/fi";
 import styles from "./ChatbotAssistant.module.css";
 import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 function ChatbotAssistant() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +17,8 @@ function ChatbotAssistant() {
     },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
   const recommendedQuestions = [
     "What are the best deals today?",
@@ -21,12 +26,19 @@ function ChatbotAssistant() {
     "How do I find items on sale?",
   ];
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const toggleChat = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleRecommendedQuestion = (question) => {
-    // this is the message from the user for the recommended questions
+  const handleRecommendedQuestion = async (question) => {
     const userMessage = {
       id: messages.length + 1,
       text: question,
@@ -34,53 +46,58 @@ function ChatbotAssistant() {
       timestamp: new Date(),
     };
 
-    setMessages([...messages, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
+    setIsLoading(true);
 
-    // this is the response from the bot, for now it is hardcoded but in a real implementation it would be an LLM response by an API call
-    setTimeout(() => {
-      let botResponse;
+    try {
+      const response = await fetch(`${API_URL}/api/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: question,
+          history: messages.map((msg) => ({
+            role: msg.sender === "user" ? "user" : "assistant",
+            content: msg.text,
+          })),
+        }),
+      });
 
-      if (question === "What are the best deals today?") {
-        botResponse = {
-          id: messages.length + 2,
-          text: "We have great discounts on electronics and clothing today! Check out our featured products section for items with up to 50% off.",
-          sender: "bot",
-          timestamp: new Date(),
-        };
-      } else if (question === "Can you recommend products for me?") {
-        botResponse = {
-          id: messages.length + 2,
-          text: "I'd be happy to recommend products! What categories are you interested in? We have great options in electronics, fashion, and home goods.",
-          sender: "bot",
-          timestamp: new Date(),
-        };
-      } else if (question === "How do I find items on sale?") {
-        botResponse = {
-          id: messages.length + 2,
-          text: "You can find sale items by clicking on the 'Discounts' section or by using the filter option in our product listings to show only discounted items.",
-          sender: "bot",
-          timestamp: new Date(),
-        };
-      } else {
-        botResponse = {
-          id: messages.length + 2,
-          text:
-            "This is a demo chatbot. In a real implementation, I would respond to your question about: " +
-            question,
-          sender: "bot",
-          timestamp: new Date(),
-        };
+      if (!response.ok) {
+        throw new Error(`${response.status} - ${response.statusText}`);
       }
 
+      const data = await response.json();
+
+      const botResponse = {
+        id: messages.length + 2,
+        text: data.message,
+        sender: "bot",
+        timestamp: data.timestamp ? new Date(data.timestamp) : new Date(),
+      };
+
       setMessages((prev) => [...prev, botResponse]);
-    }, 1000);
+    } catch (error) {
+      console.error("Failed to get response:", error);
+
+      const errorMessage = {
+        id: messages.length + 2,
+        text: "Sorry, I'm having trouble connecting right now. Please try again later.",
+        sender: "bot",
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
-    // this is the message from the user for the input field
     const userMessage = {
       id: messages.length + 1,
       text: inputValue,
@@ -88,19 +105,54 @@ function ChatbotAssistant() {
       timestamp: new Date(),
     };
 
-    setMessages([...messages, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
+    const currentInput = inputValue;
     setInputValue("");
+    setIsLoading(true);
 
-    // this is the response from the bot, for now it is hardcoded but in a real implementation it would be an LLM response by an API call
-    setTimeout(() => {
+    try {
+      const response = await fetch(`${API_URL}/api/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: currentInput,
+          history: messages.map((msg) => ({
+            role: msg.sender === "user" ? "user" : "assistant",
+            content: msg.text,
+          })),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`${response.status} - ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
       const botResponse = {
         id: messages.length + 2,
-        text: "This is a demo chatbot. In a real implementation, I would respond to your message.",
+        text: data.message,
+        sender: "bot",
+        timestamp: data.timestamp ? new Date(data.timestamp) : new Date(),
+      };
+
+      setMessages((prev) => [...prev, botResponse]);
+    } catch (error) {
+      console.error("Failed to get response:", error);
+
+      const errorMessage = {
+        id: messages.length + 2,
+        text: "Sorry, I'm having trouble connecting right now. Please try again later.",
         sender: "bot",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 1000);
+
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -140,7 +192,7 @@ function ChatbotAssistant() {
                       : styles.botMessage
                   }`}
                 >
-                  <p>{message.text}</p>
+                  <ReactMarkdown>{message.text}</ReactMarkdown>
                   <span className={styles.timestamp}>
                     {message.timestamp.toLocaleTimeString([], {
                       hour: "2-digit",
@@ -149,32 +201,48 @@ function ChatbotAssistant() {
                   </span>
                 </div>
               ))}
+              {isLoading && (
+                <div className={`${styles.message} ${styles.botMessage}`}>
+                  <div className={styles.typingIndicator}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
 
-            <div className={styles.recommendedQuestions}>
-              <p>Try asking:</p>
-              <div className={styles.questionButtons}>
-                {recommendedQuestions.map((question, index) => (
+            {messages.length === 1 && (
+              <div className={styles.recommendedQuestions}>
+                <p>You can ask me about:</p>
+                {recommendedQuestions.map((question) => (
                   <button
-                    key={index}
+                    key={question}
                     onClick={() => handleRecommendedQuestion(question)}
-                    className={styles.recommendedButton}
+                    className={styles.recommendedQuestion}
                   >
                     {question}
                   </button>
                 ))}
               </div>
-            </div>
+            )}
 
-            <form className={styles.chatInput} onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={styles.chatInputContainer}>
               <input
                 type="text"
-                placeholder="Type your message..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Type your message..."
+                className={styles.chatInput}
+                disabled={isLoading}
               />
-              <button type="submit" className={styles.sendButton}>
-                <FiSend size={18} />
+              <button
+                type="submit"
+                className={styles.sendButton}
+                disabled={!inputValue.trim() || isLoading}
+              >
+                <FiSend size={20} />
               </button>
             </form>
           </motion.div>

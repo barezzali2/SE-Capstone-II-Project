@@ -39,8 +39,13 @@
 
 .buttonGroup {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  align-items: center;
+}
+
+.buttonGroup button,
+.buttonGroup a {
+  width: 100%;
 }
 
 .total {

@@ -1,10 +1,11 @@
 import styles from "./CartWishlist.module.css";
-import { useCart } from "../contexts/CartContext";
+import { useCart } from "../../contexts/CartContext";
 import Cart from "./Cart";
 import { motion } from "framer-motion";
 import { FiPrinter, FiX } from "react-icons/fi";
-import { useState } from "react";
-import ConfirmationDialog from "./ConfirmationDialog";
+import { useState, useEffect } from "react";
+import ConfirmationDialog from "../ConfirmationDialog";
+import CartListQR from "./CartListQR";
 
 function CartWishlist() {
   const { cart, clearCart } = useCart();
@@ -13,7 +14,16 @@ function CartWishlist() {
   const [showPreview, setShowPreview] = useState(false);
   const [receiptContent, setReceiptContent] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1000);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const calculateOriginalTotal = () => {
     if (!cartItems.length) return 0;
@@ -76,8 +86,6 @@ function CartWishlist() {
     setShowConfirmation(true);
   };
 
-
-
   const handleConfirmClearCart = () => {
     clearCart(); // Clear the cart
     setShowConfirmation(false); // Hide the dialog
@@ -86,7 +94,6 @@ function CartWishlist() {
   const handleCancelClearCart = () => {
     setShowConfirmation(false); // Hide the dialog
   };
-
 
   const handlePrintReceipt = () => {
     const content = `
@@ -208,11 +215,16 @@ function CartWishlist() {
                 <FiPrinter className={styles.printerIcon} />
                 Print Receipt
               </motion.button>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <CartListQR cartItems={cartItems} isMobile={isMobile} />
+              </motion.div>
             </div>
           </div>
         </div>
       )}
-
 
       {showConfirmation && (
         <ConfirmationDialog
