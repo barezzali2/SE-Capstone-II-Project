@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import PropTypes from "prop-types";
-import { Text, useTexture, useGLTF } from "@react-three/drei";
+import { Text, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 export function StoreFloor() {
@@ -24,30 +24,10 @@ export function SectionMarker({
   category,
   onActivate,
   isHighlighted,
-  rotation
 }) {
-  const { scene } = useGLTF("/assets/supermarket_shelving.glb");
-
-  const model = scene.clone();
-  model.traverse((child) => {
-    if (child.isMesh) {
-      child.material = new THREE.MeshStandardMaterial({
-        color: color,
-        metalness: 0.4,
-        roughness: 0.6,
-        emissive: isHighlighted ? color : "#000000",
-        emissiveIntensity: isHighlighted ? 0.3 : 0,
-      });
-      child.castShadow = true;
-      child.receiveShadow = true;
-    }
-  });
-
   return (
     <group
       position={position}
-      // rotation={rotation}
-      // rotation={[0, Math.PI / 2, 0]}
       onClick={() => onActivate(category, position)}
       onPointerOver={(e) => {
         e.stopPropagation();
@@ -58,22 +38,140 @@ export function SectionMarker({
         document.body.style.cursor = "auto";
       }}
     >
-      <primitive
-        object={model}
-        rotation={[0, 300.02, 0]}
-        scale={[2, 2, 2]}
-      />
+      {/* Pin head (sphere) */}
+      <mesh position={[0, 2.5, 0]} scale={[1.2, 1.2, 1.2]}>
+        <sphereGeometry args={[0.6, 32, 32]} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={isHighlighted ? 1 : 0.5}
+          transparent
+          opacity={isHighlighted ? 1 : 0.85}
+        />
+      </mesh>
 
+      {/* Pin tip (cone) */}
+      <mesh
+        position={[0, 1.2, 0]}
+        rotation={[-Math.PI / 1, 0, 0]}
+        scale={[0.5, 1.2, 0.5]}
+      >
+        <coneGeometry args={[0.4, 1.2, 32]} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={isHighlighted ? 1 : 0.5}
+          transparent
+          opacity={isHighlighted ? 1 : 0.85}
+        />
+      </mesh>
+
+      {/* Glowing ring for highlight */}
+      {isHighlighted && (
+        <mesh position={[0, 2.5, 0]} scale={[1.6, 1.6, 1.6]}>
+          <ringGeometry args={[0.7, 1, 32]} />
+          <meshBasicMaterial
+            color={color}
+            transparent
+            opacity={0.7}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
+
+      {/* Text label */}
       <Text
-        position={[1.5, 6, -2]}
-        // rotation={[0, Math.PI / 40, 0]}
-        fontSize={1.5}
-        color="#ffffff"
+        position={[0, 4.2, 0]}
+        fontSize={1.2}
+        color={isHighlighted ? color : "#fff"}
         anchorX="center"
         anchorY="middle"
+        outlineWidth={0.08}
+        outlineColor="#000"
+        fontWeight="bold"
       >
         {label}
       </Text>
+    </group>
+  );
+}
+
+export function StoreModel() {
+  const { scene } = useGLTF("/assets/finalsupermarketglb2.glb");
+  return (
+    <primitive
+      object={scene}
+      scale={[1, 1, 1]}
+      rotation={[0, Math.PI, 0]}
+      position={[0, 0, 0]}
+    />
+  );
+}
+
+export function YouAreHereMarker({ position }) {
+  return (
+    <group position={position}>
+      {/* Body */}
+      <mesh position={[0, 2, 0]} scale={[1, 2.5, 1]}>
+        <cylinderGeometry args={[0.5, 0.5, 2, 32]} />
+        <meshStandardMaterial
+          color="#1976d2"
+          emissive="#1976d2"
+          emissiveIntensity={0.5}
+        />
+      </mesh>
+      {/* Head */}
+      <mesh position={[0, 3.8, 0]} scale={[1.2, 1.2, 1.2]}>
+        <sphereGeometry args={[0.7, 32, 32]} />
+        <meshStandardMaterial
+          color="#fff176"
+          emissive="#fff176"
+          emissiveIntensity={0.7}
+        />
+      </mesh>
+      {/* "You are here" label */}
+      <Text
+        position={[0, 5.2, 0]}
+        fontSize={1}
+        color="#fff176"
+        anchorX="center"
+        anchorY="middle"
+        outlineWidth={0.08}
+        outlineColor="#000"
+        fontWeight="bold"
+      >
+        You are here
+      </Text>
+    </group>
+  );
+}
+
+export function KioskMachine({ position }) {
+  return (
+    <group position={position}>
+      {/* Kiosk base */}
+      <mesh position={[0, 1, 0]} scale={[1.2, 2, 1]}>
+        <boxGeometry args={[1, 2, 0.6]} />
+        <meshStandardMaterial color="#424242" metalness={0.3} roughness={0.7} />
+      </mesh>
+      {/* Kiosk screen */}
+      <mesh
+        position={[0, 2, 0.36]}
+        rotation={[-0.2, 0, 0]}
+        scale={[0.9, 0.7, 1]}
+      >
+        <boxGeometry args={[0.7, 0.5, 0.05]} />
+        <meshStandardMaterial
+          color="#1976d2"
+          emissive="#1976d2"
+          emissiveIntensity={0.7}
+        />
+      </mesh>
+      {/* Kiosk stand */}
+      <mesh position={[0, 0, 0]} scale={[0.3, 1, 0.3]}>
+        <cylinderGeometry args={[0.15, 0.15, 1, 16]} />
+        <meshStandardMaterial color="#757575" />
+      </mesh>
     </group>
   );
 }
@@ -85,4 +183,8 @@ SectionMarker.propTypes = {
   category: PropTypes.string.isRequired,
   onActivate: PropTypes.func.isRequired,
   isHighlighted: PropTypes.bool.isRequired,
+};
+
+YouAreHereMarker.propTypes = {
+  position: PropTypes.arrayOf(PropTypes.number).isRequired,
 };

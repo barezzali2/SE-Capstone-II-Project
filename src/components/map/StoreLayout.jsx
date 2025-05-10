@@ -1,12 +1,23 @@
 /* eslint-disable react/no-unknown-property */
 import { useRef, useState, useEffect, useMemo } from "react";
 import { useProduct } from "../../contexts/ProductContext";
-import { StoreFloor, SectionMarker } from "./StoreElements";
+import {
+  StoreFloor,
+  SectionMarker,
+  StoreModel,
+  YouAreHereMarker,
+  KioskMachine,
+} from "./StoreElements";
 import { useNavigate } from "react-router-dom";
 import styles from "./StoreLayout.module.css";
 import PropTypes from "prop-types";
 
-export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChange }) {
+export function StoreLayout({
+  activeCategory,
+  onQuickViewProduct,
+  onCategoryChange,
+  onFindInStore,
+}) {
   const storeRef = useRef();
   const sidePanelRef = useRef();
   const { products, baseUrl } = useProduct();
@@ -19,9 +30,9 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
   // these are the aisles in the store and they are the markers for the aisles and using useMemo to prevent recreation on each render
   const sections = useMemo(
     () => [
-      // Fruits aisle
+      // Fruits aisle (moved backward on Z)
       {
-        position: [-26, 0.1, 0],
+        position: [0, 7, -28], // was [x, 0.1, 0], now moved to z=10
         label: "Fruits",
         color: "#8bc34a",
         category: "fruits",
@@ -33,7 +44,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
           { offset: [0, 0, 0] },
           { offset: [0, 0, 4] },
           { offset: [0, 0, 8] },
-          // Right side 
+          // Right side
           { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
           { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
           { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
@@ -44,7 +55,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
 
       // Drinks aisle
       {
-        position: [-16, 0.1, 0],
+        position: [-15, 5, 0],
         label: "Drinks",
         color: "#7986cb",
         category: "drinks",
@@ -66,7 +77,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
 
       // Grains aisle
       {
-        position: [-6, 0.1, 0],
+        position: [-3.5, 5, 0],
         label: "Grains",
         color: "#fff176",
         category: "grains",
@@ -86,9 +97,9 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
         ],
       },
 
-      // Dairy Aisle
+      // Dairy aisle (more space between grains and dairy)
       {
-        position: [4, 0.1, 0],
+        position: [8, 5, 0], // was [4, 0.1, 0], now moved to x=8
         label: "Dairy",
         color: "#64b5f6",
         category: "dairy",
@@ -100,7 +111,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
           { offset: [0, 0, 0] },
           { offset: [0, 0, 4] },
           { offset: [0, 0, 8] },
-          // Right side 
+          // Right side
           { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
           { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
           { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
@@ -111,7 +122,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
 
       // Snacks aisle
       {
-        position: [14, 0.1, 0],
+        position: [20, 5, 0],
         label: "Snacks",
         color: "#ffa726",
         category: "snacks",
@@ -131,9 +142,9 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
         ],
       },
 
-      // Bakery Aisle
+      // Bakery aisle (move left, decrease X)
       {
-        position: [24, 0.1, 0],
+        position: [30, 5, 0], // was [24, 0.1, 0], now x=18, z=-6
         label: "Bakery",
         color: "#bcaaa4",
         category: "bakery",
@@ -154,7 +165,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
       },
     ],
     []
-  ); 
+  );
 
   // this is to sync with the parent component's active category by highlighting the aisle, and the parent is MapView.jsx
   // useEffect(() => {
@@ -171,19 +182,16 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
   //   }
   // }, [activeCategory]);
 
-
-
-
   useEffect(() => {
     if (activeCategory) {
       setHighlightedSection(activeCategory);
-  
+
       // If we have an active category from the parent, show products only if not already displayed
       if (activeCategory !== localActiveCategory) {
         const section = sections.find((s) => s.category === activeCategory);
         if (section) {
           setLocalActiveCategory(activeCategory);
-  
+
           // Filter products for the selected category
           let filtered = [];
           if (products && products.length > 0) {
@@ -193,7 +201,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
                 product.category_id === activeCategory
             );
           }
-  
+
           // Use fallback products if no products are found
           if (!filtered || filtered.length === 0) {
             filtered = [
@@ -223,7 +231,7 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
               },
             ];
           }
-  
+
           setCategoryProducts(filtered);
           setShowProductDisplay(true);
         }
@@ -233,10 +241,6 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
       setShowProductDisplay(false);
     }
   }, [activeCategory, localActiveCategory, products, sections]);
-
-
-
-
 
   // this is the side panel for the product display and it is only once on component mount meaning it only runs once because it is a side panel so it doesn't need to run on every render
   useEffect(() => {
@@ -258,8 +262,6 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
     };
   }, []);
 
-
-
   useEffect(() => {
     const handleOutsideClick = (event) => {
       const sidePanel = sidePanelRef.current;
@@ -267,16 +269,15 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
         setShowProductDisplay(false); // Close the side panel
       }
     };
-  
+
     // Add event listener for clicks
     document.addEventListener("mousedown", handleOutsideClick);
-  
+
     // Cleanup the event listener on component unmount
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
-
 
   // this is to update the side panel content when products or visibility changes
   useEffect(() => {
@@ -482,30 +483,24 @@ export function StoreLayout({ activeCategory, onQuickViewProduct, onCategoryChan
   const handleProductClick = (product) => {
     onQuickViewProduct(product); // Pass the product up to parent
     setShowProductDisplay(false); // Close the side panel
+    onFindInStore(product);
   };
 
   return (
     <group ref={storeRef}>
-      <StoreFloor />
+      <StoreModel />
+      <YouAreHereMarker position={[0, 0, 35]} />
+      <KioskMachine position={[0, 0, 32]} />
       {sections.map((section, index) => (
-        <group key={`section-${index}`}>
-          {section.shelves.map((shelf, shelfIndex) => (
-            <SectionMarker
-              key={`section-${index}-shelf-${shelfIndex}`}
-              position={[
-                section.position[0] + shelf.offset[0],
-                section.position[1],
-                section.position[2] + shelf.offset[2],
-              ]}
-              label={shelfIndex === 0 ? section.label : ""}
-              color={section.color}
-              category={section.category}
-              onActivate={handleSectionActivate}
-              isHighlighted={section.category === highlightedSection}
-              rotation={section.rotation}
-            />
-          ))}
-        </group>
+        <SectionMarker
+          key={`section-${index}`}
+          position={section.position}
+          label={section.label}
+          color={section.color}
+          category={section.category}
+          onActivate={handleSectionActivate}
+          isHighlighted={section.category === highlightedSection}
+        />
       ))}
     </group>
   );
@@ -515,6 +510,7 @@ StoreLayout.propTypes = {
   activeCategory: PropTypes.string,
   onQuickViewProduct: PropTypes.func.isRequired,
   onCategoryChange: PropTypes.func.isRequired,
+  onFindInStore: PropTypes.func.isRequired,
 };
 
 StoreLayout.defaultProps = {

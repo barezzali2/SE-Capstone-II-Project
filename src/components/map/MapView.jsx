@@ -4,12 +4,13 @@ import { Canvas } from "@react-three/fiber";
 import { useState, Suspense, useEffect } from "react";
 import { useProduct } from "../../contexts/ProductContext";
 import { FiArrowLeft, FiInfo, FiShoppingCart } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CameraController } from "./CameraController";
 import { StoreLayout } from "./StoreLayout";
 import QuickView from "../../components/QuickView";
 
 function MapView() {
+  const location = useLocation();
   const { products } = useProduct();
   const [activeCategory, setActiveCategory] = useState(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
@@ -25,6 +26,16 @@ function MapView() {
       };
     }
   }, []);
+
+  // Check if we navigated here with a product to highlight
+  useEffect(() => {
+    if (location.state?.highlightProduct) {
+      const product = location.state.highlightProduct;
+      handleFindInStore(product);
+      // Clear the state to avoid re-highlighting on page refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   // click on the category to highlight it on the map
   const handleCategoryClick = (category) => {
@@ -44,6 +55,13 @@ function MapView() {
     dairy: "🥛",
     snacks: "🍿",
     bakery: "🍞",
+  };
+
+  const handleFindInStore = (product) => {
+    if (product && product.category) {
+      setActiveCategory(product.category);
+      setQuickViewProduct(null); // close the quick view
+    }
   };
 
   return (
@@ -117,7 +135,8 @@ function MapView() {
               <StoreLayout
                 activeCategory={activeCategory}
                 onQuickViewProduct={setQuickViewProduct}
-                onCategoryChange={setActiveCategory} // pass the state updater to the StoreLayout
+                onCategoryChange={setActiveCategory}
+                onFindInStore={handleFindInStore}
               />
 
               <CameraController activeCategory={activeCategory} />
@@ -131,6 +150,7 @@ function MapView() {
         <QuickView
           product={quickViewProduct}
           onClose={() => setQuickViewProduct(null)}
+          onFindInStore={handleFindInStore}
         />
       )}
     </div>
