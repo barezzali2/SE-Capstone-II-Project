@@ -5,12 +5,17 @@ import { useState } from "react";
 import { useProduct } from "../../contexts/ProductContext";
 import axios from "axios";
 import QuickView from "../QuickView";
+import { useNavigate } from "react-router-dom";
 
 function ScannerView() {
   const [scanning, setScanning] = useState(false);
   const [error, setError] = useState(null);
   const [scannedProduct, setScannedProduct] = useState(null);
   const { baseUrl } = useProduct();
+  // const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+
+  const navigate = useNavigate();
+
 
   const handleBarcodeDetected = async (barcode) => {
     setScanning(true);
@@ -63,7 +68,10 @@ function ScannerView() {
       </div>
 
       {scannedProduct && (
-        <QuickView product={scannedProduct} onClose={handleQuickViewClose} />
+        <QuickView product={scannedProduct} onClose={handleQuickViewClose} onFindInStore={(product) => {
+            setScannedProduct(false);
+            navigate("/map", { state: { highlightProduct: product } });
+          }}/>
       )}
     </div>
   );
