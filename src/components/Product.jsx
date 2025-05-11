@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import styles from "./Product.module.css";
 import QuickView from "./QuickView";
