@@ -6,10 +6,13 @@ import "slick-carousel/slick/slick-theme.css";
 import { useMemo, useState } from "react";
 import QuickView from "./QuickView";
 import { FiTag } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 function Discount() {
   const { products, baseUrl } = useProduct();
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const navigate = useNavigate();
 
   // const specialProducts = products
   //   .filter((product) => product.isDiscounted)
@@ -103,7 +106,10 @@ function Discount() {
       </Slider>
 
       {selectedProduct && (
-        <QuickView product={selectedProduct} onClose={handleCloseQuickView} />
+        <QuickView product={selectedProduct} onClose={handleCloseQuickView} onFindInStore={(product) => {
+            setSelectedProduct(false);
+            navigate("/map", { state: { highlightProduct: product } });
+          }}/>
       )}
     </div>
   );
