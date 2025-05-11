@@ -60,9 +60,17 @@ function MapView() {
   const handleFindInStore = (product) => {
     if (product && product.category) {
       setActiveCategory(product.category);
-      setQuickViewProduct(null); // close the quick view
+      // setQuickViewProduct(null); // close the quick view
+      if (quickViewProduct) {
+      setQuickViewProduct(null);
+    }
     }
   };
+
+  const handleQuickViewProduct = (product) => {
+  console.log("Opening QuickView for product:", product); // Debug log
+  setQuickViewProduct(product);
+};
 
   return (
     <div className={styles.mapViewWrapper}>
@@ -134,7 +142,7 @@ function MapView() {
 
               <StoreLayout
                 activeCategory={activeCategory}
-                onQuickViewProduct={setQuickViewProduct}
+                onQuickViewProduct={handleQuickViewProduct}
                 onCategoryChange={setActiveCategory}
                 onFindInStore={handleFindInStore}
               />
