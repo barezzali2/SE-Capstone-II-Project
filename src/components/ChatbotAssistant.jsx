@@ -4,7 +4,9 @@ import styles from "./ChatbotAssistant.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const API_URL = import.meta.env.PROD
+  ? "https://retailxplorebackend.onrender.com"
+  : "http://localhost:3001";
 
 function ChatbotAssistant() {
   const [isOpen, setIsOpen] = useState(false);
