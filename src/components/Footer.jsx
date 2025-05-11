@@ -18,7 +18,7 @@ function Footer() {
       <div className={styles.footerContent}>
         <div className={styles.footerSection}>
           <h3>About RetailXplore</h3>
-          <p>
+          <p className={styles.footerDescription}>
             Experience shopping like never before with our innovative 3D map
             technology. Navigate stores effortlessly and find products with
             precision in an interactive virtual environment.
@@ -64,7 +64,7 @@ function Footer() {
       </div>
 
       <div className={styles.footerBottom}>
-        <p>&copy; 2024 RetailXplore. All rights reserved.</p>
+        <p>&copy; 2025 RetailXplore. All rights reserved.</p>
       </div>
 
       {showContactForm && (

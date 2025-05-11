@@ -145,6 +145,10 @@
     font-size: 26px;
   }
 
+  .footerContent .footerDescription {
+    line-height: 2.2;
+  }
+
   .footer .info {
     flex-direction: row;
     gap: 258px;
