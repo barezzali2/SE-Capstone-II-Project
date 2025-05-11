@@ -6,7 +6,9 @@ const ProductContext = createContext({
   products: [],
   loading: true,
   error: null,
-  baseUrl: "http://localhost:3003",
+  baseUrl: import.meta.env.PROD
+    ? "https://retailxplorebackend.onrender.com"
+    : "http://localhost:3003",
   searchProducts: () => {},
   searchResults: [],
   searchLoading: false,
@@ -22,7 +24,9 @@ const useProduct = () => {
 };
 
 const ProductProvider = ({ children }) => {
-  const baseUrl = "http://localhost:3003";
+  const baseUrl = import.meta.env.PROD
+    ? "https://retailxplorebackend.onrender.com"
+    : "http://localhost:3003";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -91,7 +95,7 @@ const ProductProvider = ({ children }) => {
       // this is the search results with the complete details by merging the local products with the search results
       const searchProductsWithDetails = (response.data.products || []).map(
         (product) => {
-          // first we find the product in the local products array to get the complete details then we merge the data 
+          // first we find the product in the local products array to get the complete details then we merge the data
           const localProduct = products.find(
             (p) => p._id === product._id || p.id === product.id
           );

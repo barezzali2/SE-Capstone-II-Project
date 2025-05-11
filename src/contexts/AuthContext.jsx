@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import axios from "axios";
 
 const AuthContext = createContext();
-const API_URL = "http://localhost:3003/auth";
+const API_URL =
+  import.meta.env.PROD
+    ? "https://retailxplorebackend.onrender.com/auth"
+    : "http://localhost:3003/auth";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
