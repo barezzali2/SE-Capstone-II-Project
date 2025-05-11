@@ -15,7 +15,9 @@ export const useAdmin = () => {
 export const AdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const baseUrl = "http://localhost:3003";
+  const baseUrl = import.meta.env.PROD
+    ? "https://retailxplorebackend.onrender.com"
+    : "http://localhost:3003";
 
   // we create an authenticated axios instance with interceptors, the interceptors are used to add the token to the request headers and to handle the response
   const authAxios = useMemo(() => {
@@ -128,23 +130,29 @@ export const AdminProvider = ({ children }) => {
   };
 
   const toggleFeatured = async (productId, isFeatured) => {
-  setLoading(true);
-  try {
-    const token = localStorage.getItem("token");
-    const url = `${baseUrl}/admin/featured/${productId}`;
-    const response = isFeatured
-      ? await axios.post(url, {}, { headers: { Authorization: `Bearer ${token}` } })
-      : await axios.delete(url, { headers: { Authorization: `Bearer ${token}` } });
-    return response.data;
-  } catch (error) {
-    setError(
-      error.response?.data?.message || "Failed to update featured status"
-    );
-    throw error;
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const url = `${baseUrl}/admin/featured/${productId}`;
+      const response = isFeatured
+        ? await axios.post(
+            url,
+            {},
+            { headers: { Authorization: `Bearer ${token}` } }
+          )
+        : await axios.delete(url, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+      return response.data;
+    } catch (error) {
+      setError(
+        error.response?.data?.message || "Failed to update featured status"
+      );
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const updateDiscount = async (productId, discountData) => {
     setLoading(true);
