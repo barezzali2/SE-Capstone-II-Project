@@ -60,8 +60,7 @@
   text-align: left;
 }
 
-.footerSection a:hover,
-.contactButton:hover {
+.footerSection a:hover {
   color: #dd5837;
   transform: translateX(5px);
 }
@@ -81,7 +80,8 @@
 
 .socialLinks {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
+  margin-top: 15px;
 }
 
 .socialLinks a {
@@ -91,7 +91,7 @@
 }
 
 .socialLinks a:hover {
-  transform: translateY(-3px) scale(1.1);
+  transform: translateY(-1.5px) scale(1.1);
 }
 
 .footerBottom {
@@ -126,6 +126,7 @@
 }
 
 .contactButton:hover {
+  color: white;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(221, 88, 55, 0.2);
   background: linear-gradient(135deg, #e66d4f, #dd5837);

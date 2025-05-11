@@ -84,9 +84,9 @@ const handleSubmitReview = () => {
           {product.description}
         </p>
       </div>
-      <div className={styles.nutritions}>
+      {/* <div className={styles.nutritions}>
         <h3>Nutritions</h3>
-      </div>
+      </div> */}
       <div className={styles.review}>
         <h3>Review</h3>
         <p className={styles.stars}>
