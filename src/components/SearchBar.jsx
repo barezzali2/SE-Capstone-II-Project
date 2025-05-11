@@ -236,6 +236,10 @@ function SearchBar() {
         <QuickView
           product={selectedProduct}
           onClose={() => setSelectedProduct(null)}
+          onFindInStore={(product) => {
+            setSelectedProduct(false);
+            navigate("/map", { state: { highlightProduct: product } });
+          }}
         />
       )}
     </div>
