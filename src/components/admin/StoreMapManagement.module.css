@@ -1,0 +1,37 @@
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+}
+
+.adminHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.adminHeader h1 {
+  color: #333;
+  margin: 0;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userInfo span {
+  color: #666;
+}
