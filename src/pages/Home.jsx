@@ -14,9 +14,9 @@ function Home() {
       <Navbar />
       <HeroSection />
       <FeaturesBar />
+      <FeaturedSection />
       <MapSection />
       <DiscountSection />
-      <FeaturedSection />
       <Footer />
       <ChatbotAssistant />
     </div>
