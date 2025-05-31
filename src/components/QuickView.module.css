@@ -156,6 +156,7 @@
   line-height: 1.6;
   font-size: 1.2rem;
   margin: 0;
+  width: 100%;
 }
 
 .modalActions {
@@ -336,14 +337,13 @@
 
 /*  */
 .topFeedbacks {
-  /* margin-top: 24%; */
-  margin-top: 8px;
-  padding: 10px;
+  margin-top: 23.5%;
+  padding: 8px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  /* position: absolute; */
-  width: 100%;
+  position: absolute;
+  width: 43%;
   height: auto;
 }
 
@@ -356,7 +356,7 @@
 
 .feedbackItem {
   margin-bottom: 5px;
-  padding: 7px;
+  padding: 5px;
   border-bottom: 1px solid #ddd;
 }
 
