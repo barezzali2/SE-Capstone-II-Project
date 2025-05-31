@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 
 const API_URL = import.meta.env.PROD
   ? "https://retailxplorebackend.onrender.com"
-  : "http://localhost:3001";
+  : "http://localhost:3003";
 
 function ChatbotAssistant() {
   const [isOpen, setIsOpen] = useState(false);

@@ -9,7 +9,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useProduct } from "../contexts/ProductContext";
 import { useParams } from "react-router-dom";
-
+import ChatbotAssistant from "../components/ChatbotAssistant";
 function CategoryPage() {
   const { categoryName } = useParams();
   const { loading } = useProduct();
@@ -44,6 +44,7 @@ function CategoryPage() {
       </div>
 
       <Footer />
+      <ChatbotAssistant />
     </motion.div>
   );
 }

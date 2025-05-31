@@ -16,7 +16,7 @@
     "@react-three/drei": "^10.0.6",
     "@react-three/fiber": "^9.1.2",
     "axios": "^1.8.2",
-    "chart.js": "^4.4.8",
+    "chart.js": "^4.4.9",
     "framer-motion": "^12.7.4",
     "html5-qrcode": "^2.3.8",
     "prop-types": "^15.8.1",
@@ -31,6 +31,7 @@
     "react-responsive": "^10.0.1",
     "react-router-dom": "^7.2.0",
     "react-slick": "^0.30.3",
+    "recharts": "^2.15.3",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.2.6",
     "three": "^0.174.0"
