@@ -209,6 +209,7 @@
   letter-spacing: 0.5px;
   position: relative;
   overflow: hidden;
+  font-family: "Lexend Deca";
 }
 
 .addToCard::before {
@@ -248,6 +249,7 @@
   gap: 5px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-family: "Lexend Deca";
 }
 
 .feedback:hover {
@@ -281,6 +283,7 @@
   letter-spacing: 0.5px;
   position: relative;
   overflow: hidden;
+  font-family: "Lexend Deca";
 }
 
 .locationButton::before {

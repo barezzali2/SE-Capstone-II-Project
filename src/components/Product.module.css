@@ -4,11 +4,12 @@
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.1);
 }
 
 .productCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
 }
 
 .imageContainer {
@@ -57,11 +58,13 @@
   cursor: pointer;
   font-weight: 600;
   transition: all 0.25s ease;
+  font-family: "Lexend Deca";
 }
 
 .quickView:hover {
   background: #dd5837;
   color: white;
+  
 }
 
 .productInfo {
