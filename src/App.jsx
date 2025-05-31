@@ -7,6 +7,7 @@ import Loading from "./components/Loading";
 import { AdminProvider } from "./contexts/AdminContext";
 import FeaturedProducts from "./pages/FeaturedProducts";
 import CategoryPage from "./pages/CategoryPage";
+import { MarkerProvider } from "./contexts/MarkerContext";
 
 // import Home from "./pages/Home";
 // import ProductList from "./pages/ProductList";
@@ -32,87 +33,95 @@ import DiscountManagement from "./components/admin/DiscountManagement";
 import FeaturedManagement from "./components/admin/FeaturedManagement";
 import StoreMapManagement from "./components/admin/StoreMapManagement";
 import AccountSetting from "./components/admin/AccountSetting";
+import ResetPassword from "./pages/admin/ResetPassword";
 
 function App() {
   return (
     <AuthProvider>
       <ProductProvider>
-        <CartProvider>
-          <AdminProvider>
-            <BrowserRouter>
-              <Suspense fallback={<Loading />}>
-                <Routes>
-                  <Route path="/" element={<Navigate to="/home" replace />} />
-                  <Route path="home" element={<Home />} />
-                  <Route path="productlist" element={<ProductList />} />
-                  <Route path="search" element={<Search />} />
-                  <Route path="scanner" element={<Scanner />} />
-                  <Route path="shopping" element={<ShoppingCart />} />
-                  <Route path="map" element={<Map3D />} />
-                  <Route path="review" element={<Review />} />
-                  <Route
-                    path="/products/featured"
-                    element={<FeaturedProducts />}
-                  />
-                  <Route
-                    path="/category/:categoryName"
-                    element={<CategoryPage />}
-                  />
+        <MarkerProvider>
+          <CartProvider>
+            <AdminProvider>
+              <BrowserRouter>
+                <Suspense fallback={<Loading />}>
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/home" replace />} />
+                    <Route path="home" element={<Home />} />
+                    <Route path="productlist" element={<ProductList />} />
+                    <Route path="search" element={<Search />} />
+                    <Route path="scanner" element={<Scanner />} />
+                    <Route path="shopping" element={<ShoppingCart />} />
+                    <Route path="map" element={<Map3D />} />
+                    <Route path="review" element={<Review />} />
+                    <Route
+                      path="/products/featured"
+                      element={<FeaturedProducts />}
+                    />
+                    <Route
+                      path="/category/:categoryName"
+                      element={<CategoryPage />}
+                    />
 
-                  {/* admin */}
-                  <Route path="/admin/login" element={<AdminLogin />} />
-                  <Route
-                    path="/admin"
-                    element={
-                      <ProtectedRoute adminOnly={true}>
-                        <AdminHome />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/admin/products"
-                    element={
-                      <ProtectedRoute adminOnly={true}>
-                        <ProductManagement />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/admin/discounts"
-                    element={
-                      <ProtectedRoute adminOnly={true}>
-                        <DiscountManagement />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/admin/featured"
-                    element={
-                      <ProtectedRoute adminOnly={true}>
-                        <FeaturedManagement />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                  path="/admin/storeMap"
-                  element={
-                    <ProtectedRoute adminOnly={true}>
-                      <StoreMapManagement />
-                    </ProtectedRoute>
-                  } />
-                  <Route
-                  path="/admin/accSetting" 
-                  element={
-                    <ProtectedRoute adminOnly={true}>
-                      <AccountSetting />
-                    </ProtectedRoute>  
-                }
-                />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </AdminProvider>
-        </CartProvider>
+                    {/* admin */}
+                    <Route path="/admin/login" element={<AdminLogin />} />
+                    <Route
+                      path="/admin"
+                      element={
+                        <ProtectedRoute adminOnly={true}>
+                          <AdminHome />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/products"
+                      element={
+                        <ProtectedRoute adminOnly={true}>
+                          <ProductManagement />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/discounts"
+                      element={
+                        <ProtectedRoute adminOnly={true}>
+                          <DiscountManagement />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/featured"
+                      element={
+                        <ProtectedRoute adminOnly={true}>
+                          <FeaturedManagement />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/storeMap"
+                      element={
+                        <ProtectedRoute adminOnly={true}>
+                          <StoreMapManagement />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/accSetting"
+                      element={
+                        <ProtectedRoute adminOnly={true}>
+                          <AccountSetting />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/admin/forget-password"
+                      element={<ResetPassword />}
+                    />
+                  </Routes>
+                </Suspense>
+              </BrowserRouter>
+            </AdminProvider>
+          </CartProvider>
+        </MarkerProvider>
       </ProductProvider>
     </AuthProvider>
   );

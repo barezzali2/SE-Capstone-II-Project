@@ -2,17 +2,20 @@ import styles from "./AccountSetting.module.css";
 import Sidebar from "./Sidebar";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAuth } from "../../contexts/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const API_URL = import.meta.env.PROD ? "https://retailxplorebackend.onrender.com/admin" : "http://localhost:3003/admin";
-
+const API_URL = import.meta.env.PROD
+  ? "https://retailxplorebackend.onrender.com/admin"
+  : "http://localhost:3003/admin";
 
 function AccountSetting() {
-  const { user, logout } = useAuth();
+  const { user, updateUser, fetchUser } = useAuth();
   const [form, setForm] = useState({
     name: user?.name || "",
     email: user?.email || "",
-    password: user?.password,
+    password: "",
+    newPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -20,32 +23,112 @@ function AccountSetting() {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
 
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleNewPasswordVisibility = () => setShowNewPassword(!showNewPassword);
+  useEffect(() => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      name: user?.name || "",
+      email: user?.email || "",
+    }));
+  }, [user]);
 
-    
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleNewPasswordVisibility = () =>
+    setShowNewPassword(!showNewPassword);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMsg("");
+    setError("");
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Not authenticated");
+      const response = await axios.put(
+        `${API_URL}/account`,
+        { name: form.name, email: form.email },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (response.data.user) {
+        updateUser(response.data.user);
+        await fetchUser();
+        setMsg("Account updated successfully");
+      }
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to update account");
+    }
+  };
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    setMsg("");
+    setError("");
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Not authenticated");
+      }
+
+      if (!form.password || !form.newPassword) {
+        throw new Error("Both current and new passwords are required");
+      }
+
+      if (form.newPassword.length < 8) {
+        throw new Error("New password must be at least 8 characters long");
+      }
+
+      const response = await axios.put(
+        `${API_URL}/password`,
+        {
+          currentPassword: form.password,
+          newPassword: form.newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+
+      setMsg("Password updated successfully");
+      setForm({ ...form, password: "", newPassword: "" });
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to update password");
+    }
+  };
+
   return (
-     <div className={styles.adminLayout}>
+    <div className={styles.adminLayout}>
       <Sidebar />
       <div className={styles.mainContent}>
         <div className={styles.adminHeader}>
           <h1>Account Setting</h1>
           <div className={styles.userInfo}>
             <span>Welcome, {user?.name || "Admin"}</span>
+          </div>
         </div>
-        </div>
-
         <div className={styles.formContainer}>
           <h2>Update Your Account</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
               <label htmlFor="name">Name</label>
               <input
                 id="name"
                 name="name"
                 value={form.name}
-                
-                placeholder="Enter your name"
+                onChange={handleChange}
+                placeholder={user?.name || "Enter your name"}
               />
             </div>
             <div className={styles.formGroup}>
@@ -55,73 +138,68 @@ function AccountSetting() {
                 name="email"
                 value={form.email}
                 type="email"
-               
-                placeholder="Enter your email"
+                onChange={handleChange}
+                placeholder={user?.email || "Enter your email"}
               />
             </div>
-
-
-            <div className={styles.changePassword}>
-
-            <h3>Change Password</h3>
-              
-
-             <div className={styles.formGroup}>
-              <label htmlFor="password">Current Password</label>
-              <div className={styles.passwordWrapper}>
-              <input
-                id="password"
-                name="password"
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })} // Allow user to input current password
-                type={showPassword ? "text" : "password"} // Toggle input type
-                placeholder="Enter your current password"
-              />
-              <button
-                type="button"
-                className={styles.toggleButton}
-                onClick={togglePasswordVisibility}
-                >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-              </div>
-              </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="newPassword">New Password</label>
-              <div className={styles.passwordWrapper}>
-                <input
-                  id="newPassword"
-                  name="newPassword"
-                  value={form.newPassword}
-                  
-                  type={showNewPassword ? "text" : "password"} // Toggle input type
-                  placeholder="Enter your new password"
-                  />
-                <button
-                  type="button"
-                  className={styles.toggleButton}
-                  onClick={toggleNewPasswordVisibility}
-                  >
-                  {showNewPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-            </div>
-          </div>
-
-            
             <button type="submit" className={styles.submitButton}>
               Update
             </button>
             {msg && <div className={styles.successMessage}>{msg}</div>}
             {error && <div className={styles.errorMessage}>{error}</div>}
           </form>
+          <div className={styles.changePassword}>
+            <h3>Change Password</h3>
+            <form onSubmit={handlePasswordChange}>
+              <div className={styles.formGroup}>
+                <label htmlFor="password">Current Password</label>
+                <div className={styles.passwordWrapper}>
+                  <input
+                    id="password"
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your current password"
+                  />
+                  <button
+                    type="button"
+                    className={styles.toggleButton}
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="newPassword">New Password</label>
+                <div className={styles.passwordWrapper}>
+                  <input
+                    id="newPassword"
+                    name="newPassword"
+                    value={form.newPassword}
+                    onChange={handleChange}
+                    type={showNewPassword ? "text" : "password"}
+                    placeholder="Enter your new password"
+                  />
+                  <button
+                    type="button"
+                    className={styles.toggleButton}
+                    onClick={toggleNewPasswordVisibility}
+                  >
+                    {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+              </div>
+              <button type="submit" className={styles.submitButton}>
+                Change Password
+              </button>
+            </form>
+          </div>
         </div>
-
-
       </div>
     </div>
-  )
+  );
 }
 
-export default AccountSetting
+export default AccountSetting;

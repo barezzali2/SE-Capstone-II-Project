@@ -11,6 +11,16 @@ import {
 import { useNavigate } from "react-router-dom";
 import styles from "./StoreLayout.module.css";
 import PropTypes from "prop-types";
+import { useMarker } from "../../contexts/MarkerContext";
+
+const markerPositions = [
+  { position: [0, 7, -28], defaultCategory: "fruits" },
+  { position: [-15, 5, 0], defaultCategory: "drinks" },
+  { position: [-3.5, 5, 0], defaultCategory: "grains" },
+  { position: [8, 5, 0], defaultCategory: "dairy" },
+  { position: [20, 5, 0], defaultCategory: "snacks" },
+  { position: [30, 5, 0], defaultCategory: "bakery" },
+];
 
 export function StoreLayout({
   activeCategory,
@@ -26,161 +36,34 @@ export function StoreLayout({
   const [highlightedSection, setHighlightedSection] = useState(null);
   const [showProductDisplay, setShowProductDisplay] = useState(false);
   const navigate = useNavigate();
+  const { markers } = useMarker();
 
-  // these are the aisles in the store and they are the markers for the aisles and using useMemo to prevent recreation on each render
-  const sections = useMemo(
-    () => [
-      // Fruits aisle (moved backward on Z)
-      {
-        position: [0, 7, -28], // was [x, 0.1, 0], now moved to z=10
-        label: "Fruits",
-        color: "#8bc34a",
-        category: "fruits",
-        rotation: [0, 0, 0],
-        shelves: [
-          // Left side
-          { offset: [0, 0, -8] },
-          { offset: [0, 0, -4] },
-          { offset: [0, 0, 0] },
-          { offset: [0, 0, 4] },
-          { offset: [0, 0, 8] },
-          // Right side
-          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
-        ],
-      },
-
-      // Drinks aisle
-      {
-        position: [-15, 5, 0],
-        label: "Drinks",
-        color: "#7986cb",
-        category: "drinks",
-        rotation: [0, 0, 0],
-        shelves: [
-          // Same pattern
-          { offset: [0, 0, -8] },
-          { offset: [0, 0, -4] },
-          { offset: [0, 0, 0] },
-          { offset: [0, 0, 4] },
-          { offset: [0, 0, 8] },
-          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
-        ],
-      },
-
-      // Grains aisle
-      {
-        position: [-3.5, 5, 0],
-        label: "Grains",
-        color: "#fff176",
-        category: "grains",
-        rotation: [0, 0, 0],
-        shelves: [
-          // Same pattern
-          { offset: [0, 0, -8] },
-          { offset: [0, 0, -4] },
-          { offset: [0, 0, 0] },
-          { offset: [0, 0, 4] },
-          { offset: [0, 0, 8] },
-          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
-        ],
-      },
-
-      // Dairy aisle (more space between grains and dairy)
-      {
-        position: [8, 5, 0], // was [4, 0.1, 0], now moved to x=8
-        label: "Dairy",
-        color: "#64b5f6",
-        category: "dairy",
-        rotation: [0, 0, 0],
-        shelves: [
-          // Left side
-          { offset: [0, 0, -8] },
-          { offset: [0, 0, -4] },
-          { offset: [0, 0, 0] },
-          { offset: [0, 0, 4] },
-          { offset: [0, 0, 8] },
-          // Right side
-          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
-        ],
-      },
-
-      // Snacks aisle
-      {
-        position: [20, 5, 0],
-        label: "Snacks",
-        color: "#ffa726",
-        category: "snacks",
-        rotation: [0, 0, 0],
-        shelves: [
-          // Same pattern
-          { offset: [0, 0, -8] },
-          { offset: [0, 0, -4] },
-          { offset: [0, 0, 0] },
-          { offset: [0, 0, 4] },
-          { offset: [0, 0, 8] },
-          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
-        ],
-      },
-
-      // Bakery aisle (move left, decrease X)
-      {
-        position: [30, 5, 0], // was [24, 0.1, 0], now x=18, z=-6
-        label: "Bakery",
-        color: "#bcaaa4",
-        category: "bakery",
-        rotation: [0, 0, 0],
-        shelves: [
-          // Same pattern as above
-          { offset: [0, 0, -8] },
-          { offset: [0, 0, -4] },
-          { offset: [0, 0, 0] },
-          { offset: [0, 0, 4] },
-          { offset: [0, 0, 8] },
-          { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
-          { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
-        ],
-      },
-    ],
-    []
-  );
-
-  // this is to sync with the parent component's active category by highlighting the aisle, and the parent is MapView.jsx
-  // useEffect(() => {
-  //   if (activeCategory) {
-  //     setHighlightedSection(activeCategory);
-
-  //     // If we have an active category from parent, also show products
-  //     const section = sections.find((s) => s.category === activeCategory);
-  //     if (section) {
-  //       handleSectionActivate(section.category);
-  //     }
-  //   } else {
-  //     setHighlightedSection(null);
-  //   }
-  // }, [activeCategory]);
+  const sections = markerPositions.map((markerPos) => {
+    const backendMarker =
+      markers.find((m) => m.category === markerPos.defaultCategory) || {};
+    return {
+      position: markerPos.position,
+      label:
+        backendMarker.name ||
+        markerPos.defaultCategory.charAt(0).toUpperCase() +
+          markerPos.defaultCategory.slice(1),
+      color: backendMarker.color || "#cccccc",
+      category: markerPos.defaultCategory,
+      rotation: [0, 0, 0],
+      shelves: [
+        { offset: [0, 0, -8] },
+        { offset: [0, 0, -4] },
+        { offset: [0, 0, 0] },
+        { offset: [0, 0, 4] },
+        { offset: [0, 0, 8] },
+        { offset: [3, 0, -8], rotation: [0, Math.PI, 0] },
+        { offset: [3, 0, -4], rotation: [0, Math.PI, 0] },
+        { offset: [3, 0, 0], rotation: [0, Math.PI, 0] },
+        { offset: [3, 0, 4], rotation: [0, Math.PI, 0] },
+        { offset: [3, 0, 8], rotation: [0, Math.PI, 0] },
+      ],
+    };
+  });
 
   useEffect(() => {
     if (activeCategory) {
