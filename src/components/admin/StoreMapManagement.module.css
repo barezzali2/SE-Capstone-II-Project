@@ -35,3 +35,74 @@
 .userInfo span {
   color: #666;
 }
+
+.markerList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.markerCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.markerRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.markerInput {
+  flex: 2;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.markerSelect {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.markerColor {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.saveBtn {
+  padding: 0.5rem 1.2rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.saveBtn:hover {
+  background: #125ea2;
+}
+
+.successMsg {
+  color: #388e3c;
+  font-weight: 500;
+}
+
+.errorMsg {
+  color: #d32f2f;
+  font-weight: 500;
+}
