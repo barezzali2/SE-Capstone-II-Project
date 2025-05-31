@@ -9,7 +9,7 @@ import FeaturedProductsList from "../components/featured/FeaturedProductsList";
 import FeaturedProductsFooter from "../components/featured/FeaturedProductsFooter";
 import FeaturedProductsLoading from "../components/featured/FeaturedProductsLoading";
 import { useProduct } from "../contexts/ProductContext";
-
+import ChatbotAssistant from "../components/ChatbotAssistant";
 function FeaturedProducts() {
   const { loading } = useProduct();
 
@@ -33,6 +33,7 @@ function FeaturedProducts() {
       <FeaturedProductsFilter />
       <FeaturedProductsList />
       <FeaturedProductsFooter />
+      <ChatbotAssistant />
     </motion.div>
   );
 }
