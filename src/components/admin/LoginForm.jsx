@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { FiMail, FiLock } from "react-icons/fi";
 import Logo from "../Logo";
@@ -86,6 +86,11 @@ function LoginForm() {
         <div className={styles.credentials}>
           <span>admin@retailxplore.com / admin123</span>
         </div>
+      </div>
+
+
+      <div className={styles.forgetPassword}>
+        <Link to="/admin/forget-password">Forget Password?</Link>
       </div>
     </div>
   );

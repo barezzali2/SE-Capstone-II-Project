@@ -110,6 +110,21 @@
   cursor: not-allowed;
 }
 
+.forgetPassword {
+  text-align: center;
+  margin: 25px 0 0 0;
+  text-decoration: none;
+}
+.forgetPassword a {
+  text-decoration: none;
+  color: black;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+.forgetPassword a:hover {
+  color: #dd5837;
+}
+
 .errorMessage {
   background: #fff2f2;
   color: #ff3b30;

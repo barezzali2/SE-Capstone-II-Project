@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
-import { FiGrid, FiPackage, FiPercent, FiStar } from "react-icons/fi";
+import { FiGrid, FiPackage, FiPercent, FiStar, FiMap, FiSettings } from "react-icons/fi";
 import Logo from "../Logo";
 
 function Sidebar() {
@@ -50,6 +50,26 @@ function Sidebar() {
         >
           <FiStar className={styles.icon} />
           <span>Featured Management</span>
+        </NavLink>
+
+        <NavLink 
+        to="/admin/storeMap"
+        className={({ isActive }) =>
+          `${styles.navLink} ${isActive ? styles.active : ""}`
+        }
+        >
+          <FiMap className={styles.icon} />
+          <span>Store Map Management</span>
+        </NavLink>
+
+        <NavLink 
+        to="/admin/accSetting"
+        className={({ isActive }) =>
+          `${styles.navLink} ${isActive ? styles.active : ""}`
+        }
+        >
+          <FiSettings className={styles.icon} />
+          <span>Account Setting</span>
         </NavLink>
       </nav>
     </div>

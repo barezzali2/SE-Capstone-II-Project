@@ -30,6 +30,8 @@ import ProtectedRoute from "./components/admin/ProtectedRoute";
 import ProductManagement from "./components/admin/ProductManagement";
 import DiscountManagement from "./components/admin/DiscountManagement";
 import FeaturedManagement from "./components/admin/FeaturedManagement";
+import StoreMapManagement from "./components/admin/StoreMapManagement";
+import AccountSetting from "./components/admin/AccountSetting";
 
 function App() {
   return (
@@ -91,6 +93,21 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                  path="/admin/storeMap"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <StoreMapManagement />
+                    </ProtectedRoute>
+                  } />
+                  <Route
+                  path="/admin/accSetting" 
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AccountSetting />
+                    </ProtectedRoute>  
+                }
+                />
                 </Routes>
               </Suspense>
             </BrowserRouter>
