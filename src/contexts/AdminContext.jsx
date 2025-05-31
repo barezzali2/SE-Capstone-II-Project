@@ -222,7 +222,9 @@ export const AdminProvider = ({ children }) => {
   };
 
   return (
-    <AdminContext.Provider value={value}>{children}</AdminContext.Provider>
+    <AdminContext.Provider value={value}>
+      {children}
+      </AdminContext.Provider>
   );
 };
 
