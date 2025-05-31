@@ -2,6 +2,8 @@
 import PropTypes from "prop-types";
 import { Text, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
+import { useRef } from "react";
 
 export function StoreFloor() {
   const woodTexture = useTexture("/assets/stone_embedded_tiles_ao_1k.jpg");
@@ -25,8 +27,19 @@ export function SectionMarker({
   onActivate,
   isHighlighted,
 }) {
+  const groupRef = useRef();
+  const pulseRef = useRef();
+
+  useFrame(() => {
+    if (isHighlighted && pulseRef.current) {
+      const scale = 1.6 + 0.2 * Math.sin(Date.now() * 0.005);
+      pulseRef.current.scale.set(scale, scale, scale);
+    }
+  });
+
   return (
     <group
+      ref={groupRef}
       position={position}
       onClick={() => onActivate(category, position)}
       onPointerOver={(e) => {
@@ -39,12 +52,12 @@ export function SectionMarker({
       }}
     >
       {/* Pin head (sphere) */}
-      <mesh position={[0, 2.5, 0]} scale={[1.2, 1.2, 1.2]}>
-        <sphereGeometry args={[0.6, 32, 32]} />
+      <mesh position={[0, 2.5, 0]} scale={[1.4, 1.4, 1.4]}>
+        <sphereGeometry args={[0.7, 32, 32]} />
         <meshStandardMaterial
           color={color}
           emissive={color}
-          emissiveIntensity={isHighlighted ? 1 : 0.5}
+          emissiveIntensity={isHighlighted ? 2.5 : 0.7}
           transparent
           opacity={isHighlighted ? 1 : 0.85}
         />
@@ -54,13 +67,13 @@ export function SectionMarker({
       <mesh
         position={[0, 1.2, 0]}
         rotation={[-Math.PI / 1, 0, 0]}
-        scale={[0.5, 1.2, 0.5]}
+        scale={[0.6, 1.4, 0.6]}
       >
-        <coneGeometry args={[0.4, 1.2, 32]} />
+        <coneGeometry args={[0.5, 1.4, 32]} />
         <meshStandardMaterial
           color={color}
           emissive={color}
-          emissiveIntensity={isHighlighted ? 1 : 0.5}
+          emissiveIntensity={isHighlighted ? 2.5 : 0.7}
           transparent
           opacity={isHighlighted ? 1 : 0.85}
         />
@@ -68,12 +81,12 @@ export function SectionMarker({
 
       {/* Glowing ring for highlight */}
       {isHighlighted && (
-        <mesh position={[0, 2.5, 0]} scale={[1.6, 1.6, 1.6]}>
-          <ringGeometry args={[0.7, 1, 32]} />
+        <mesh ref={pulseRef} position={[0, 2.5, 0]}>
+          <ringGeometry args={[0.8, 1.3, 64]} />
           <meshBasicMaterial
             color={color}
             transparent
-            opacity={0.7}
+            opacity={0.9}
             side={THREE.DoubleSide}
           />
         </mesh>
