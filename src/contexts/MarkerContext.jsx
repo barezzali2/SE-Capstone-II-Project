@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const MarkerContext = createContext();
 
@@ -37,3 +38,7 @@ export function MarkerProvider({ children }) {
     </MarkerContext.Provider>
   );
 }
+
+MarkerProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
