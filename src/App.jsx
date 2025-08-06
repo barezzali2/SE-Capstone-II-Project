@@ -34,6 +34,7 @@ import FeaturedManagement from "./components/admin/FeaturedManagement";
 import StoreMapManagement from "./components/admin/StoreMapManagement";
 import AccountSetting from "./components/admin/AccountSetting";
 import ResetPassword from "./pages/admin/ResetPassword";
+import ScrollToUp from "./components/ScrollToUp";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <CartProvider>
             <AdminProvider>
               <BrowserRouter>
+              <ScrollToUp />
                 <Suspense fallback={<Loading />}>
                   <Routes>
                     <Route path="/" element={<Navigate to="/home" replace />} />
