@@ -4,6 +4,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useAdmin } from "../../contexts/AdminContext";
 
 const API_URL = import.meta.env.PROD
   ? "https://retailxplorebackend.onrender.com/admin"
@@ -22,6 +23,7 @@ function AccountSetting() {
 
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
+  const { authAxios } = useAdmin();
 
   useEffect(() => {
     setForm((prevForm) => ({
@@ -67,44 +69,25 @@ function AccountSetting() {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
-    setMsg("");
-    setError("");
+    if (form.newPassword !== form.confirmPassword) {
+      setError("New passwords do not match");
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("Not authenticated");
-      }
-
-      if (!form.password || !form.newPassword) {
-        throw new Error("Both current and new passwords are required");
-      }
-
-      if (form.newPassword.length < 8) {
-        throw new Error("New password must be at least 8 characters long");
-      }
-
-      const response = await axios.put(
-        `${API_URL}/password`,
-        {
-          currentPassword: form.password,
-          newPassword: form.newPassword,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-      }
+      const response = await authAxios.post(`${API_URL}/change-password`, {
+        currentPassword: form.password,
+        newPassword: form.newPassword,
+        token,
+      });
 
       setMsg("Password updated successfully");
-      setForm({ ...form, password: "", newPassword: "" });
+      setError("");
+      setForm({ ...form, password: "", newPassword: "", confirmPassword: "" });
     } catch (err) {
       setError(err.response?.data?.error || "Failed to update password");
+      setMsg("");
     }
   };
 
@@ -190,6 +173,17 @@ function AccountSetting() {
                     {showNewPassword ? <FaEyeSlash /> : <FaEye />}
                   </button>
                 </div>
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="confirmPassword">Confirm New Password</label>
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                  type="password"
+                  placeholder="Enter your new password again"
+                />
               </div>
               <button type="submit" className={styles.submitButton}>
                 Change Password
